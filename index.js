@@ -1,37 +1,61 @@
 const express = require("express");
+const { createServer } = require("http");
+const { Server } = require("socket.io");
+
 const app = express();
-const port = 5556;
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(__dirname + '/public'));
+const httpServer = createServer(app);
 
-app.get('/', function(req, res) {
+app.use(express.static("public"));
+
+const io = new Server(httpServer, {});
+
+
+io.on("connection", (socket) => {
   
-  res.send('Hello express!');
+    console.log('Connectat un client...')
+    //socket.data.nickname = "alice";
+    socket.on("nickname", function(data) {
+            console.log(data.nickname)
+            
+            socket.data.nickname = data.nickname;
+           
+            // respondre al que ha enviat
+            socket.emit("nickname rebut",{"response":"ok"})
+
+            // respondre a la resta de clients menys el que ha enviat
+            // socket.broadcast.emit(/* ... */);
+
+            // Totes les funcions disponibles les tenim a
+            //  https://socket.io/docs/v4/emit-cheatsheet/
+    })
+    socket.on("get users", function(data) {
+        const users = [];
+      
+        for (let [id, socket] of io.of("/").sockets) {
+            
+          users.push({
+            userID: id,
+            username: socket.data.nickname || "NoNickname",
+          });
+        }
+      
+        io.emit("users", users);
+        console.log("llista d'usuaris enviada");
+      });
+
 });
 
-app.get('/hola', function(req, res) {
-  
-    res.send('hola!');
-  });
+/*
+var comptador = 1;
 
-  app.get("/form", (req, res) => {    
-    const html =`<!DOCTYPE html><html><head><title>Prova</title></head><body>
-       <form method='POST' action='http://localhost:5556/processar'>
-         <input type='text' name='prova'>
-         <input type='submit' value='enviar'></form></body></html>`;
- 
-    res.send(html);     
- });
+setInterval(() => {
+    console.log('envio missatge a tots els clients')
+    io.emit('salutacio', comptador);
+    comptador++;
+}, 5000);
+*/
 
- app.post("/processar", (req, res) => {
-   
-    console.log('peticio POST rebuda')
-    console.log(req.body);
-    
-    res.send('Petició POST');   
-   
- });
 
-const server = app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+httpServer.listen(3000, ()=>
+    console.log(`Server listening at http://localhost:3000`)
+);
