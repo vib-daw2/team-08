@@ -1,0 +1,487 @@
+[
+    {
+      "modalitat": "ciències",
+      "pregunta": "Quin és l’element metàl·lic més abundant a la superfície de la Terra?",
+      "respostes": {
+        "a": "Ferro",
+        "b": "Cobalt",
+        "c": "Alumini",
+        "d": "Silici"
+      },
+      "correcta": "Alumini",
+      "comentari": "L'alumini és el metall més abundant en l'escorça terrestre. És dúctil i molt resistent a la corrosió."
+    },
+    {
+      "modalitat": "ciències",
+      "pregunta": "Quin planeta té la rotació sobre ell mateix més lenta del sistema solar?",
+      "respostes": {
+        "a": "Neptú",
+        "b": "Mart",
+        "c": "Plutó",
+        "d": "Venus"
+      },
+      "correcta": "Venus",
+      "comentari": "El dia a Venus és més llarg que un any. Venus triga al voltant de 243 dies terrestres a girar només una vegada, mentre que el seu any és de 225 dies terrestres. A més, gira en sentit contrari al de la resta de planetes."
+    },
+    {
+      "modalitat": "ciències",
+      "pregunta": "Quin dels animals següents pot ser verinós?",
+      "respostes": {
+        "a": "Ornitorinc",
+        "b": "Drac de Komodo",
+        "c": "Escarabat Peloter",
+        "d": "Okapi"
+      },
+      "correcta": "Ornitorinc",
+      "comentari": "Els ornitorincs desenvolupen un esperó als talons, però només els mascles són capaços d'alliberar verí. A més de verinosos, són l'únic mamífer amb bec i que usen electrolocalització, també pon ous."
+    },
+    {
+      "modalitat": "ciències",
+      "pregunta": "Quin científic va formular la teoria de la relativitat?",
+      "respostes": {
+        "a": "Isaac Newton",
+        "b": "Albert Einstein",
+        "c": "Galileu Galilei",
+        "d": "Marie Curie"
+      },
+      "correcta": "Albert Einstein",
+      "comentari": "La teoria de la relativitat d'Albert Einstein és famosa per la seva predicció de fenòmens bastant estranys però reals, com l'envelliment més lent dels astronautes respecte a les persones que vivim en la Terra i el canvi en la forma dels objectes a altes velocitats."
+    },
+    {
+      "modalitat": "ciències",
+      "pregunta": "Quin gas és més abundant a l'atmosfera de la Terra?",
+      "respostes": {
+        "a": "Diòxid de carboni",
+        "b": "Oxigen",
+        "c": "Nitrogen",
+        "d": "Hidrogen"
+      },
+      "correcta": "Nitrogen",
+      "comentari": "El 75% de massa atmosfèrica es troba en els primers 11 km d'altura, des de la superfície de la mar. Els principals gasos que la componen són: l'oxigen (21%) i el nitrogen (78%), seguits de l'argó, el diòxid de carboni i el vapor d'aigua."
+    },
+    {
+      "modalitat": "ciències",
+      "pregunta": "Quina part de l'ull és responsable de la percepció del color?",
+      "respostes": {
+        "a": "Retina",
+        "b": "Còrnia",
+        "c": "Iris",
+        "d": "Cristal·lí"
+      },
+      "correcta": "Retina",
+      "comentari": "Està formada bàsicament per diverses capes de neurones interconnectades mitjançant sinapsis. Les úniques cèl·lules sensibles directament a la llum són els cons i els bastons."
+    },
+    {
+      "modalitat": "ciències",
+      "pregunta": "Quin és l'òrgan més gran del cos humà?",
+      "respostes": {
+        "a": "Cor",
+        "b": "Pulmons",
+        "c": "Fetge",
+        "d": "Pell"
+      },
+      "correcta": "Pell",
+      "comentari": "És l'òrgan més gran del cos humà, en un adult mitjà posseeix una superfície aproximada de 2 metres quadrats i pes al voltant de 5 kg."
+    },
+    {
+      "modalitat": "ciències",
+      "pregunta": "Quin gas és responsable del color blau del cel durant el dia?",
+      "respostes": {
+        "a": "Oxigen",
+        "b": "Diòxid de carboni",
+        "c": "Nitrogen",
+        "d": "Ozó"
+      },
+      "correcta": "Nitrogen",
+      "comentari": "Altres factors a tenir en compte són la dispersió de Rayleigh i l’albedo."
+    },
+    {
+      "modalitat": "ciències",
+      "pregunta": "Quin científic va desenvolupar la teoria del Big Bang com a explicació de l'origen de l'univers?",
+      "respostes": {
+        "a": "Edwin Hubble",
+        "b": "Carl Sagan",
+        "c": "Stephen Hawking",
+        "d": "Georges Lemaître"
+      },
+      "correcta": "Georges Lemaître",
+      "comentari": "Físic i sacerdot catòlic, que va arribar a aquest model gràcies a una filosofia realista i a conjugar raonaments teòrics i observacions astronòmiques."
+    },
+    {
+      "modalitat": "ciències",
+      "pregunta": "Quin fenomen natural provoca ones a la superfície de la Terra després d'un terratrèmol submarí?",
+      "respostes": {
+        "a": "Tsunami",
+        "b": "Maremòtol",
+        "c": "Corrent submarí",
+        "d": "Marejada"
+      },
+      "correcta": "Tsunami",
+      "comentari": "El terme és d’origen japonès i significa ‘onada gegant’."
+    },
+    
+    {
+      "modalitat": "història",
+        "pregunta": "En quin any es va signar la Declaració d'Independència dels Estats Units?",
+        "respostes": {
+          "a": "1804",
+          "b": "1789",
+          "c": "1792",
+          "d": "1776"
+        },
+        "correcta": "1776",
+        "comentari": "A la Cambra Estatal de Pennsilvània (ara Saló de la Independència) a Filadèlfia el 4 de juliol de 1776— que va proclamar que les Tretze Colònies nord-americanes."
+      },
+      {
+        "modalitat": "història",
+        "pregunta": "Quin esdeveniment va marcar l'inici de la Primera Guerra Mundial?",
+        "respostes": {
+          "a": "Batalla de Jutlàndia",
+          "b": "Assassinat dels Arxiducs d’Àustria",
+          "c": "Atac a Pearl Harbor",
+          "d": "Tractat de Versalles"
+        },
+        "correcta": "Assassinat dels Arxiducs d’Àustria",
+        "comentari": "Sèrie d'atacs que van incloure l'assassinat, el 28 de juny de 1914, de l'hereu de la corona de l'Imperi austrohongarès, l'arxiduc Francesc Ferran d'Àustria, i de la seva esposa, la duquessa Sofía Chotek, a Sarajevo, capital de la província imperial de Bòsnia i Hercegovina."
+      },
+      {
+        "modalitat": "història",
+        "pregunta": "Qui va ser el líder de l'Exèrcit Roig durant la Revolució Russa?",
+        "respostes": {
+          "a": "Mikhail Gorbachev",
+          "b": "León Trotsky",
+          "c": "Joseph Stalin",
+          "d": "Grigori Rasputin"
+        },
+        "correcta": "León Trotsky",
+        "comentari": "Juntament amb Vladimir Lenin, segons la font, es pren per certa la seva posició fins el seu exili a Mèxic."
+      },
+      {
+        "modalitat": "història",
+        "pregunta": "En quin any es va produir la Revolució Francesa?",
+        "respostes": {
+          "a": "1850",
+          "b": "1804",
+          "c": "1832",
+          "d": "1789"
+        },
+        "correcta": "1789",
+        "comentari": "Irònicament, les causes del descontent social es remunten a la guerra d’independència dels Estats Units, ja que la monarquia francesa va finançar el bàndol liberal antimonàrquic americà que no va retornar els diners, la qual cosa acabaria per incitar una revolució basada en justament aquests pensaments liberals."
+      },
+      {
+        "modalitat": "història",
+        "pregunta": "Quin esdeveniment va marcar l'inici de la Segona Guerra Mundial a Europa?",
+        "respostes": {
+          "a": "Blitzkrieg a França",
+          "b": "Bombardeig de Pearl Harbor",
+          "c": "Invasió de Polònia",
+          "d": "Batalla de Midway"
+        },
+        "correcta": "Invasió de Polònia",
+        "comentari": "Les primeres accions militars es daten de finals d’agost del 1939 malgrat que la invasió començà al setembre."
+      },
+      {
+        "modalitat": "història",
+        "pregunta": "Quin va ser el resultat de la Revolució Industrial al segle XIX?",
+        "respostes": {
+          "a": "Desenvolupament agrícola",
+          "b": "Caiguda de les monarquies",
+          "c": "Augment de la producció industrial",
+          "d": "Fi de l'esclavitud"
+        },
+        "correcta": "Augment de la producció industrial",
+        "comentari": "La Revolució Industrial va portar a un significatiu augment en la producció industrial i a canvis socioeconòmics importants."
+      },
+      {
+        "modalitat": "història",
+        "pregunta": "Quin esdeveniment va provocar el final de la Guerra Freda?",
+        "respostes": {
+          "a": "Dissolució de l'URSS",
+          "b": "Crisi de Míssils de Cuba",
+          "c": "Tractat de Versalles",
+          "d": "Caiguda del Mur de Berlín"
+        },
+        "correcta": "Dissolució de l'URSS",
+        "comentari": "La Guerra Freda va finalitzar amb la dissolució de l'Unió Soviètica el 1991, marcat pel col·lapse del comunisme a Europa de l'Est."
+      },
+      {
+        "modalitat": "història",
+        "pregunta": "En quin any es va descobrir Amèrica per primer cop per part d'Europa?",
+        "respostes": {
+          "a": "1492",
+          "b": "1510",
+          "c": "1456",
+          "d": "1525"
+        },
+        "correcta": "1492",
+        "comentari": "L'arribada de Cristòfol Colom a Amèrica va tenir lloc el 12 d'octubre de 1492, marcant un punt d'inflexió en la història mundial."
+      },
+      {
+        "modalitat": "història",
+        "pregunta": "Quin riu va ser essencial per al desenvolupament de la civilització egípcia?",
+        "respostes": {
+          "a": "Tigris",
+          "b": "Eufrates",
+          "c": "Nil",
+          "d": "Jordà"
+        },
+        "correcta": "Nil",
+        "comentari": "El riu Nil va ser fonamental per al desenvolupament de l'antiga civilització egípcia, proporcionant recursos essencials per a l'agricultura i el creixement de la població."
+      },
+      {
+        "modalitat": "història",
+        "pregunta": "Quin emperador romà va ser conegut per la construcció del Colosseu a Roma?",
+        "respostes": {
+          "a": "August",
+          "b": "Cèsar",
+          "c": "Neron",
+          "d": "Trajà"
+        },
+        "correcta": "August",
+        "comentari": "L'emperador August va ser responsable de la construcció del Colosseu a Roma, un dels més grans amfiteatres romans utilitzats per a espectacles públics i combats de gladiadors."
+      },
+      
+        {
+          "modalitat": "geografía",
+          "pregunta": "Quants continents existeixen?",
+          "respostes": {
+            "a": "5",
+            "b": "12",
+            "c": "6",
+            "d": "7"
+          },
+          "correcta": "7",
+          "comentari": "Hi ha set continents a la Terra, cadascun amb la seva diversitat geogràfica i cultural."
+        },
+        {
+          "modalitat": "geografía",
+          "pregunta": "Quina és la ciutat més poblada del món?",
+          "respostes": {
+            "a": "Nova York",
+            "b": "Tòquio",
+            "c": "Xangai",
+            "d": "Mumbai"
+          },
+          "correcta": "Tòquio",
+          "comentari": "Tòquio ostenta el títol de la ciutat més poblada del món, reflectint la seva gran densitat demogràfica."
+        },
+        {
+          "modalitat": "geografía",
+          "pregunta": "En quin ocean es troba l'illa de Java?",
+          "respostes": {
+            "a": "Oceà Pacífic",
+            "b": "Oceà Atlàntic",
+            "c": "Oceà Índic",
+            "d": "Oceà Àrtic"
+          },
+          "correcta": "Oceà Índic",
+          "comentari": "Java es troba a l'Oceà Índic, oferint paisatges exòtics i una rica diversitat cultural."
+        },
+        {
+          "modalitat": "geografía",
+          "pregunta": "Quina cadena muntanyosa separa Espanya de França?",
+          "respostes": {
+            "a": "Alps",
+            "b": "Pirineus",
+            "c": "Càrpats",
+            "d": "Andes"
+          },
+          "correcta": "Pirineus",
+          "comentari": "Els Pirineus formen una barrera natural impressionant i serveixen de frontera entre Espanya i França."
+        },
+        {
+          "modalitat": "geografía",
+          "pregunta": "Quin és el nom de l'oceà més gran del món?",
+          "respostes": {
+            "a": "Oceà Pacífic",
+            "b": "Oceà Índic",
+            "c": "Oceà Atlàntic",
+            "d": "Oceà Àrtic"
+          },
+          "correcta": "Oceà Pacífic",
+          "comentari": "L'Oceà Pacífic ocupa la major part de la superfície oceànica i destaca per la seva immensitat."
+        },
+        {
+          "modalitat": "geografía",
+          "pregunta": "Quina és la ciutat capital de Tailàndia?",
+          "respostes": {
+            "a": "Hanoi",
+            "b": "Kuala Lumpur",
+            "c": "Phnom Penh",
+            "d": "Bangkok"
+          },
+          "correcta": "Bangkok",
+          "comentari": "Bangkok, la vibrant capital de Tailàndia, combina modernitat i tradició en un escenari únic."
+        },
+        {
+          "modalitat": "geografía",
+          "pregunta": "En quin ocean es troba l'illa de Madagascar?",
+          "respostes": {
+            "a": "Oceà Pacífic",
+            "b": "Oceà Índic",
+            "c": "Oceà Atlàntic",
+            "d": "Oceà Àrtic"
+          },
+          "correcta": "Oceà Índic",
+          "comentari": "Madagascar, situada a l'Oceà Índic, és coneguda per la seva flora i fauna úniques."
+        },
+        {
+          "modalitat": "geografía",
+          "pregunta": "Quin riu és el més llarg del món?",
+          "respostes": {
+            "a": "Nil",
+            "b": "Amazones",
+            "c": "Yangtsé",
+            "d": "Misisipi"
+          },
+          "correcta": "Nil",
+          "comentari": "El Nil, el riu més llarg del món, ha estat una font de vida i civilització durant mil·lennis a l'Àfrica."
+        },
+        {
+          "modalitat": "geografía",
+          "pregunta": "En quin continent es troba el desert del Sahara?",
+          "respostes": {
+            "a": "Amèrica del Nord",
+            "b": "Àsia",
+            "c": "Àfrica",
+            "d": "Europa"
+          },
+          "correcta": "Àfrica",
+          "comentari": "El desert del Sahara cobreix gran part del continent africà, creant un paisatge àrid i majestuós."
+        },
+        {
+          "modalitat": "geografía",
+          "pregunta": "Quin és el punt més alt del món?",
+          "respostes": {
+            "a": "Everest",
+            "b": "K2",
+            "c": "Kangchenjunga",
+            "d": "Lhotse"
+          },
+          "correcta": "Everest",
+          "comentari": "L'Everest, la muntanya més alta del món, atreu alpinistes i aventurers de tot el planeta."
+        },
+        {
+          "modalitat": "esports",
+            "pregunta": "Quin esportista va guanyar més medalles d'or en uns Jocs Olímpics d'estiu?",
+            "respostes": {
+              "a": "Michael Phelps",
+              "b": "Usain Bolt",
+              "c": "Carl Lewis",
+              "d": "Simone Biles"
+            },
+            "correcta": "Michael Phelps",
+            "comentari": "Michael Phelps, el nadador, és l'esportista amb més medalles d'or guanyades en uns Jocs Olímpics d'estiu."
+          },
+          {
+            "modalitat": "esports",
+            "pregunta": "Quina ciutat és coneguda com la 'Meca' del tennis per acollir el torneig de Wimbledon?",
+            "respostes": {
+              "a": "Nova York",
+              "b": "París",
+              "c": "Londres",
+              "d": "Madrid"
+            },
+            "correcta": "Londres",
+            "comentari": "Londres és coneguda com la 'Meca' del tennis per ser l'amfitriona del prestigiós torneig de Wimbledon."
+          },
+          {
+            "modalitat": "esports",
+            "pregunta": "A quin esport es destaca Lewis Hamilton?",
+            "respostes": {
+              "a": "Golf",
+              "b": "Fórmula 1",
+              "c": "Tennis",
+              "d": "Ciclisme"
+            },
+            "correcta": "Fórmula 1",
+            "comentari": "Lewis Hamilton és conegut per les seves proeses a la Fórmula 1, destacant com un dels millors pilots de la història."
+          },
+          {
+            "modalitat": "esports",
+            "pregunta": "Quin país és conegut per ser dominant en el cricket a nivell mundial?",
+            "respostes": {
+              "a": "Índia",
+              "b": "Austràlia",
+              "c": "Sud-àfrica",
+              "d": "Anglaterra"
+            },
+            "correcta": "Índia",
+            "comentari": "Índia és un país que destaca pel seu domini en el cricket, amb una gran passió per a aquest esport."
+          },
+          {
+            "modalitat": "esports",
+            "pregunta": "Quin país ha dominat històricament el tennis de taula (ping-pong) a nivell internacional?",
+            "respostes": {
+              "a": "Japó",
+              "b": "Xina",
+              "c": "Corea del Sud",
+              "d": "Suècia"
+            },
+            "correcta": "Xina",
+            "comentari": "Xina ha estat un poder dominant en el tennis de taula internacional, amb èxits continuats en aquest esport."
+          },
+          {
+            "modalitat": "esports",
+            "pregunta": "Qui és considerat el millor jugador de futbol de tots els temps?",
+            "respostes": {
+              "a": "Lionel Messi",
+              "b": "Cristiano Ronaldo",
+              "c": "Pelé",
+              "d": "Diego Maradona"
+            },
+            "correcta": "Pelé",
+            "comentari": "Pelé és considerat com 'O Rei' i un dels millors jugadors de futbol de tots els temps, guanyant tres Copes del Món amb Brasil."
+          },
+          {
+            "modalitat": "esports",
+            "pregunta": "Quin país va guanyar la Copa del Món de futbol masculina del 2018?",
+            "respostes": {
+              "a": "Brasil",
+              "b": "Alemanya",
+              "c": "França",
+              "d": "Argentina"
+            },
+            "correcta": "França",
+            "comentari": "França va guanyar la Copa del Món de futbol masculina el 2018, exhibint un rendiment impressionant al torneig."
+          },
+          {
+            "modalitat": "esports",
+            "pregunta": "Quin país va ser l'amfitrió dels primers Jocs Olímpics moderns celebrats a l'era moderna?",
+            "respostes": {
+              "a": "França",
+              "b": "Estats Units",
+              "c": "Regne Unit",
+              "d": "Grècia"
+            },
+            "correcta": "Grècia",
+            "comentari": "Grècia va ser l'amfitrió dels primers Jocs Olímpics moderns, connectant amb la seva rica història olímpica de l'antiguitat."
+          },
+          {
+            "modalitat": "esports",
+            "pregunta": "Quin jugador de futbol va ser conegut com 'O Rei' i va guanyar tres Copes del Món amb Brasil?",
+            "respostes": {
+              "a": "Pelé",
+              "b": "Ronaldinho",
+              "c": "Zico",
+              "d": "Romário"
+            },
+            "correcta": "Pelé",
+            "comentari": "Pelé, conegut com 'O Rei', va guanyar tres Copes del Món amb Brasil a Suècia 1958, Xile 1962, i Mèxic 1970, consolidant la seva llegenda."
+          },
+          {
+            "modalitat": "esports",
+            "pregunta": "En quin esport es destaca Rafael Nadal?",
+            "respostes": {
+              "a": "Golf",
+              "b": "Tennis",
+              "c": "Ciclisme",
+              "d": "Bàsquet"
+            },
+            "correcta": "Tennis",
+            "comentari": "Rafael Nadal destaca en el tennis, essent un dels millors tennistes del món amb nombrosos títols de Gran Slam a la seva carrera."
+          }
+        ]
+      
+    
+  

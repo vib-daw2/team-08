@@ -8,26 +8,25 @@ const httpServer = createServer(app);
 app.use(express.static("public"));
 
 const io = new Server(httpServer, {});
-
+const fs = require("fs");
+let preguntes = [];
 
 io.on("connection", (socket) => {
   
     console.log('Connectat un client...')
     //socket.data.nickname = "alice";
+
+    //socket obtenir nickname
     socket.on("nickname", function(data) {
             console.log(data.nickname)
             
             socket.data.nickname = data.nickname;
-           
+            const redirectUrl = "/home.html";
             // respondre al que ha enviat
-            socket.emit("nickname rebut",{"response":"ok"})
-
-            // respondre a la resta de clients menys el que ha enviat
-            // socket.broadcast.emit(/* ... */);
-
-            // Totes les funcions disponibles les tenim a
-            //  https://socket.io/docs/v4/emit-cheatsheet/
+            socket.emit("nickname rebut",{"response":"ok", redirectUrl})
     })
+
+    //socket obtenir usuaris
     socket.on("get users", function(data) {
         const users = [];
       
@@ -42,6 +41,20 @@ io.on("connection", (socket) => {
         io.emit("users", users);
         console.log("llista d'usuaris enviada");
       });
+
+      //socket crear partida
+      socket.on("crear partida", function(configuracioPartida) {
+        try {
+            // Manejar la lógica de creación de partida aquí
+            const { title, quantity, topics } = configuracioPartida;
+
+            // ... (código de filtrado y envío de preguntas)
+
+        } catch (error) {
+            console.error("Error al procesar la solicitud de creación de partida:", error);
+        }
+    });
+
 
 });
 
