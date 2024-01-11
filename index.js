@@ -9,7 +9,8 @@ app.use(express.static("public"));
 
 const io = new Server(httpServer, {});
 const fs = require("fs");
-let preguntes = [];
+// Cargar les preguntes desde l'arxiu preguntes.json
+const preguntes = JSON.parse(fs.readFileSync("preguntes.json", "utf-8"));
 
 io.on("connection", (socket) => {
   
@@ -41,20 +42,55 @@ io.on("connection", (socket) => {
         io.emit("users", users);
         console.log("llista d'usuaris enviada");
       });
-
-      //socket crear partida
       socket.on("crear partida", function(configuracioPartida) {
+        console.log("hola");
         try {
             // Manejar la lógica de creación de partida aquí
             const { title, quantity, topics } = configuracioPartida;
-
-            // ... (código de filtrado y envío de preguntas)
-
+    
+            // Inicializar un objeto para almacenar preguntas por tema
+            const preguntasPorTema = {};
+    
+            // Filtrar preguntas según la configuración recibida y agruparlas por tema
+            preguntes.forEach((pregunta) => {
+                const tema = pregunta.modalitat.toLowerCase();
+                if (topics.includes(tema)) {
+                    preguntasPorTema[tema] = preguntasPorTema[tema] || [];
+                    preguntasPorTema[tema].push(pregunta);
+                }
+            });
+    
+            // Inicializar un array para almacenar las preguntas finales
+            const preguntesPartida = [];
+    
+            // Calcular la cantidad de preguntas por tema
+            const cantidadPorTema = Math.floor(quantity / topics.length);
+    
+            // Seleccionar preguntas de cada tema según la cantidad calculada
+            topics.forEach((tema) => {
+                const preguntasDelTema = preguntasPorTema[tema] || [];
+                preguntesPartida.push(...preguntasDelTema.slice(0, cantidadPorTema));
+            });
+    
+            // Si hay preguntas restantes, seleccionar al azar de los temas disponibles
+            const preguntasRestantes = quantity - preguntesPartida.length;
+            if (preguntasRestantes > 0) {
+                const temasDisponibles = topics.filter((tema) => preguntasPorTema[tema]?.length > cantidadPorTema);
+                for (let i = 0; i < preguntasRestantes; i++) {
+                    const temaAleatorio = temasDisponibles[Math.floor(Math.random() * temasDisponibles.length)];
+                    const preguntasDelTema = preguntasPorTema[temaAleatorio] || [];
+                    preguntesPartida.push(preguntasDelTema[Math.floor(Math.random() * preguntasDelTema.length)]);
+                }
+            }
+    
+            // Enviar preguntas al cliente
+            socket.emit("preguntes partida", preguntesPartida);
         } catch (error) {
             console.error("Error al procesar la solicitud de creación de partida:", error);
         }
     });
-
+    
+    
 
 });
 

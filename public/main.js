@@ -42,29 +42,39 @@ createButton.addEventListener("click", function() {
 }
 
 
-// En el cliente (main.js)
 document.addEventListener("DOMContentLoaded", function () {
-    //event envio del form
-    document.getElementById("createGameForm").addEventListener("submit", function (event) {
-        event.preventDefault(); 
-        console.log("form enviat");
+    // Verificar si estamos en createGame.html
+    if (window.location.href.endsWith("createGame.html")) {
+        // Evento de envío del formulario
+        document.getElementById("createGameForm").addEventListener("submit", function (event) {
+            event.preventDefault(); 
+            console.log("Formulario enviado");
 
-        //guardar les dades del form
-        const formData = {
-            title: document.getElementById("title").value,
-            quantity: document.getElementById("quantity").value,
-            topics: Array.from(document.querySelectorAll('input[name="topic"]:checked')).map(topic => topic.value)
-        };
+            // Guardar los datos del formulario
+            const formData = {
+                title: document.getElementById("title").value,
+                quantity: document.getElementById("quantity").value,
+                topics: Array.from(document.querySelectorAll('input[name="topic"]:checked')).map(topic => topic.value)
+            };
 
-        // Emitir un evento al servidor con los datos del formulario
-        socket.emit("crear partida", formData);
+            // Emitir un evento al servidor con los datos del formulario
+            socket.emit("crear partida", formData);
+        });
+    } else {
+        console.log("Este código no se ejecutará porque no estás en createGame.html");
+    }
+
+
+      // Manejar el evento de preguntas partida del servidor
+      socket.on("preguntes partida", function(preguntesPartida) {
+        console.log("hola");
+        console.log("Preguntas para la partida recibidas:", preguntesPartida);
+
+        // Aquí puedes manejar las preguntas recibidas, por ejemplo, mostrarlas en la interfaz.
+        // Puedes agregar tu lógica para mostrar las preguntas en el formato que desees.
     });
 });
 
 
 
-//rebre preguntes filtrades en client
-socket.on("preguntes partida", function(preguntesPartida) {
-    //mostrar, iniciar...
-    console.log("Preguntes per la partida:", preguntesPartida);
-});
+
