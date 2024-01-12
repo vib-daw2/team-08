@@ -9,16 +9,22 @@ if (sendButton) {
     sendButton.addEventListener("click", send);
 }
 function send() {
-    socket.emit("nickname", {nickname: nicknameInput.value} )
+    const nickname = nicknameInput.value;
+
+    // Guardar el nickname en el almacenamiento local
+    localStorage.setItem("nickname", nickname);
+
+    socket.emit("nickname", { nickname });
 }
 
 socket.on('nickname rebut', function(data) {
 
     console.log(data)
     if (data.redirectUrl) {
-        //redirigir a la pàgina que indica el servidor
+        //redirigir a la pàgina que indica el servidor(home)
         window.location.href = data.redirectUrl;
     }
+    
 })
 
 socket.on("connect", function() {
@@ -43,36 +49,86 @@ createButton.addEventListener("click", function() {
 
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Verificar si estamos en createGame.html
+    // Verificar si estem en createGame.html
     if (window.location.href.endsWith("createGame.html")) {
-        // Evento de envío del formulario
+       // Obtener el nickname del almacenamiento local
+       const nicknameLocal = localStorage.getItem("nickname") || "";
+
+       // Completar automáticamente el campo de entrada de título con el nickname
+       const titleInput = document.getElementById("title");
+       if (titleInput) {
+           titleInput.value = "Partida de " + nicknameLocal;
+       }
         document.getElementById("createGameForm").addEventListener("submit", function (event) {
             event.preventDefault(); 
-            console.log("Formulario enviado");
+            console.log("Formulari enviat");
 
-            // Guardar los datos del formulario
+            // Guardar les dades en el formulari
             const formData = {
                 title: document.getElementById("title").value,
                 quantity: document.getElementById("quantity").value,
-                topics: Array.from(document.querySelectorAll('input[name="topic"]:checked')).map(topic => topic.value)
+                topics: Array.from(document.querySelectorAll('input[name="topic"]:checked')).map(topic => topic.value),
+                nickname: localStorage.getItem("nickname") || "" 
             };
 
-            // Emitir un evento al servidor con los datos del formulario
+            // Emitir un event al servidor amb les dades del formulari
             socket.emit("crear partida", formData);
         });
     } else {
-        console.log("Este código no se ejecutará porque no estás en createGame.html");
+        //console.log("No estas en createGame.html");
     }
 
 
-      // Manejar el evento de preguntas partida del servidor
-      socket.on("preguntes partida", function(preguntesPartida) {
-        console.log("hola");
-        console.log("Preguntas para la partida recibidas:", preguntesPartida);
-
-        // Aquí puedes manejar las preguntas recibidas, por ejemplo, mostrarlas en la interfaz.
-        // Puedes agregar tu lógica para mostrar las preguntas en el formato que desees.
+    socket.on("preguntes partida", function(dataPartida) {
+        const { idPartida, preguntesPartida, nickname } = dataPartida;
+        console.log(dataPartida)
+        // Redirigir a la página lobby.html con el identificador único en la URL
+        const lobbyUrl = `http://localhost:3000/lobby.html?partida=${dataPartida.idPartida}&nickname=${dataPartida.nickname}`;
+        console.log(lobbyUrl);
+        window.location.href = lobbyUrl;
     });
+    
+});
+
+//assignar un títol
+document.addEventListener("DOMContentLoaded", function () {
+    const params = new URLSearchParams(window.location.search);
+    const nickname = params.get("nickname");
+    const storedNickname = localStorage.getItem("nickname") || "";
+    console.log(storedNickname);
+    // Modificar el título en lobby.html
+    const titleLobby = document.getElementById("titleLobby");
+    if (titleLobby && nickname) {
+        titleLobby.innerText = "Partida de " + nickname;
+
+        // Ocultar el botón de empezar partida si el nickname actual no coincide
+        const startButton = document.getElementById("start-button");
+        if (storedNickname !== nickname) {
+            startButton.style.display = "none";
+        }
+    }
+});
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Verificar si estas en home.html
+    if (window.location.href.endsWith("home.html")) {
+       
+        // Obtener elementos del DOM
+        const linkInput = document.getElementById("linkInput");
+        const entrarButton = document.getElementById("entrarButton");
+
+        // Agregar un evento de clic al botón "Entrar"
+        entrarButton.addEventListener("click", function () {
+            // Obtener la URL ingresada por el usuario
+            const lobbyUrl = linkInput.value;
+
+            // Redirigir a la lobby
+            window.location.href = lobbyUrl;
+        });
+    } else {
+        //console.log("No estás en home.html");
+    }
 });
 
 

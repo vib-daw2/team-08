@@ -11,6 +11,8 @@ const io = new Server(httpServer, {});
 const fs = require("fs");
 // Cargar les preguntes desde l'arxiu preguntes.json
 const preguntes = JSON.parse(fs.readFileSync("preguntes.json", "utf-8"));
+//generar un identificador únic per cada partida creada
+const { v4: uuidv4 } = require('uuid');
 
 io.on("connection", (socket) => {
   
@@ -42,11 +44,12 @@ io.on("connection", (socket) => {
         io.emit("users", users);
         console.log("llista d'usuaris enviada");
       });
+      //socket crear partida, filtra les preguntes segons els requisits del form (quantitat i topics)
       socket.on("crear partida", function(configuracioPartida) {
-        console.log("hola");
+        //console.log("hola");
         try {
             // Manejar la lógica de creación de partida aquí
-            const { title, quantity, topics } = configuracioPartida;
+            const { title, quantity, topics, nickname } = configuracioPartida;
     
             // Inicializar un objeto para almacenar preguntas por tema
             const preguntasPorTema = {};
@@ -82,9 +85,13 @@ io.on("connection", (socket) => {
                     preguntesPartida.push(preguntasDelTema[Math.floor(Math.random() * preguntasDelTema.length)]);
                 }
             }
-    
+            const idPartida = uuidv4();
+            // Asociar la sala con el identificador único
+            const salaPartida = `partida-${idPartida}`;
+            socket.join(salaPartida);
             // Enviar preguntas al cliente
-            socket.emit("preguntes partida", preguntesPartida);
+            //console.log(nickname);
+            socket.emit("preguntes partida", { idPartida, preguntesPartida, nickname });
         } catch (error) {
             console.error("Error al procesar la solicitud de creación de partida:", error);
         }
