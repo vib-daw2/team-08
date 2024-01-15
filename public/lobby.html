@@ -1,112 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lobby de Partida</title>
-    <!-- Agrega el enlace a Bootstrap CDN -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 20px;
-        }
-    
-        #lobby-container {
-            max-width: 700px;
-            width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            display: inline-block; /* Para que ambos divs estén en línea */
-            vertical-align: top; /* Alineación superior */
-        }
-    
-        #url-container {
-            margin-bottom: 20px;
-        }
-    
-        #copy-button {
-            cursor: pointer;
-        }
-    
-        #start-button {
-            cursor: pointer;
-            margin-top: 10px; /* Ajusta el margen superior del botón de inicio */
-        }
-    
-        #llistaUsuaris {
-            display: inline-block;
-            vertical-align: top;
-            margin-left: 20px; 
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: left; 
-            width: 350px;
-        }
-    
-        #user-list {
-            list-style-type: none; /* Elimina los puntos de la lista */
-            padding: 0;
-            margin: 0;
-        }
-    </style>
-    
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Lobby de Partida</title>
+   <!-- Agrega el enlace a Bootstrap CDN -->
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+   <style>
+       body {
+           font-family: Arial, sans-serif;
+           text-align: center;
+           margin: 20px;
+       }
+  
+       #lobby-container {
+           max-width: 700px;
+           width: 600px;
+           margin: 0 auto;
+           padding: 20px;
+           border: 1px solid #ccc;
+           border-radius: 8px;
+           box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+           display: inline-block; /* Para que ambos divs estén en línea */
+           vertical-align: top; /* Alineación superior */
+       }
+  
+       #url-container {
+           margin-bottom: 20px;
+       }
+  
+       #copy-button {
+           cursor: pointer;
+       }
+  
+       #start-button {
+           cursor: pointer;
+           margin-top: 10px; /* Ajusta el margen superior del botón de inicio */
+       }
+  
+       #llistaUsuaris {
+           display: inline-block;
+           vertical-align: top;
+           margin-left: 20px;
+           padding: 20px;
+           border: 1px solid #ccc;
+           border-radius: 8px;
+           box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+           text-align: left;
+           width: 350px;
+       }
+  
+       #user-list {
+       list-style-type: none; /* Elimina los puntos de la lista */
+       padding: 0;
+       margin: 0;
+   }
+
+
+   #user-list li {
+       padding: 8px;
+       border-bottom: 1px solid #ccc; /* Línea divisoria entre los elementos de la lista */
+   }
+
+
+   #user-list li:last-child {
+       border-bottom: none; /* Elimina la línea divisoria del último elemento */
+   }
+   </style>
+  
 </head>
 <body>
-    <div id="lobby-container">
-        <h1 id="titleLobby"></h1>
-        <div id="url-container" class="input-group">
-            <label for="url" class="input-group-prepend">URL de la Partida:</label>
-            <input type="text" id="url" value="" readonly class="form-control">
-            <div class="input-group-append">
-                <button id="copy-button" class="btn btn-success"><svg xmlns="http://www.w3.org/2000/svg" width="16"
-                        height="16" fill="currentColor" class="bi bi-copy" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                            d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z" />
-                    </svg></button>
-            </div>
-        </div>
-        <button id="start-button" class="btn btn-primary">Començar partida</button>
-    </div>
-    <div id="llistaUsuaris">
-        <!-- Llista d'usuaris -->
-        <h2>Llista d'usuaris</h2>
-        <ul id="user-list">
-            <li>Carlos</li>
-            <li>Jan</li>
-            <li>Ramon</li>
+   <div id="lobby-container">
+       <h1 id="titleLobby"></h1>
+       <div id="url-container" class="input-group">
+           <label for="url" class="input-group-prepend">URL de la Partida:</label>
+           <input type="text" id="url" value="" readonly class="form-control">
+           <div class="input-group-append">
+               <button id="copy-button" class="btn btn-success"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                       height="16" fill="currentColor" class="bi bi-copy" viewBox="0 0 16 16">
+                       <path fill-rule="evenodd"
+                           d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z" />
+                   </svg></button>
+           </div>
+       </div>
+       <button id="start-button" class="btn btn-primary">Començar partida</button>
+   </div>
+   <div id="llistaUsuaris">
+       <!-- Llista d'usuaris -->
+       <h2>Llista d'usuaris</h2>
+       <ul id="user-list">
+       <!--
+           <li>
+               <span>Jan</span>
+               <span>10</span>
+           </li>
+       -->
 
-        </ul>
-    </div>
+
+       </ul>
+   </div>
 </body>
 
-    <!-- Agrega el script de Bootstrap y Popper.js (necesario para algunos componentes de Bootstrap) -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <script>
-        // Lògica pels botons
-        document.getElementById("copy-button").addEventListener("click", function() {
-            //copiar URL al portfoli
-            const urlInput = document.getElementById("url");
-            urlInput.select();
-            document.execCommand("copy");
-        });
+   <!-- Agrega el script de Bootstrap y Popper.js (necesario para algunos componentes de Bootstrap) -->
+   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-        // Assigna la URL de la partida al input
-        const params = new URLSearchParams(window.location.search);
-        const partidaId = params.get("partida");
-        const urlInput = document.getElementById("url");
-        urlInput.value = window.location.href;
-    </script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.0/socket.io.min.js"></script>
-            <script src="main.js"></script> 
+
+   <script>
+       // Lògica pels botons
+       document.getElementById("copy-button").addEventListener("click", function() {
+           //copiar URL al portfoli
+           const urlInput = document.getElementById("url");
+           urlInput.select();
+           document.execCommand("copy");
+       });
+
+
+       // Assigna la URL de la partida al input
+       const params = new URLSearchParams(window.location.search);
+       const partidaId = params.get("partida");
+       const urlInput = document.getElementById("url");
+       urlInput.value = window.location.href;
+   </script>
+           <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.0/socket.io.min.js"></script>
+           <script src="main.js"></script>
 </body>
 </html>
