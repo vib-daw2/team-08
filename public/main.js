@@ -11,19 +11,10 @@ if (sendButton) {
 }
 
 
-
-
-
-
-
-
 function send() {
    const nickname = nicknameInput.value;
-
-
    // Guardar el nickname en el almacenamiento local
    localStorage.setItem("nickname", nickname);
-
 
    socket.emit("nickname", { nickname });
 }
@@ -186,4 +177,7 @@ const nickname = urlParams.get('nickname');
 
 
 // Enviar mensaje al servidor para unirse a la sala de la partida
-socket.emit("join game", { idPartida, nickname });
+if (idPartida && nickname) {
+    // Enviar mensaje al servidor para unirse a la sala de la partida
+    socket.emit("join game", { idPartida, nickname });
+}

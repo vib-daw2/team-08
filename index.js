@@ -38,8 +38,6 @@ io.on("connection", (socket) => {
    })
 
 
-
-
    socket.on("get users", function() {
        socket.emit("users", { users });
    });
@@ -76,7 +74,7 @@ io.on("connection", (socket) => {
                preguntesPartida.push(...preguntasDelTema.slice(0, cantidadPorTema));
            });
   
-           // Si hay preguntas restantes, seleccionar al azar de los temas disponibles
+           // Si hay preguntas restantes, seleccionar al azar de los temas disponibles 9/3
            const preguntasRestantes = quantity - preguntesPartida.length;
            if (preguntasRestantes > 0) {
                const temasDisponibles = topics.filter((tema) => preguntasPorTema[tema]?.length > cantidadPorTema);
@@ -97,19 +95,14 @@ io.on("connection", (socket) => {
            console.error("Error al procesar la sol·licitud de creació de la partida:", error);
        }
    });
+   
    socket.on("join game", function(data) {
        const { idPartida, nickname } = data;
        const salaPartida = 'partida-${idPartida}';
        socket.join(salaPartida);
        console.log("unit a la sala")
-
-
-
-
    });
   
-
-
 });
 
 
