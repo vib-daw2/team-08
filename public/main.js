@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
         //console.log("No estas en createGame.html");
     }
 
-
+    //rep la partida configurada
     socket.on("preguntes partida", function(dataPartida) {
         const { idPartida, preguntesPartida, nickname } = dataPartida;
         console.log(dataPartida)
