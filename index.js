@@ -19,6 +19,21 @@ const preguntes = JSON.parse(fs.readFileSync("preguntes.json", "utf-8"));
 //generar un identificador únic per cada partida creada
 const { v4: uuidv4 } = require('uuid');
 const users = [];
+
+io.use((socket, next) => {
+    // Verificar si el usuario tiene un nickname al conectar
+    if (!socket.handshake.query.nickname) {
+        // Emitir un evento de redirección
+        socket.emit("redirect", { url: "/index.html" });
+        // Desconectar el socket
+        socket.disconnect(true);
+        return;
+    }
+    socket.nickname = socket.handshake.query.nickname;
+    next();
+});
+
+
 io.on("connection", (socket) => {
     console.log('Connectat un client...')
    //socket.data.nickname = "alice";

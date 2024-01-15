@@ -181,3 +181,7 @@ if (idPartida && nickname) {
     // Enviar mensaje al servidor para unirse a la sala de la partida
     socket.emit("join game", { idPartida, nickname });
 }
+
+socket.on("redirect", function(data) {
+    window.location.href = data.url;
+});
