@@ -20,24 +20,15 @@ const preguntes = JSON.parse(fs.readFileSync("preguntes.json", "utf-8"));
 const { v4: uuidv4 } = require('uuid');
 const users = [];
 
-io.use((socket, next) => {
-    // Verificar si el usuario tiene un nickname al conectar
-    if (!socket.handshake.query.nickname) {
-        // Emitir un evento de redirección
-        socket.emit("redirect", { url: "/index.html" });
-        // Desconectar el socket
-        socket.disconnect(true);
-        return;
-    }
-    socket.nickname = socket.handshake.query.nickname;
-    next();
-});
 
 
 io.on("connection", (socket) => {
     console.log('Connectat un client...')
    //socket.data.nickname = "alice";
 
+   if (!socket.nickname) {
+    console.log("Usuario sin nombre de usuario asignado. ID de conexión:", socket.id);
+    } //gestionar aixo amb cookies ja que cada vegada que es canvia de pagina nova id de connexió
 
    //socket obtenir nickname
    socket.on("nickname", function(data) {

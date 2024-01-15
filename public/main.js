@@ -32,6 +32,18 @@ socket.on('nickname rebut', function(data) {
 })
 
 
+// En el cliente (main.js)
+
+let isOnIndexPage = window.location.pathname === "/index.html";
+
+socket.on("redirect", function(data) {
+    // Verificar si ya estamos en la página de destino
+    if (window.location.pathname !== data.redirectUrl) {
+        // Redirigir al usuario a la URL proporcionada
+        console.log("Redirigiendo a " + data.redirectUrl);
+       // window.location.href = data.redirectUrl;
+    }
+});
 
 
 socket.on("connect", function () {
@@ -40,7 +52,7 @@ socket.on("connect", function () {
 
 
 //cridar "get users"
-//socket.emit("get users");
+socket.emit("get users");
 
 
 // Gestionar la resposta amb tots els usuaris
@@ -182,6 +194,3 @@ if (idPartida && nickname) {
     socket.emit("join game", { idPartida, nickname });
 }
 
-socket.on("redirect", function(data) {
-    window.location.href = data.url;
-});
