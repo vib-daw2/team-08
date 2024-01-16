@@ -21,26 +21,40 @@ const { v4: uuidv4 } = require('uuid');
 const users = [];
 
 
-
 io.on("connection", (socket) => {
     console.log('Connectat un client...')
    //socket.data.nickname = "alice";
 
-   if (!socket.nickname) {
-    console.log("Usuario sin nombre de usuario asignado. ID de conexión:", socket.id);
-    } //gestionar aixo amb cookies ja que cada vegada que es canvia de pagina nova id de connexió
+  
 
+   socket.on("nicknameUser", (data) => {
+    const nicknameUser = data.nicknameUser;
+
+    // Verificar si el usuario proporcionó un nicknameUser o no
+    if (nicknameUser) {
+        // el usuari té nickname
+        console.log("nicknameUser:", nicknameUser);
+        usernameUser = nicknameUser;
+       
+    } else {
+        // Manejar el caso en que no se proporcionó un nicknameUser
+        console.log("Usuario no proporcionó un nicknameUser.");
+        io.to(socket.id).emit("redirect", { redirectUrl: "/index.html" });
+    }
+});
+   
    //socket obtenir nickname
    socket.on("nickname", function(data) {
-          
+          const socketID = socket.id;
            socket.nickname = data.nickname;
+           const nicknameUser = socket.nickname;
            users.push({
                userID: socket.id,
                username: socket.nickname
            });
            const redirectUrl = "/home.html";
            // respondre al que ha enviat
-           socket.emit("nickname rebut",{"response":"ok", redirectUrl})
+           socket.emit("nickname rebut",{"response":"ok", redirectUrl, socketID, nicknameUser})
    })
 
 

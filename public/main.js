@@ -4,6 +4,7 @@ const socket = io();
 const createButton = document.getElementById("createButton");
 const nicknameInput = document.getElementById("nicknameInput");
 const sendButton = document.getElementById("sendButton");
+const messageElement = document.getElementById('message');
 
 
 if (sendButton) {
@@ -22,33 +23,58 @@ function send() {
 
 socket.on('nickname rebut', function(data) {
 
-
    console.log(data)
    if (data.redirectUrl) {
+        sessionStorage.setItem('socketId', data.socketID);
+        sessionStorage.setItem('nicknameUser', data.nicknameUser);
+        //console.log(data.socketID)
+        const socketID = sessionStorage.getItem('socketId');
+        const nicknameUser = sessionStorage.getItem('nicknameUser');
+        console.log("Valor de socketId en sessionStorage:", socketID);
+        console.log("Valor de nicknameUser en sessionStorage:", nicknameUser);
        //redirigir a la pàgina que indica el servidor(home)
        window.location.href = data.redirectUrl;
    }
   
 })
+const nicknameUser = sessionStorage.getItem('nicknameUser');
+
+// Enviar la información al servidor independientemente de si el usuario proporcionó un nickname
+socket.emit("nicknameUser", { nicknameUser });
 
 
-// En el cliente (main.js)
+// Verificar si ya se ha redirigido
+// Verificar si ya se ha redirigido
+const redirected = sessionStorage.getItem('redirected');
 
-let isOnIndexPage = window.location.pathname === "/index.html";
+// Si no se ha redirigido, manejar el evento de redirección desde el servidor
+if (!redirected) {
+    socket.on("redirect", (data) => {
+        const redirectUrl = data.redirectUrl;
+        console.log("Redirigiendo a:", redirectUrl);
 
-socket.on("redirect", function(data) {
-    // Verificar si ya estamos en la página de destino
-    if (window.location.pathname !== data.redirectUrl) {
-        // Redirigir al usuario a la URL proporcionada
-        console.log("Redirigiendo a " + data.redirectUrl);
-       // window.location.href = data.redirectUrl;
-    }
-});
+        // Marcar que ya se ha realizado la redirección en sessionStorage
+        sessionStorage.setItem('redirected', 'true');
+
+        
+
+        // Realizar la redirección del lado del cliente
+        //messageElement.innerText = "Escriu un username!";
+        console.log(messageElement);
+        //window.location.href = redirectUrl;
+        
+    });
+} else {
+    // Si ya se ha redirigido, eliminar la marca de sessionStorage
+    sessionStorage.removeItem('redirected');
+}
+
 
 
 socket.on("connect", function () {
    console.log("Connexió amb el servidor");
 });
+
 
 
 //cridar "get users"
@@ -60,12 +86,6 @@ socket.on("users", function(data) {
    const userList = data;
    console.log("Llista d'usuaris:", userList);
 });
-
-
-
-
-
-
 
 
 socket.on('salutacio', function(data) {
