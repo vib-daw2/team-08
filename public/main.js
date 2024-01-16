@@ -14,9 +14,6 @@ if (sendButton) {
 
 function send() {
    const nickname = nicknameInput.value;
-   // Guardar el nickname en el almacenamiento local
-   localStorage.setItem("nickname", nickname);
-
    socket.emit("nickname", { nickname });
 }
 
@@ -38,6 +35,7 @@ socket.on('nickname rebut', function(data) {
   
 })
 const nicknameUser = sessionStorage.getItem('nicknameUser');
+const socketID = sessionStorage.getItem('socketId');
 
 // Enviar la información al servidor independientemente de si el usuario proporcionó un nickname
 socket.emit("nicknameUser", { nicknameUser });
@@ -61,7 +59,7 @@ if (!redirected) {
         // Realizar la redirección del lado del cliente
         //messageElement.innerText = "Escriu un username!";
         console.log(messageElement);
-        //window.location.href = redirectUrl;
+        window.location.href = redirectUrl;
         
     });
 } else {
@@ -88,14 +86,6 @@ socket.on("users", function(data) {
 });
 
 
-socket.on('salutacio', function(data) {
-
-
-   console.log(data)
-
-
-})
-
 
 if (createButton) {
 createButton.addEventListener("click", function() {
@@ -104,14 +94,11 @@ createButton.addEventListener("click", function() {
 });
 }
 
-
-
-
 document.addEventListener("DOMContentLoaded", function () {
    // Verificar si estem en createGame.html
    if (window.location.href.endsWith("createGame.html")) {
       // Obtener el nickname del almacenamiento local
-      const nicknameLocal = localStorage.getItem("nickname") || "";
+      const nicknameLocal = sessionStorage.getItem("nicknameUser");
 
 
       // Completar automáticamente el campo de entrada de título con el nickname
@@ -129,7 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
                title: document.getElementById("title").value,
                quantity: document.getElementById("quantity").value,
                topics: Array.from(document.querySelectorAll('input[name="topic"]:checked')).map(topic => topic.value),
-               nickname: localStorage.getItem("nickname") || ""
+               nickname: sessionStorage.getItem("nicknameUser")
            };
 
 
@@ -158,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
    const params = new URLSearchParams(window.location.search);
    const nickname = params.get("nickname");
-   const storedNickname = localStorage.getItem("nickname") || "";
+   const storedNickname = sessionStorage.getItem("nicknameUser");
    //console.log(storedNickname);
    // Modificar el título en lobby.html
    const titleLobby = document.getElementById("titleLobby");
@@ -205,12 +192,22 @@ document.addEventListener("DOMContentLoaded", function () {
 // Extraer parámetros de la URL
 const urlParams = new URLSearchParams(window.location.search);
 const idPartida = urlParams.get('partida');
-const nickname = urlParams.get('nickname');
-
+const nicknameUrl = urlParams.get('nickname');
+console.log(nicknameUser)
+console.log(socketID)
 
 // Enviar mensaje al servidor para unirse a la sala de la partida
-if (idPartida && nickname) {
+if (idPartida && nicknameUrl) {
     // Enviar mensaje al servidor para unirse a la sala de la partida
-    socket.emit("join game", { idPartida, nickname });
+    
+    socket.emit("join game", { idPartida, nicknameUser, socketID });
 }
 
+//Obtenir llista d'usuaris que formen part de la sala a la que s'ha unit
+socket.on("users in room", function(data) {
+    
+    
+    console.log("Usuaris en la sala:", data);
+
+//..actualitzar llista...
+});

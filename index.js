@@ -117,12 +117,20 @@ io.on("connection", (socket) => {
    });
    
    socket.on("join game", function(data) {
-       const { idPartida, nickname } = data;
-       const salaPartida = 'partida-${idPartida}';
-       socket.join(salaPartida);
-       console.log("unit a la sala")
-   });
-  
+    const { idPartida, nicknameUser, socketID } = data;
+    //fer que uneixi a l'usuari amb l'id del sessionStorage i no el de la nova connexió
+    socket.id = socketID;
+    const salaPartida = `partida-${idPartida}-${socketID}`; 
+    socket.join(salaPartida);
+
+    console.log(`${nicknameUser} s'ha unit a la lobby: ${salaPartida}`);
+    //get users que estan en la lobby(salaPartida)
+    const usersInGame = io.sockets.adapter.rooms.get(salaPartida);
+    console.log("Usuarios en la sala:", usersInGame);
+    //passar llista d'usuaris al client per mostrar-los
+    socket.emit("users in room", { users: usersInGame });
+});
+
 });
 
 
