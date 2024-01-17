@@ -31,17 +31,7 @@
 
 
   
-           #container {
-               position:relative;
-               max-width: 600px;
-               margin: 20px auto;
-               background-color: #fff;
-               box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-               border-radius: 8px;
-               overflow: hidden;
-               padding: 20px;
-               text-align: center;
-           }
+           
   
            h1 {
                color: #333;
@@ -52,8 +42,9 @@
            }
   
            #image {
-               max-width: 100%;
-               height: auto;
+               width: 550px;
+               height: 350px;
+               
                margin-top: 20px;
            }
   
@@ -164,12 +155,76 @@
            padding: 10px;
            border-right: 1px solid #ccc;
            }
+   /* ... Otros estilos existentes ... */
+
+   #container {
+    position: relative;
+    max-width: 600px;
+    margin: 20px auto;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    padding: 20px;
+    text-align: center;
+    margin-right: 0px;
+    height: 1000px;
+    max-height: 1000px;
+}
+
+#user-table-container {
+    width: 300px;
+    margin-top: -850px;
+   margin-right: 24%;
+    
+    margin-left: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+#global {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#user-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#user-table th, #user-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+#user-table th {
+    background-color: #f2f2f2;
+}
+
+#user-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#user-table tbody tr:hover {
+    background-color: #ddd;
+}
+
+/* ... Otros estilos existentes ... */
+
+           
        </style>
    </head>
    <body>
        <div id="logo-container">
            <img id="logo" src="../images/altres/PiR-8_logo2.png" alt="Logo">
        </div>
+       <div id="global">
        <div id="container">
            <h1>PiR-8 | Preguntes i Respostes</h1>
            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-raised-hand" viewBox="0 0 16 16">
@@ -191,7 +246,7 @@
                <p>Pregunta: ¿Cuál es la capital de Francia?</p> <!--IMPORTANTE!! AQUÍ TIENE QUE VENIR LA PREGUNTA DESDE SERVER! -->
            </div>
   
-           <img id="image" src="../paris_foto.jpg" alt="Paris">
+           <img id="image" src="../images/ciencies/Aluminium.jpg" alt="Paris">
   
            <div id="buttons-container"> <!-- IMPORTANTE!! AQUÍ TIENEN QUE VENIR LAS POSIBLES RESPUESTAS DESDE SERVER!-->
                <div class="column">
@@ -236,20 +291,38 @@
        </div>
 
 
-       <!-- Marcador (scoreboard) -->
-       <div id="scoreboard">
-           <p>Respuestas Correctas: <span id="correct-answers">0</span></p>
-           <p>Respuestas Incorrectas: <span id="incorrect-answers">0</span></p>
-       </div>
+      <!-- Nuevo div para la tabla de usuarios -->
+<!-- Nuevo div para la tabla de usuarios -->
+<div id="user-table-container">
+    <table id="user-table">
+        <thead>
+            <tr>
+                <th>Punts</th>
+                <th>Username</th>
+                <!-- Puedes agregar más columnas según la información que desees mostrar -->
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Usuarios de ejemplo -->
+            <tr>
+                <td>1</td>
+                <td>Usuario1</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Usuario2</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Usuario3</td>
+            </tr>
+            <!-- Puedes agregar más usuarios según sea necesario -->
+        </tbody>
+    </table>
+</div>
 
-
-       <!-- Marcador de puntuación del usuario -->
-       <div id="user-score-container">
-           <p>Puntuación: <span id="user-score">0</span></p>
-       </div>
-      
        <!-- Afegir botó per admin, PASSAR A LA SEGÜENT PREGUNTA-->
-
+</div>
 
   
    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.0/socket.io.min.js"></script>

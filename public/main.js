@@ -131,10 +131,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
    //rep la partida configurada
    socket.on("preguntes partida", function(dataPartida) {
-       const { idPartida, preguntesPartida, nickname, time } = dataPartida;
+       const { idPartida, preguntesPartida, nicknameAdmin, time } = dataPartida;
        console.log(dataPartida)
        // Redirigir a la página lobby.html con el identificador único en la URL
-       const lobbyUrl = `http://localhost:3000/lobby.html?partida=${dataPartida.idPartida}&nickname=${dataPartida.nickname}`;
+       const lobbyUrl = `http://localhost:3000/lobby.html?partida=${dataPartida.idPartida}&nickname=${dataPartida.nicknameAdmin}`;
        //console.log(lobbyUrl);
        window.location.href = lobbyUrl;
    });
