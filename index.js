@@ -19,7 +19,7 @@ const preguntes = JSON.parse(fs.readFileSync("preguntes.json", "utf-8"));
 //generar un identificador únic per cada partida creada
 const { v4: uuidv4 } = require('uuid');
 const users = [];
-
+const socketUsernames = {};
 
 io.on("connection", (socket) => {
     console.log('Connectat un client...')
@@ -68,7 +68,7 @@ io.on("connection", (socket) => {
        //console.log("hola");
        try {
            // Manejar la lógica de creación de partida aquí
-           const { title, quantity, topics, nickname } = configuracioPartida;
+           const { title, quantity, topics, nicknameAdmin, time } = configuracioPartida;
   
            // Inicializar un objeto para almacenar preguntas por tema
            const preguntasPorTema = {};
@@ -109,27 +109,35 @@ io.on("connection", (socket) => {
            const salaPartida = `partida-${idPartida}`;
            socket.join(salaPartida);
            // Enviar preguntas al cliente
-           //console.log(nickname);
-           socket.emit("preguntes partida", { idPartida, preguntesPartida, nickname });
+           //console.log(nicknameAdmin);
+           socket.emit("preguntes partida", { idPartida, preguntesPartida, nicknameAdmin, time });
        } catch (error) {
            console.error("Error al procesar la sol·licitud de creació de la partida:", error);
        }
    });
    
-   socket.on("join game", function(data) {
+// Estructura global para almacenar la relación entre socket.id y usernames
+
+
+// Modificar el evento "join game" del servidor
+socket.on("join game", function(data) {
     const { idPartida, nicknameUser, socketID } = data;
-    //fer que uneixi a l'usuari amb l'id del sessionStorage i no el de la nova connexió
-    socket.id = socketID;
-    const salaPartida = `partida-${idPartida}-${socketID}`; 
+    const salaPartida = `partida-${idPartida}`; 
     socket.join(salaPartida);
 
-    console.log(`${nicknameUser} s'ha unit a la lobby: ${salaPartida}`);
-    //get users que estan en la lobby(salaPartida)
-    const usersInGame = io.sockets.adapter.rooms.get(salaPartida);
-    console.log("Usuarios en la sala:", usersInGame);
-    //passar llista d'usuaris al client per mostrar-los
-    socket.emit("users in room", { users: usersInGame });
+    // Asociar el socket.id con el username
+    socketUsernames[socket.id] = nicknameUser;
+
+    console.log(`${nicknameUser} se ha unido a la lobby: ${salaPartida}`);
+    
+    // Obtener la lista de usuarios en la sala y sus usernames
+    const usersInRoom = io.sockets.adapter.rooms.get(salaPartida);
+    const usernamesArray = usersInRoom ? Array.from(usersInRoom).map(socketID => socketUsernames[socketID]) : [];
+
+    // Emitir la lista de usuarios y usernames al cliente para mostrarlos
+    socket.emit("users in room", { usersArray: Array.from(usersInRoom), usernamesArray });
 });
+
 
 });
 

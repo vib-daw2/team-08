@@ -116,7 +116,8 @@ document.addEventListener("DOMContentLoaded", function () {
                title: document.getElementById("title").value,
                quantity: document.getElementById("quantity").value,
                topics: Array.from(document.querySelectorAll('input[name="topic"]:checked')).map(topic => topic.value),
-               nickname: sessionStorage.getItem("nicknameUser")
+               nicknameAdmin: sessionStorage.getItem("nicknameUser"),
+                time: document.getElementById("time").value,
            };
 
 
@@ -130,11 +131,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
    //rep la partida configurada
    socket.on("preguntes partida", function(dataPartida) {
-       const { idPartida, preguntesPartida, nickname } = dataPartida;
+       const { idPartida, preguntesPartida, nickname, time } = dataPartida;
        console.log(dataPartida)
        // Redirigir a la página lobby.html con el identificador único en la URL
        const lobbyUrl = `http://localhost:3000/lobby.html?partida=${dataPartida.idPartida}&nickname=${dataPartida.nickname}`;
-       console.log(lobbyUrl);
+       //console.log(lobbyUrl);
        window.location.href = lobbyUrl;
    });
   
@@ -160,8 +161,6 @@ document.addEventListener("DOMContentLoaded", function () {
        }
    }
 });
-
-
 
 
 //entrar a una sala a traves de la URL
@@ -203,11 +202,39 @@ if (idPartida && nicknameUrl) {
     socket.emit("join game", { idPartida, nicknameUser, socketID });
 }
 
-//Obtenir llista d'usuaris que formen part de la sala a la que s'ha unit
-socket.on("users in room", function(data) {
-    
-    
-    console.log("Usuaris en la sala:", data);
 
-//..actualitzar llista...
+function getUsernamesByIds(userList, arrayId) {
+    const usernames = [];
+
+    // Iterar sobre cada ID en arrayId
+    arrayId.forEach((id) => {
+        // Buscar el objeto de usuario con el ID correspondiente en userList
+        const user = userList.find((user) => user.id === id);
+
+        // Si se encuentra el usuario, agregar su nombre de usuario a la lista
+        if (user) {
+            usernames.push(user.username);
+        }
+    });
+
+    return usernames;
+}
+
+// Obtenir llista d'usuaris que formen part de la sala a la que s'ha unit
+socket.on("users in room", function(data) {
+    const usernamesArray = data.usernamesArray;
+    console.log("Usuaris en la sala:", usernamesArray);
+
+    // Obtén la referencia al elemento de la lista de usuarios
+    const userListElement = document.getElementById("user-list");
+
+    // Limpia la lista actual
+    userListElement.innerHTML = "";
+
+    // Actualiza la lista con los nuevos usuarios
+    usernamesArray.forEach(username => {
+        const liElement = document.createElement("li");
+        liElement.textContent = username;
+        userListElement.appendChild(liElement);
+    });
 });

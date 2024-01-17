@@ -1,298 +1,472 @@
+
+
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- SCRIPT DE LES GRÀFIQUES-->
-        <title>PiR-8</title>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                margin: 0;
-                padding: 0;
-                background-color: #f4f4f4;
-            }
+   <head>
+       <meta charset="UTF-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- SCRIPT DE LES GRÀFIQUES-->
+       <title>PiR-8</title>
+       <style>
+           body {
+               font-family: Arial, sans-serif;
+               margin: 0;
+               padding: 0;
+               background-color: #f4f4f4;
+           }
 
-            #logo-container {
-            position: fixed;
-            top: -5%;
-            right: 10%;
-            margin: 1px;
-            }
 
-            #logo {
-            width: 300px; /* Ajusta el tamaño de acuerdo a tus necesidades */
-            height: auto; /* Mantén la proporción del logo */
-            }
+           #logo-container {
+           position: fixed;
+           top: -5%;
+           right: 10%;
+           margin: 1px;
+           }
 
-    
-            #container {
-                position:relative;
-                max-width: 600px;
-                margin: 20px auto;
-                background-color: #fff;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                border-radius: 8px;
-                overflow: hidden;
-                padding: 20px;
-                text-align: center;
-            }
-    
-            h1 {
-                color: #333;
-            }
-    
-            #question {
-                margin-bottom: 20px;
-            }
-    
-            #image {
-                max-width: 100%;
-                height: auto;
-                margin-top: 20px;
-            }
-    
-            .answer-btn {
-                display: inline-block;
-                padding: 10px 20px;
-                margin: 5px;
-                font-size: 16px;
-                cursor: pointer;
-                background-color: #4caf50;
-                color: #fff;
-                border: none;
-                border-radius: 5px;
-                transition: background-color 0.3s ease;
-            }
-    
-            .answer-btn:hover {
-                background-color: #45a049;
-            }
 
-            .answer-btn {
-            display: block;
-            margin: 5px 0; /* Ajusta el espacio vertical entre los botones */
-            padding: 15px; /* Ajusta el tamaño de los botones */
-            width: 100%; /* Hace que todos los botones tengan el mismo ancho */
-            box-sizing: border-box; /* Incluye el padding en el ancho del botón */
-            font-size: 16px;
-            }
+           #logo {
+           width: 300px; /* Ajusta el tamaño de acuerdo a tus necesidades */
+           height: auto; /* Mantén la proporción del logo */
+           }
 
-            #buttons-container {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            margin-top: 20px;
-            }
 
-            .column {
-            flex-basis: 45%; /* Ajusta el ancho de las columnas según tus preferencias */
-            text-align: center; /* Centra los botones en cada columna */
-            }
+  
+           #container {
+               position:relative;
+               max-width: 600px;
+               margin: 20px auto;
+               background-color: #fff;
+               box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+               border-radius: 8px;
+               overflow: hidden;
+               padding: 20px;
+               text-align: center;
+           }
+  
+           h1 {
+               color: #333;
+           }
+  
+           #question {
+               margin-bottom: 20px;
+           }
+  
+           #image {
+               max-width: 100%;
+               height: auto;
+               margin-top: 20px;
+           }
+  
+           .answer-btn {
+               display: inline-block;
+               padding: 10px 20px;
+               margin: 5px;
+               font-size: 16px;
+               cursor: pointer;
+               background-color: #4caf50;
+               color: #fff;
+               border: none;
+               border-radius: 5px;
+               transition: background-color 0.3s ease;
+               cursor: pointer; /* Establece el cursor como puntero */
+           }
+  
+           .answer-btn:hover {
+               background-color: #45a049;
+           }
 
-            #image {
-            filter: blur(8px); /* Puedes ajustar el valor del desenfoque según tus preferencias */
-            transition: filter 1s ease;
-            }
 
-            #countdown-container {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            }
+           .answer-btn {
+           display: block;
+           margin: 5px 0; /* Ajusta el espacio vertical entre los botones */
+           padding: 15px; /* Ajusta el tamaño de los botones */
+           width: 100%; /* Hace que todos los botones tengan el mismo ancho */
+           box-sizing: border-box; /* Incluye el padding en el ancho del botón */
+           font-size: 16px;
+           }
 
-            #countdown-circle {
-            width: 120px;
-            height: 120px;
-            background-color: blue;
-            border-radius: 50%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            }
 
-            #countdown {
-            font-size: 24px;
-            color: white;
-            }
+           .answer-btn.clicked {
+           background-color: blue; /* Cambia el fondo a azul cuando se hace clic */
+           color: white; /* Cambia el color del texto a blanco */
+           cursor: not-allowed; /* Cambia el cursor a "no permitido" después de hacer clic */
+           }
 
-            #chart-container {
-            margin-top: 20px;
-            }
 
-            #scoreboard {
-            position: fixed;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 200px; /* Ancho fijo del marcador */
-            background-color: #f0f0f0;
-            padding: 10px;
-            border-right: 1px solid #ccc;
-            }
-        </style>
-    </head>
-    <body>
-        <div id="logo-container">
-            <img id="logo" src="../images/altres/PiR-8_logo2.png" alt="Logo">
-        </div>
-        <div id="container">
-            <h1>PiR-8 | Preguntes i Respostes</h1>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-raised-hand" viewBox="0 0 16 16">
-                <path d="M6 6.207v9.043a.75.75 0 0 0 1.5 0V10.5a.5.5 0 0 1 1 0v4.75a.75.75 0 0 0 1.5 0v-8.5a.25.25 0 1 1 .5 0v2.5a.75.75 0 0 0 1.5 0V6.5a3 3 0 0 0-3-3H6.236a1 1 0 0 1-.447-.106l-.33-.165A.83.83 0 0 1 5 2.488V.75a.75.75 0 0 0-1.5 0v2.083c0 .715.404 1.37 1.044 1.689L5.5 5c.32.32.5.754.5 1.207"/>
-                <path d="M8 3a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/>
-              </svg>
+           .answer-btn.disabled {
+           background-color: gray; /* Cambia el fondo a gris para botones desactivados */
+           cursor: not-allowed; /* Cambia el cursor a "no permitido" para botones desactivados */
+           }
+
+
+           #buttons-container {
+           display: flex;
+           justify-content: space-around;
+           flex-wrap: wrap;
+           margin-top: 20px;
+           }
+
+
+           .column {
+           flex-basis: 45%; /* Ajusta el ancho de las columnas según tus preferencias */
+           text-align: center; /* Centra los botones en cada columna */
+           }
+
+
+           #image {
+           filter: blur(8px); /* Puedes ajustar el valor del desenfoque según tus preferencias */
+           transition: filter 1s ease;
+           }
+
+
+           #countdown-container {
+           position: absolute;
+           top: 50%;
+           left: 50%;
+           transform: translate(-50%, -50%);
+           text-align: center;
+           }
+
+
+           #countdown-circle {
+           width: 120px;
+           height: 120px;
+           background-color: blue;
+           border-radius: 50%;
+           position: absolute;
+           top: 50%;
+           left: 50%;
+           transform: translate(-50%, -50%);
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           }
+
+
+           #countdown {
+           font-size: 24px;
+           color: white;
+           }
+
+
+           #chart-container {
+           margin-top: 20px;
+           }
+
+
+           #scoreboard {
+           position: fixed;
+           left: 0;
+           top: 50%;
+           transform: translateY(-50%);
+           width: 200px; /* Ancho fijo del marcador */
+           background-color: #f0f0f0;
+           padding: 10px;
+           border-right: 1px solid #ccc;
+           }
+       </style>
+   </head>
+   <body>
+       <div id="logo-container">
+           <img id="logo" src="../images/altres/PiR-8_logo2.png" alt="Logo">
+       </div>
+       <div id="container">
+           <h1>PiR-8 | Preguntes i Respostes</h1>
+           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-raised-hand" viewBox="0 0 16 16">
+               <path d="M6 6.207v9.043a.75.75 0 0 0 1.5 0V10.5a.5.5 0 0 1 1 0v4.75a.75.75 0 0 0 1.5 0v-8.5a.25.25 0 1 1 .5 0v2.5a.75.75 0 0 0 1.5 0V6.5a3 3 0 0 0-3-3H6.236a1 1 0 0 1-.447-.106l-.33-.165A.83.83 0 0 1 5 2.488V.75a.75.75 0 0 0-1.5 0v2.083c0 .715.404 1.37 1.044 1.689L5.5 5c.32.32.5.754.5 1.207"/>
+               <path d="M8 3a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/>
+             </svg>
+            
+             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
+               <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+               <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286m1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94"/>
+             </svg>
+
+
+             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
+               <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247m2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"/>
+             </svg>
+            
+           <div id="question">
+               <p>Pregunta: ¿Cuál es la capital de Francia?</p> <!--IMPORTANTE!! AQUÍ TIENE QUE VENIR LA PREGUNTA DESDE SERVER! -->
+           </div>
+  
+           <img id="image" src="../paris_foto.jpg" alt="Paris">
+  
+           <div id="buttons-container"> <!-- IMPORTANTE!! AQUÍ TIENEN QUE VENIR LAS POSIBLES RESPUESTAS DESDE SERVER!-->
+               <div class="column">
+                   <button class="answer-btn" onclick="handleButtonClick(0)">París</button>
+                   <button class="answer-btn" onclick="handleButtonClick(1)">Londres</button>
+               </div>
+               <div class="column">
+                   <button class="answer-btn" onclick="handleButtonClick(2)">Madrid</button>
+                   <button class="answer-btn" onclick="handleButtonClick(3)">Berlín</button>
+               </div>
+           </div>
+  
+           <div id="countdown-container">
+               <div id="countdown-circle">
+                   <div id="countdown">10</div> <!--¡¡IMPORTANTE!! <-- PENDIENTE DE MODIFICAR! ESTA VARIABLE DEBE TOMAR EL VALOR DESDE SERVER-->
+               </div>
+           </div>
+
+
+           <div id="right-answer" hidden>La resposta correcta era: <div id="right-answer-text">París</div></div> <!--IMPORTANTE!! AQUÍ TIENE QUE VENIR LA RESPUESTA DESDE SERVER -->
+           <!-- Contenedor del comentario-->
+           <div id="addComment-container" hidden>
+               <p id="texto-principal">Sabies que...<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-asterisk" viewBox="0 0 16 16">
+                   <path d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1"/>
+                 </svg></p>
               
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
-                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-                <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286m1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94"/>
-              </svg>
 
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
-                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247m2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"/>
-              </svg>
-              
-            <div id="question">
-                <p>Pregunta: ¿Cuál es la capital de Francia?</p> <!--IMPORTANTE!! AQUÍ TIENE QUE VENIR LA PREGUNTA DESDE SERVER! -->
-            </div>
-    
-            <img id="image" src="../paris_foto.jpg" alt="Paris">
-    
-            <div id="buttons-container"> <!-- IMPORTANTE!! AQUÍ TIENEN QUE VENIR LAS POSIBLES RESPUESTAS DESDE SERVER!-->
-                <div class="column">
-                    <button class="answer-btn" onclick="handleButtonClick(0)">París</button>
-                    <button class="answer-btn" onclick="handleButtonClick(1)">Londres</button>
-                </div>
-                <div class="column">
-                    <button class="answer-btn" onclick="handleButtonClick(2)">Madrid</button>
-                    <button class="answer-btn" onclick="handleButtonClick(3)">Berlín</button>
-                </div>
-            </div>
-    
-            <div id="countdown-container">
-                <div id="countdown-circle">
-                    <div id="countdown">10</div> <!--¡¡IMPORTANTE!! <-- PENDIENTE DE MODIFICAR! ESTA VARIABLE DEBE TOMAR EL VALOR DESDE SERVER-->
-                </div>
-            </div>
 
-            <div id="right-answer" hidden>La resposta correcta era: <div id="right-answer-text">París</div></div> <!--IMPORTANTE!! AQUÍ TIENE QUE VENIR LA RESPUESTA DESDE SERVER -->
-            <!-- Contenedor del comentario-->
-            <div id="addComment-container" hidden>
-                <p id="texto-principal">Sabies que...<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-asterisk" viewBox="0 0 16 16">
-                    <path d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1"/>
-                  </svg></p>
-                
+               <!-- Etiqueta de texto que se mostrará al pasar el ratón -->
+               <div id="tooltip">Texto adicional</div> <!--IMPORTANTE! ESTE COMENTARIO ADICIONAL TIENE QUE VENIR POR SERVER -->
+               <!-- Icono de Wikipedia que envía a la referencia webgráfica -->
+               <a href="" target="_blank"> <!--IMPORNTANTE! Introducir enlace de la referencia mediante servidor-->
+                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-wikipedia" viewBox="0 0 16 16">
+                       <path d="M8.835 3.003c.828-.006 2.688 0 2.688 0l.033.03v.288q0 .12-.133.12c-.433.02-.522.063-.68.29-.087.126-.258.393-.435.694l-1.52 2.843-.043.089 1.858 3.801.113.031 2.926-6.946q.152-.42-.044-.595c-.132-.114-.224-.18-.563-.195l-.275-.014a.16.16 0 0 1-.096-.035.1.1 0 0 1-.046-.084v-.289l.042-.03h3.306l.034.03v.29q0 .117-.133.117-.65.03-.962.281a1.64 1.64 0 0 0-.488.704s-2.691 6.16-3.612 8.208c-.353.672-.7.61-1.004-.019A224 224 0 0 1 8.044 8.81c-.623 1.285-1.475 3.026-1.898 3.81-.411.715-.75.622-1.02.019-.45-1.065-1.131-2.519-1.817-3.982-.735-1.569-1.475-3.149-1.943-4.272-.167-.4-.293-.657-.412-.759q-.18-.15-.746-.18Q0 3.421 0 3.341v-.303l.034-.03c.615-.003 3.594 0 3.594 0l.034.03v.288q0 .119-.15.118l-.375.016q-.483.02-.483.288-.002.125.109.4c.72 1.753 3.207 6.998 3.207 6.998l.091.023 1.603-3.197-.32-.71L6.24 5.095s-.213-.433-.286-.577l-.098-.196c-.387-.77-.411-.82-.865-.88-.137-.017-.208-.035-.208-.102v-.304l.041-.03h2.853l.075.024v.303q0 .104-.15.104l-.206.03c-.523.04-.438.254-.09.946l1.057 2.163 1.17-2.332c.195-.427.155-.534.074-.633-.046-.055-.202-.144-.54-.158l-.133-.015a.16.16 0 0 1-.096-.034.1.1 0 0 1-.045-.085v-.288l.041-.03Z"/>
+                   </svg>
+               </a>
+           </div>
+           <!-- Contenedor para la gráfica -->
+           <div id="chart-container">
+               <canvas id="myChart"></canvas>
+           </div>
+       </div>
 
-                <!-- Etiqueta de texto que se mostrará al pasar el ratón -->
-                <div id="tooltip">Texto adicional</div> <!--IMPORTANTE! ESTE COMENTARIO ADICIONAL TIENE QUE VENIR POR SERVER -->
-                <!-- Icono de Wikipedia que envía a la referencia webgráfica -->
-                <a href="" target="_blank"> <!--IMPORNTANTE! Introducir enlace de la referencia mediante servidor-->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-wikipedia" viewBox="0 0 16 16">
-                        <path d="M8.835 3.003c.828-.006 2.688 0 2.688 0l.033.03v.288q0 .12-.133.12c-.433.02-.522.063-.68.29-.087.126-.258.393-.435.694l-1.52 2.843-.043.089 1.858 3.801.113.031 2.926-6.946q.152-.42-.044-.595c-.132-.114-.224-.18-.563-.195l-.275-.014a.16.16 0 0 1-.096-.035.1.1 0 0 1-.046-.084v-.289l.042-.03h3.306l.034.03v.29q0 .117-.133.117-.65.03-.962.281a1.64 1.64 0 0 0-.488.704s-2.691 6.16-3.612 8.208c-.353.672-.7.61-1.004-.019A224 224 0 0 1 8.044 8.81c-.623 1.285-1.475 3.026-1.898 3.81-.411.715-.75.622-1.02.019-.45-1.065-1.131-2.519-1.817-3.982-.735-1.569-1.475-3.149-1.943-4.272-.167-.4-.293-.657-.412-.759q-.18-.15-.746-.18Q0 3.421 0 3.341v-.303l.034-.03c.615-.003 3.594 0 3.594 0l.034.03v.288q0 .119-.15.118l-.375.016q-.483.02-.483.288-.002.125.109.4c.72 1.753 3.207 6.998 3.207 6.998l.091.023 1.603-3.197-.32-.71L6.24 5.095s-.213-.433-.286-.577l-.098-.196c-.387-.77-.411-.82-.865-.88-.137-.017-.208-.035-.208-.102v-.304l.041-.03h2.853l.075.024v.303q0 .104-.15.104l-.206.03c-.523.04-.438.254-.09.946l1.057 2.163 1.17-2.332c.195-.427.155-.534.074-.633-.046-.055-.202-.144-.54-.158l-.133-.015a.16.16 0 0 1-.096-.034.1.1 0 0 1-.045-.085v-.288l.041-.03Z"/>
-                    </svg>
-                </a>
-            </div>
-            <!-- Contenedor para la gráfica -->
-            <div id="chart-container">
-                <canvas id="myChart"></canvas>
-            </div>
-        </div>
 
-        <!-- Marcador (scoreboard) -->
-        <div id="scoreboard">
-            <p>Respuestas Correctas: <span id="correct-answers">0</span></p>
-            <p>Respuestas Incorrectas: <span id="incorrect-answers">0</span></p>
-        </div>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.0/socket.io.min.js"></script>
-    <script src="main.js" ></script>
-    <script src="game.js" ></script>
-    <script>
-        var clicks = [0, 0, 0, 0]; // Array para rastrear los clics en cada botón
-        
-        document.addEventListener("DOMContentLoaded", function () {
-            var secondsRemaining = 10; // ¡¡IMPORTANTE!! <-- PENDIENTE DE MODIFICAR! ESTA VARIABLE DEBE TOMAR EL VALOR DESDE SERVER
+       <!-- Marcador (scoreboard) -->
+       <div id="scoreboard">
+           <p>Respuestas Correctas: <span id="correct-answers">0</span></p>
+           <p>Respuestas Incorrectas: <span id="incorrect-answers">0</span></p>
+       </div>
 
-            var countdownElement = document.getElementById("countdown");
-            var rightAnswerElement = document.getElementById("right-answer");
-            var commentContainer = document.getElementById("addComment-container");
 
-            var countdownInterval = setInterval(function () {
-                secondsRemaining--;
+       <!-- Marcador de puntuación del usuario -->
+       <div id="user-score-container">
+           <p>Puntuación: <span id="user-score">0</span></p>
+       </div>
+      
+       <!-- Afegir botó per admin, PASSAR A LA SEGÜENT PREGUNTA-->
 
-                if (secondsRemaining >= 0) {
-                    countdownElement.innerHTML = secondsRemaining;
-                } else {
-                    clearInterval(countdownInterval); // Terminar con el contador
-                    unblurImage();  // Quitarle el blur a la imagen
-                    document.getElementById("buttons-container").style.display = "none"; // Esconder el contenedor de botones-respuestas
-                    rightAnswerElement.removeAttribute("hidden");
-                    document.getElementById("countdown-container").style.display = "none"; // Esconder el contenedor de la cuenta atrás                    
-                    updateChart();
-                    commentContainer.removeAttribute("hidden");
 
-                }
-            }, 1000); // Actualizar cada segundo
-        });
+  
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.0/socket.io.min.js"></script>
+   <script src="main.js" ></script>
+   <script src="game.js" ></script>
+   <script>
 
-        function unblurImage() {
-            var image = document.getElementById("image");
-            image.style.filter = "none";
-        }
 
-        function handleButtonClick(index) {
-            clicks[index]++;
-        }
-        
-        function updateChart() {
-            var ctx = document.getElementById("myChart").getContext("2d");
-            var myChart = new Chart(ctx, {
-                type: "bar",
-                data: {
-                    labels: ["París", "Londres", "Madrid", "Berlín"],
-                    datasets: [{
-                        label: "Clics por respuesta",
-                        data: clicks,
-                        backgroundColor: ["rgba(255, 99, 132, 0.5)", "rgba(54, 162, 235, 0.5)", "rgba(255, 206, 86, 0.5)", "rgba(75, 192, 192, 0.5)"],
-                        borderColor: ["rgba(255, 99, 132, 1)", "rgba(54, 162, 235, 1)", "rgba(255, 206, 86, 1)", "rgba(75, 192, 192, 1)"],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-        }
-        // Obtén las referencias de los elementos del DOM
-        var textoPrincipal = document.getElementById("texto-principal");
-        var tooltip = document.getElementById("tooltip");
+       // Define la respuesta correcta (sustituye 'TuRespuestaCorrecta' por la respuesta correcta real)
+       const respuestaCorrecta = 'París'; // ¡¡IMPORTANTE!! <-- PENDIENTE DE MODIFICAR! ESTA VARIABLE DEBE TOMAR EL VALOR DESDE SERVER
 
-        // Agrega el evento de ratón para mostrar/ocultar el texto adicional
-        textoPrincipal.addEventListener("mouseover", function () {
-            // Muestra el tooltip
-            tooltip.style.display = "block";
-        });
 
-        textoPrincipal.addEventListener("mouseout", function () {
-            // Oculta el tooltip
-            tooltip.style.display = "none";
-        });
+       // Marcador (scoreboard)
+       const scoreboard = {
+           respuestasCorrectas: 0,
+           respuestasIncorrectas: 0
+       };
 
-        textoPrincipal.addEventListener("mousemove", function (event) {
-            // Posiciona el tooltip cerca del puntero del ratón
-            tooltip.style.left = event.pageX + 10 + "px";
-            tooltip.style.top = event.pageY + 10 + "px";
-        });
-    </script>
-    </body>
+
+       // Array para rastrear los clics en cada botón
+       var clicks = [0, 0, 0, 0];
+      
+       document.addEventListener("DOMContentLoaded", function () {
+           var secondsRemaining = 10; // ¡¡IMPORTANTE!! <-- PENDIENTE DE MODIFICAR! ESTA VARIABLE DEBE TOMAR EL VALOR DESDE SERVER
+
+
+           var countdownElement = document.getElementById("countdown");
+           var rightAnswerElement = document.getElementById("right-answer");
+           var commentContainer = document.getElementById("addComment-container");
+
+
+           // Variables para calcular la puntuación
+           var tiempoTotal = secondsRemaining * 1000; // en milisegundos
+           var tiempoRestante = tiempoTotal;
+           var puntuacion = 0;
+
+
+           var countdownInterval = setInterval(function () {
+               secondsRemaining--;
+
+
+               if (secondsRemaining >= 0) {
+                   countdownElement.innerHTML = secondsRemaining;
+               } else {
+                   clearInterval(countdownInterval); // Terminar con el contador
+                   unblurImage();  // Quitarle el blur a la imagen
+                   document.getElementById("buttons-container").style.display = "none"; // Esconder el contenedor de botones-respuestas
+                   rightAnswerElement.removeAttribute("hidden");
+                   document.getElementById("countdown-container").style.display = "none"; // Esconder el contenedor de la cuenta atrás                   
+                   updateChart();
+                   commentContainer.removeAttribute("hidden");
+
+
+                   // Calcular la puntuación final y actualizar el marcador de puntuación
+                   puntuacion = calcularPuntuacion();
+                   document.getElementById('user-score').innerText = puntuacion;
+
+
+
+
+                   // Actualiza el marcador después de que haya terminado el tiempo
+                   updateScoreboard();
+
+
+               }
+           }, 1000); // Actualizar cada segundo
+
+
+           function calcularPuntuacion() {
+       // Obtén la respuesta correcta (sustituye 'TuRespuestaCorrecta' por la respuesta correcta real)
+       const respuestaCorrecta = 'París';
+
+
+       // Obtén la respuesta seleccionada por el usuario
+       const respuestaUsuario = document.querySelector('.clicked').innerText;
+
+
+       // Calcular la puntuación basada en el tiempo restante
+       if (respuestaUsuario === respuestaCorrecta) {
+           const tiempoExtra = tiempoTotal - tiempoRestante;
+           const puntosExtra = Math.floor(tiempoExtra / 1000); // 1 punto por cada segundo extra
+           return puntosExtra + 1; // Se suma 1 punto por la respuesta correcta
+       } else {
+           return 0; // No se suman puntos por una respuesta incorrecta
+       }
+   }
+       });
+
+
+      
+
+
+       function unblurImage() {
+           var image = document.getElementById("image");
+           image.style.filter = "none";
+       }
+
+
+      
+           function handleButtonClick(buttonIndex) {
+               const buttons = document.querySelectorAll('.answer-btn');
+
+
+               buttons.forEach((button, index) => {
+                   if (index === buttonIndex) {
+                       button.classList.add('clicked');
+                   } else {
+                       button.classList.remove('clicked');
+                       button.classList.add('disabled');
+                       button.disabled = true; // Deshabilita todos los botones
+                   }
+               });
+
+
+               // Incrementar el contador de clics para el botón correspondiente
+               clicks[buttonIndex]++;
+
+
+               // Deshabilitar todos los botones después de que uno ha sido clicado
+               disableAllButtons();
+
+
+               // Actualizar la gráfica con los nuevos clics
+               //updateChart();
+           }
+     
+           function updateScoreboard() {
+               // Obtén la respuesta correcta (sustituye 'TuRespuestaCorrecta' por la respuesta correcta real)
+               const respuestaCorrecta = 'París';
+
+
+               // Obtén la respuesta seleccionada por el usuario
+               const respuestaUsuario = document.querySelector('.clicked').innerText;
+
+
+               // Marcador (scoreboard)
+               const scoreboard = {
+                   respuestasCorrectas: 0,
+                   respuestasIncorrectas: 0
+               };
+
+
+               // Compara la respuesta del usuario con la respuesta correcta
+               if (respuestaUsuario === respuestaCorrecta) {
+                   // Respuesta correcta, incrementa el marcador de respuestas correctas
+                   scoreboard.respuestasCorrectas++;
+               } else {
+                   // Respuesta incorrecta, incrementa el marcador de respuestas incorrectas
+                   scoreboard.respuestasIncorrectas++;
+               }
+
+
+               // Actualiza los elementos del DOM con el marcador final
+               document.getElementById('correct-answers').innerText = scoreboard.respuestasCorrectas;
+               document.getElementById('incorrect-answers').innerText = scoreboard.respuestasIncorrectas;
+           }
+
+
+
+
+       function disableAllButtons() {
+           const buttons = document.querySelectorAll('.answer-btn');
+  
+           buttons.forEach(button => {
+           button.disabled = true;
+           });
+       }
+
+
+      
+       function updateChart() {
+           var ctx = document.getElementById("myChart").getContext("2d");
+           var myChart = new Chart(ctx, {
+               type: "bar",
+               data: {
+                   labels: ["París", "Londres", "Madrid", "Berlín"],
+                   datasets: [{
+                       label: "Clics por respuesta",
+                       data: clicks,
+                       backgroundColor: ["rgba(255, 99, 132, 0.5)", "rgba(54, 162, 235, 0.5)", "rgba(255, 206, 86, 0.5)", "rgba(75, 192, 192, 0.5)"],
+                       borderColor: ["rgba(255, 99, 132, 1)", "rgba(54, 162, 235, 1)", "rgba(255, 206, 86, 1)", "rgba(75, 192, 192, 1)"],
+                       borderWidth: 1
+                   }]
+               },
+               options: {
+                   scales: {
+                       y: {
+                           beginAtZero: true
+                       }
+                   }
+               }
+           });
+       }
+       // Obtén las referencias de los elementos del DOM
+       var textoPrincipal = document.getElementById("texto-principal");
+       var tooltip = document.getElementById("tooltip");
+
+
+       // Agrega el evento de ratón para mostrar/ocultar el texto adicional
+       textoPrincipal.addEventListener("mouseover", function () {
+           // Muestra el tooltip
+           tooltip.style.display = "block";
+       });
+
+
+       textoPrincipal.addEventListener("mouseout", function () {
+           // Oculta el tooltip
+           tooltip.style.display = "none";
+       });
+
+
+       textoPrincipal.addEventListener("mousemove", function (event) {
+           // Posiciona el tooltip cerca del puntero del ratón
+           tooltip.style.left = event.pageX + 10 + "px";
+           tooltip.style.top = event.pageY + 10 + "px";
+       });
+   </script>
+   </body>
 </html>
+
