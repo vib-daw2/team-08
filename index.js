@@ -1,25 +1,12 @@
 const express = require("express");
 const { createServer } = require("http");
 const { Server } = require("socket.io");
-
-
-
-
 const app = express();
 const httpServer = createServer(app);
 
-
-
-
 app.use(express.static("public"));
 
-
-
-
 const io = new Server(httpServer, {});
-
-
-
 
 const fs = require("fs");
 // Cargar les preguntes desde l'arxiu preguntes.json
@@ -34,22 +21,20 @@ io.on("connection", (socket) => {
    console.log('Connectat un client...')
   //socket.data.nickname = "alice";
 
-
-
-
+//middleware comprovar si usuari té nickname
   socket.on("nicknameUser", (data) => {
    const nicknameUser = data.nicknameUser;
 
 
-   // Verificar si el usuario proporcionó un nicknameUser o no
+   // verificar si usuario ha proporcionat username
    if (nicknameUser) {
        // el usuari té nickname
        console.log("nicknameUser:", nicknameUser);
        usernameUser = nicknameUser;
      
    } else {
-       // Manejar el caso en que no se proporcionó un nicknameUser
-       console.log("Usuario no proporcionó un nicknameUser.");
+       // no té nickname = redirecció a index.html
+       console.log("Usuari no ha proporcionat nickname.");
        io.to(socket.id).emit("redirect", { redirectUrl: "/index.html" });
    }
 });
@@ -67,43 +52,39 @@ io.on("connection", (socket) => {
           // respondre al que ha enviat
           socket.emit("nickname rebut",{"response":"ok", redirectUrl, socketID, nicknameUser})
   })
-
-
-
-
+  //enviar array amb tots els usuaris
   socket.on("get users", function() {
+    //console.log(users);
       socket.emit("users", { users });
   });
-
-
-
 
     //socket crear partida, filtra les preguntes segons els requisits del form (quantitat i topics)
     socket.on("crear partida", function(configuracioPartida) {
       //console.log("hola");
       try {
-          // Manejar la lógica de creación de partida aquí
           const { title, quantity, topics, nicknameAdmin, time } = configuracioPartida;
-           // Inicializar un objeto para almacenar preguntas por tema
+           //array de preguntes segons el tema
           const preguntasPorTema = {};
-           // Filtrar preguntas según la configuración recibida y agruparlas por tema
+           //Agrupar les preguntes segons el tema escollit
           preguntes.forEach((pregunta) => {
+            //evitar errors sintactics
               const tema = pregunta.modalitat.toLowerCase();
               if (topics.includes(tema)) {
                   preguntasPorTema[tema] = preguntasPorTema[tema] || [];
                   preguntasPorTema[tema].push(pregunta);
               }
           });
-           // Inicializar un array para almacenar las preguntas finales
+           // array de les preguntes finals
           const preguntesPartida = [];
-           // Calcular la cantidad de preguntas por tema
+           //Calcular quantes preguntes per tema faran falta
           const cantidadPorTema = Math.floor(quantity / topics.length);
-           // Seleccionar preguntas de cada tema según la cantidad calculada
+           //Seleccionar preguntes de cada tema segons la cantitat seleccionada
           topics.forEach((tema) => {
               const preguntasDelTema = preguntasPorTema[tema] || [];
               preguntesPartida.push(...preguntasDelTema.slice(0, cantidadPorTema));
           });
-           // Si hay preguntas restantes, seleccionar al azar de los temas disponibles 9/3
+
+           // SI es inpar i falta una pregunta escollir-la aleatòriament exemple: 10 preguntes / 3 temes
           const preguntasRestantes = quantity - preguntesPartida.length;
           if (preguntasRestantes > 0) {
               const temasDisponibles = topics.filter((tema) => preguntasPorTema[tema]?.length > cantidadPorTema);
@@ -113,11 +94,11 @@ io.on("connection", (socket) => {
                   preguntesPartida.push(preguntasDelTema[Math.floor(Math.random() * preguntasDelTema.length)]);
               }
           }
+          //generar identificador únic per la partida
           const idPartida = uuidv4();
-          // Asociar la sala con el identificador único
           const salaPartida = `partida-${idPartida}`;
+          //unir a l'usuari que ha creat la partida a la sala
           socket.join(salaPartida);
-          // Enviar preguntas al cliente
           //console.log(nicknameAdmin);
           socket.emit("preguntes partida", { idPartida, preguntesPartida, nicknameAdmin, time });
       } catch (error) {
@@ -125,86 +106,60 @@ io.on("connection", (socket) => {
       }
   });
  
-// Estructura global para almacenar la relación entre socket.id y usernames
 
-
-
-
-// Modificar el evento "join game" del servidor
+// gestionar quan un usuari s'uneix a traves de la URL
 socket.on("join game", function(data) {
    const { idPartida, nicknameUser, socketID } = data;
    const salaPartida = `partida-${idPartida}`;
    socket.join(salaPartida);
 
-
-   // Asociar el socket.id con el username
+   // Asociar el socket.id amb el username
    socketUsernames[socket.id] = nicknameUser;
-
-
-   console.log(`${nicknameUser} se ha unido a la lobby: ${salaPartida}`);
+   console.log(`${nicknameUser} s'ha unit a la lobby: ${salaPartida}`);
   
-   // Obtener la lista de usuarios en la sala y sus usernames
+   // Obtenir la llista d'usuaris que s'han unit a la sala i els seus usernames
    const usersInRoom = io.sockets.adapter.rooms.get(salaPartida);
    const usernamesArray = usersInRoom ? Array.from(usersInRoom).map(socketID => socketUsernames[socketID]) : [];
 
-
-   // Emitir la lista de usuarios y usernames al cliente para mostrarlos
+   //Enviar la llista d'usuaris al client per mostrar-los en la llista
    socket.emit("users in room", { usersArray: Array.from(usersInRoom), usernamesArray });
 });
 
-
-// redirigir als usuarios de room(data) a game.html
+// redirigir als usuaris de room(data) a game.html
 socket.on("startGame", function(data) {
    const { idPartida } = data;
    const salaPartida = `partida-${idPartida}`;
 
-
-   // Emitir un evento a todos los usuarios en la sala para redirigirlos a game.html
+   // Emitir un event a tots els usuaris de la sala per dirigir-los a game.html
    io.to(salaPartida).emit("redirectToGame");
 });
 
-
-
-
-
-
+//passar les preguntes a game.js
 socket.on("preguntes configurades", function(data) {
    const { idPartida, preguntesPartida, nicknameAdmin, time } = data;
    const salaPartida = `partida-${idPartida}`;
-
-
+    console.log("partida comensada" + idPartida)
    io.to(salaPartida).emit('start game', data);
 });
 
+socket.on("holaa", function(data) {
+const salaPartida = `partida-${data}`;
+//console.log("hola  " + salaPartida);
+    io.to(salaPartida).emit("holaaa",{"response":"ok"})
+});
 
-
-
-
+//passar els usuaris de la sala a gmae.js
 
 });
 
-
-
-
 /*
 var comptador = 1;
-
-
-
-
 setInterval(() => {
   console.log('envio missatge a tots els clients')
   io.emit('salutacio', comptador);
   comptador++;
 }, 5000);
 */
-
-
-
-
-
-
-
 
 httpServer.listen(3000, ()=>
   console.log(`Server listening at http://localhost:3000`)

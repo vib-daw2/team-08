@@ -1,38 +1,21 @@
 const socket = io();
 
-
-
-
 const createButton = document.getElementById("createButton");
 const nicknameInput = document.getElementById("nicknameInput");
 const sendButton = document.getElementById("sendButton");
 const messageElement = document.getElementById('message');
 const startButton = document.getElementById('start-button');
 
-
-
-
 if (sendButton) {
   sendButton.addEventListener("click", send);
 }
-
-
-
-
-
 
 function send() {
   const nickname = nicknameInput.value;
   socket.emit("nickname", { nickname });
 }
 
-
-
-
-
-
 socket.on('nickname rebut', function(data) {
-
 
   console.log(data)
   if (data.redirectUrl) {
@@ -87,35 +70,18 @@ if (!redirected) {
    sessionStorage.removeItem('redirected');
 }
 
-
-
-
-
-
 socket.on("connect", function () {
   console.log("Connexió amb el servidor");
 });
 
-
-
-
-
-
 //cridar "get users"
 socket.emit("get users");
-
-
-
 
 // Gestionar la resposta amb tots els usuaris
 socket.on("users", function(data) {
   const userList = data;
   console.log("Llista d'usuaris:", userList);
 });
-
-
-
-
 
 
 if (createButton) {
@@ -125,15 +91,11 @@ createButton.addEventListener("click", function() {
 });
 }
 
-
 document.addEventListener("DOMContentLoaded", function () {
   // Verificar si estem en createGame.html
   if (window.location.href.endsWith("createGame.html")) {
      // Obtener el nickname del almacenamiento local
      const nicknameLocal = sessionStorage.getItem("nicknameUser");
-
-
-
 
      // Completar automáticamente el campo de entrada de título con el nickname
      const titleInput = document.getElementById("title");
@@ -144,9 +106,6 @@ document.addEventListener("DOMContentLoaded", function () {
           event.preventDefault();
           console.log("Formulari enviat");
 
-
-
-
           // Guardar les dades en el formulari
           const formData = {
               title: document.getElementById("title").value,
@@ -156,9 +115,6 @@ document.addEventListener("DOMContentLoaded", function () {
                time: document.getElementById("time").value,
           };
 
-
-
-
           // Emitir un event al servidor amb les dades del formulari
           socket.emit("crear partida", formData);
       });
@@ -166,10 +122,6 @@ document.addEventListener("DOMContentLoaded", function () {
       //console.log("No estas en createGame.html");
   }
  });
-
-
-
-
 
 
 //assignar un títol
@@ -183,9 +135,6 @@ document.addEventListener("DOMContentLoaded", function () {
   if (titleLobby && nickname) {
       titleLobby.innerText = "Partida de " + nickname;
 
-
-
-
       // Ocultar el botón de empezar partida si el nickname actual no coincide
       const startButton = document.getElementById("start-button");
       if (storedNickname !== nickname) {
@@ -193,8 +142,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
   }
 });
-
-
 
 
 //entrar a una sala a traves de la URL
@@ -206,16 +153,10 @@ document.addEventListener("DOMContentLoaded", function () {
       const linkInput = document.getElementById("linkInput");
       const entrarButton = document.getElementById("entrarButton");
 
-
-
-
       // Agregar un evento de clic al botón "Entrar"
       entrarButton.addEventListener("click", function () {
           // Obtener la URL ingresada por el usuario
           const lobbyUrl = linkInput.value;
-
-
-
 
           // Redirigir a la lobby
           window.location.href = lobbyUrl;
@@ -224,9 +165,6 @@ document.addEventListener("DOMContentLoaded", function () {
       //console.log("No estás en home.html");
   }
 });
-
-
-
 
 // Extraer parámetros de la URL
 const urlParams = new URLSearchParams(window.location.search);
@@ -244,28 +182,19 @@ if (idPartida && nicknameUrl) {
 }
 
 
-
-
-
-
-
-
 // Rep la partida configurada
 socket.on("preguntes partida", function(dataPartida) {
    const { idPartida, preguntesPartida, nicknameAdmin, time } = dataPartida;
    console.log(dataPartida);
    sessionStorage.setItem('idPartida', idPartida);
+   
+   sessionStorage.setItem('dataGame', JSON.stringify(dataPartida));
    // Redirigir a la página lobby.html con el identificador único en la URL
    const lobbyUrl = `http://localhost:3000/lobby.html?partida=${dataPartida.idPartida}&nickname=${dataPartida.nicknameAdmin}`;
    //console.log(lobbyUrl);
    window.location.href = lobbyUrl;
-   io.emit('preguntes configurades', dataPartida);
+   
 });
-
-
-
-
-
 
 if (startButton) {
    startButton.addEventListener("click", start);
@@ -276,12 +205,33 @@ function start() {
    let IdPartida = sessionStorage.getItem('idPartida');
    // Enviar un mensaje al servidor indicando que la partida está comenzando
    socket.emit("startGame", { idPartida: IdPartida });
+
+   const json = sessionStorage.getItem('dataGame');
+   const dataGame = JSON.parse(json);
+   socket.emit("preguntes configurades", dataGame);
+   //console.log(dataGame);
+
+
+   socket.emit("holaa", IdPartida);
+   
+
 }
 
+socket.on("start game", function(data) {
+  const { idPartida, preguntesPartida, nicknameAdmin, time } = data;
+  console.log("Información sobre preguntas recibida:", data);
+
+});
+
+socket.on("holaaa", function () {
+    
+});
+// Escuchar la respuesta del servidor con las preguntas
 
 // Escuchar el evento del servidor para redirigir a los usuarios
 socket.on("redirectToGame", function() {
-   window.location.href = "game.html";
+   //window.location.href = "game.html";
+   
 });
 
 
@@ -298,7 +248,6 @@ socket.on("users in room", function(data) {
 
    // Limpia la lista actual
    userListElement.innerHTML = "";
-
 
    // Actualiza la lista con los nuevos usuarios
    usernamesArray.forEach(username => {
