@@ -1,15 +1,104 @@
 <!DOCTYPE html>
 <html>
-    <head>
+<head>
+  <!-- Agrega estas líneas en el encabezado -->
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"/>
 
-    </head>
-    <body>
-        Entra el teu nom <input id="nicknameInput" type="text">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        #logo-container {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+        }
+
+        #logo {
+            width: 300px; /* Ajusta el tamaño de acuerdo a tus necesidades */
+            height: auto; /* Mantén la proporción del logo */
+        }
+
+        #carousel-container {
+            position: fixed;
+            top: 50%;
+            left: 10px;
+            transform: translate(0, -50%);
+            z-index: 999;
+        }
+
+        #carousel {
+            width: 750px; /* Ajusta el tamaño de acuerdo a tus necesidades */
+            height: auto; /* Mantén la proporción del carrusel */
+        }
+
+        #join-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 1000;
+        }
+
+        #nicknameInput {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        #sendButton {
+            display: block;
+            margin-top: 10px;
+        }
+
+        #message {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="logo-container">
+        <img id="logo" src="../images/altres/PiR-8_logo2.png" alt="Logo2">
+    </div>
+
+    <div id="carousel-container">
+        <div id="carousel">
+            <!-- Agrega aquí las imágenes del carrusel -->
+            <img src="../images/altres/ciencias1.jpg" alt="ciencias1">
+            <img src="../images/altres/ciencias2.jpg" alt="ciencias1">
+            <img src="../images/altres/historia1.jpg" alt="historia1">
+            <img src="../images/altres/historia2.jpg" alt="historia2">
+            <img src="../images/altres/geografia1.jpg" alt="geografia1">
+            <img src="../images/altres/geografia2.webp" alt="geografia2">
+            <img src="../images/altres/deportes1.jpg" alt="deportes1">
+            <img src="../images/altres/deportes2.jpg" alt="deportes2">
+        </div>
+    </div>
+
+    <div id="join-container">
+        <p>Entra el teu nom</p>
+        <input id="nicknameInput" type="text">
         <button id="sendButton">Enviar</button>
-        <p id="message"></p>
-      <!-- <img id="image" src="../images/ciencies/Aluminium.jpg" alt="Paris"> -->
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.0/socket.io.min.js"></script>
-    <script src="main.js"></script>   
-    
-    </body>
+    <script src="main.js"></script>
+    <!-- Agrega estas líneas al final del cuerpo del HTML, después de tus scripts actuales -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('#carousel').slick({
+            autoplay: true,
+            autoplaySpeed: 2000, // Ajusta la velocidad del carrusel según sea necesario
+        });
+    });
+</script>
+</body>
 </html>

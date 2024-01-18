@@ -3,14 +3,22 @@ const { createServer } = require("http");
 const { Server } = require("socket.io");
 
 
+
+
 const app = express();
 const httpServer = createServer(app);
+
+
 
 
 app.use(express.static("public"));
 
 
+
+
 const io = new Server(httpServer, {});
+
+
 
 
 const fs = require("fs");
@@ -21,141 +29,185 @@ const { v4: uuidv4 } = require('uuid');
 const users = [];
 const socketUsernames = {};
 
+
 io.on("connection", (socket) => {
-    console.log('Connectat un client...')
-   //socket.data.nickname = "alice";
+   console.log('Connectat un client...')
+  //socket.data.nickname = "alice";
 
-  
 
-   socket.on("nicknameUser", (data) => {
-    const nicknameUser = data.nicknameUser;
 
-    // Verificar si el usuario proporcionó un nicknameUser o no
-    if (nicknameUser) {
-        // el usuari té nickname
-        console.log("nicknameUser:", nicknameUser);
-        usernameUser = nicknameUser;
-       
-    } else {
-        // Manejar el caso en que no se proporcionó un nicknameUser
-        console.log("Usuario no proporcionó un nicknameUser.");
-        io.to(socket.id).emit("redirect", { redirectUrl: "/index.html" });
-    }
+
+  socket.on("nicknameUser", (data) => {
+   const nicknameUser = data.nicknameUser;
+
+
+   // Verificar si el usuario proporcionó un nicknameUser o no
+   if (nicknameUser) {
+       // el usuari té nickname
+       console.log("nicknameUser:", nicknameUser);
+       usernameUser = nicknameUser;
+     
+   } else {
+       // Manejar el caso en que no se proporcionó un nicknameUser
+       console.log("Usuario no proporcionó un nicknameUser.");
+       io.to(socket.id).emit("redirect", { redirectUrl: "/index.html" });
+   }
 });
-   
-   //socket obtenir nickname
-   socket.on("nickname", function(data) {
-          const socketID = socket.id;
-           socket.nickname = data.nickname;
-           const nicknameUser = socket.nickname;
-           users.push({
-               userID: socket.id,
-               username: socket.nickname
-           });
-           const redirectUrl = "/home.html";
-           // respondre al que ha enviat
-           socket.emit("nickname rebut",{"response":"ok", redirectUrl, socketID, nicknameUser})
-   })
+ 
+  //socket obtenir nickname
+  socket.on("nickname", function(data) {
+         const socketID = socket.id;
+          socket.nickname = data.nickname;
+          const nicknameUser = socket.nickname;
+          users.push({
+              userID: socket.id,
+              username: socket.nickname
+          });
+          const redirectUrl = "/home.html";
+          // respondre al que ha enviat
+          socket.emit("nickname rebut",{"response":"ok", redirectUrl, socketID, nicknameUser})
+  })
 
 
-   socket.on("get users", function() {
-       socket.emit("users", { users });
-   });
 
 
-     //socket crear partida, filtra les preguntes segons els requisits del form (quantitat i topics)
-     socket.on("crear partida", function(configuracioPartida) {
-       //console.log("hola");
-       try {
-           // Manejar la lógica de creación de partida aquí
-           const { title, quantity, topics, nicknameAdmin, time } = configuracioPartida;
-  
+  socket.on("get users", function() {
+      socket.emit("users", { users });
+  });
+
+
+
+
+    //socket crear partida, filtra les preguntes segons els requisits del form (quantitat i topics)
+    socket.on("crear partida", function(configuracioPartida) {
+      //console.log("hola");
+      try {
+          // Manejar la lógica de creación de partida aquí
+          const { title, quantity, topics, nicknameAdmin, time } = configuracioPartida;
            // Inicializar un objeto para almacenar preguntas por tema
-           const preguntasPorTema = {};
-  
+          const preguntasPorTema = {};
            // Filtrar preguntas según la configuración recibida y agruparlas por tema
-           preguntes.forEach((pregunta) => {
-               const tema = pregunta.modalitat.toLowerCase();
-               if (topics.includes(tema)) {
-                   preguntasPorTema[tema] = preguntasPorTema[tema] || [];
-                   preguntasPorTema[tema].push(pregunta);
-               }
-           });
-  
+          preguntes.forEach((pregunta) => {
+              const tema = pregunta.modalitat.toLowerCase();
+              if (topics.includes(tema)) {
+                  preguntasPorTema[tema] = preguntasPorTema[tema] || [];
+                  preguntasPorTema[tema].push(pregunta);
+              }
+          });
            // Inicializar un array para almacenar las preguntas finales
-           const preguntesPartida = [];
-  
+          const preguntesPartida = [];
            // Calcular la cantidad de preguntas por tema
-           const cantidadPorTema = Math.floor(quantity / topics.length);
-  
+          const cantidadPorTema = Math.floor(quantity / topics.length);
            // Seleccionar preguntas de cada tema según la cantidad calculada
-           topics.forEach((tema) => {
-               const preguntasDelTema = preguntasPorTema[tema] || [];
-               preguntesPartida.push(...preguntasDelTema.slice(0, cantidadPorTema));
-           });
-  
+          topics.forEach((tema) => {
+              const preguntasDelTema = preguntasPorTema[tema] || [];
+              preguntesPartida.push(...preguntasDelTema.slice(0, cantidadPorTema));
+          });
            // Si hay preguntas restantes, seleccionar al azar de los temas disponibles 9/3
-           const preguntasRestantes = quantity - preguntesPartida.length;
-           if (preguntasRestantes > 0) {
-               const temasDisponibles = topics.filter((tema) => preguntasPorTema[tema]?.length > cantidadPorTema);
-               for (let i = 0; i < preguntasRestantes; i++) {
-                   const temaAleatorio = temasDisponibles[Math.floor(Math.random() * temasDisponibles.length)];
-                   const preguntasDelTema = preguntasPorTema[temaAleatorio] || [];
-                   preguntesPartida.push(preguntasDelTema[Math.floor(Math.random() * preguntasDelTema.length)]);
-               }
-           }
-           const idPartida = uuidv4();
-           // Asociar la sala con el identificador único
-           const salaPartida = `partida-${idPartida}`;
-           socket.join(salaPartida);
-           // Enviar preguntas al cliente
-           //console.log(nicknameAdmin);
-           socket.emit("preguntes partida", { idPartida, preguntesPartida, nicknameAdmin, time });
-       } catch (error) {
-           console.error("Error al procesar la sol·licitud de creació de la partida:", error);
-       }
-   });
-   
+          const preguntasRestantes = quantity - preguntesPartida.length;
+          if (preguntasRestantes > 0) {
+              const temasDisponibles = topics.filter((tema) => preguntasPorTema[tema]?.length > cantidadPorTema);
+              for (let i = 0; i < preguntasRestantes; i++) {
+                  const temaAleatorio = temasDisponibles[Math.floor(Math.random() * temasDisponibles.length)];
+                  const preguntasDelTema = preguntasPorTema[temaAleatorio] || [];
+                  preguntesPartida.push(preguntasDelTema[Math.floor(Math.random() * preguntasDelTema.length)]);
+              }
+          }
+          const idPartida = uuidv4();
+          // Asociar la sala con el identificador único
+          const salaPartida = `partida-${idPartida}`;
+          socket.join(salaPartida);
+          // Enviar preguntas al cliente
+          //console.log(nicknameAdmin);
+          socket.emit("preguntes partida", { idPartida, preguntesPartida, nicknameAdmin, time });
+      } catch (error) {
+          console.error("Error al procesar la sol·licitud de creació de la partida:", error);
+      }
+  });
+ 
 // Estructura global para almacenar la relación entre socket.id y usernames
+
+
 
 
 // Modificar el evento "join game" del servidor
 socket.on("join game", function(data) {
-    const { idPartida, nicknameUser, socketID } = data;
-    const salaPartida = `partida-${idPartida}`; 
-    socket.join(salaPartida);
+   const { idPartida, nicknameUser, socketID } = data;
+   const salaPartida = `partida-${idPartida}`;
+   socket.join(salaPartida);
 
-    // Asociar el socket.id con el username
-    socketUsernames[socket.id] = nicknameUser;
 
-    console.log(`${nicknameUser} se ha unido a la lobby: ${salaPartida}`);
-    
-    // Obtener la lista de usuarios en la sala y sus usernames
-    const usersInRoom = io.sockets.adapter.rooms.get(salaPartida);
-    const usernamesArray = usersInRoom ? Array.from(usersInRoom).map(socketID => socketUsernames[socketID]) : [];
+   // Asociar el socket.id con el username
+   socketUsernames[socket.id] = nicknameUser;
 
-    // Emitir la lista de usuarios y usernames al cliente para mostrarlos
-    socket.emit("users in room", { usersArray: Array.from(usersInRoom), usernamesArray });
+
+   console.log(`${nicknameUser} se ha unido a la lobby: ${salaPartida}`);
+  
+   // Obtener la lista de usuarios en la sala y sus usernames
+   const usersInRoom = io.sockets.adapter.rooms.get(salaPartida);
+   const usernamesArray = usersInRoom ? Array.from(usersInRoom).map(socketID => socketUsernames[socketID]) : [];
+
+
+   // Emitir la lista de usuarios y usernames al cliente para mostrarlos
+   socket.emit("users in room", { usersArray: Array.from(usersInRoom), usernamesArray });
 });
 
 
+// redirigir als usuarios de room(data) a game.html
+socket.on("startGame", function(data) {
+   const { idPartida } = data;
+   const salaPartida = `partida-${idPartida}`;
+
+
+   // Emitir un evento a todos los usuarios en la sala para redirigirlos a game.html
+   io.to(salaPartida).emit("redirectToGame");
 });
+
+
+
+
+
+
+socket.on("preguntes configurades", function(data) {
+   const { idPartida, preguntesPartida, nicknameAdmin, time } = data;
+   const salaPartida = `partida-${idPartida}`;
+
+
+   io.to(salaPartida).emit('start game', data);
+});
+
+
+
+
+
+
+});
+
+
 
 
 /*
 var comptador = 1;
 
 
+
+
 setInterval(() => {
-   console.log('envio missatge a tots els clients')
-   io.emit('salutacio', comptador);
-   comptador++;
+  console.log('envio missatge a tots els clients')
+  io.emit('salutacio', comptador);
+  comptador++;
 }, 5000);
 */
 
 
 
 
+
+
+
+
 httpServer.listen(3000, ()=>
-   console.log(`Server listening at http://localhost:3000`)
+  console.log(`Server listening at http://localhost:3000`)
 );
+
+

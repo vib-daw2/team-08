@@ -19,7 +19,7 @@
            #logo-container {
            position: fixed;
            top: -5%;
-           right: 10%;
+           right:30%;
            margin: 1px;
            }
 
@@ -28,9 +28,6 @@
            width: 300px; /* Ajusta el tamaño de acuerdo a tus necesidades */
            height: auto; /* Mantén la proporción del logo */
            }
-
-
-  
            
   
            h1 {
@@ -140,21 +137,7 @@
            }
 
 
-           #chart-container {
-           margin-top: 20px;
-           }
-
-
-           #scoreboard {
-           position: fixed;
-           left: 0;
-           top: 50%;
-           transform: translateY(-50%);
-           width: 200px; /* Ancho fijo del marcador */
-           background-color: #f0f0f0;
-           padding: 10px;
-           border-right: 1px solid #ccc;
-           }
+           
    /* ... Otros estilos existentes ... */
 
    #container {
@@ -170,12 +153,14 @@
     margin-right: 0px;
     height: 1000px;
     max-height: 1000px;
+    margin-top: 10%;
+    margin-left: 3%;
 }
 
 #user-table-container {
     width: 300px;
-    margin-top: -850px;
-   margin-right: 24%;
+    margin-top: -10%;
+   margin-right: 0;
     
     margin-left: 20px;
     border: 1px solid #ddd;
@@ -215,7 +200,11 @@
     background-color: #ddd;
 }
 
-/* ... Otros estilos existentes ... */
+button:hover {
+               background-color: #45a049;
+}
+
+
 
            
        </style>
@@ -299,6 +288,12 @@
             <tr>
                 <th>Punts</th>
                 <th>Username</th>
+                <th><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                    <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
+                  </svg></th>
+                <th><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                    <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+                  </svg></th>
                 <!-- Puedes agregar más columnas según la información que desees mostrar -->
             </tr>
         </thead>
@@ -307,14 +302,20 @@
             <tr>
                 <td>1</td>
                 <td>Usuario1</td>
+                <td></td>
+                <td></td>
             </tr>
             <tr>
                 <td>2</td>
                 <td>Usuario2</td>
+                <td></td>
+                <td></td>
             </tr>
             <tr>
                 <td>3</td>
                 <td>Usuario3</td>
+                <td></td>
+                <td></td>
             </tr>
             <!-- Puedes agregar más usuarios según sea necesario -->
         </tbody>
@@ -322,6 +323,9 @@
 </div>
 
        <!-- Afegir botó per admin, PASSAR A LA SEGÜENT PREGUNTA-->
+       <button>
+        Següent pregunta
+       </button>
 </div>
 
   
@@ -410,9 +414,6 @@
        }
    }
        });
-
-
-      
 
 
        function unblurImage() {
