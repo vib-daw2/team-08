@@ -202,38 +202,40 @@ if (startButton) {
 
 
 function start() {
-   let IdPartida = sessionStorage.getItem('idPartida');
-   // Enviar un mensaje al servidor indicando que la partida está comenzando
-   socket.emit("startGame", { idPartida: IdPartida });
-
+  //demanar preguntes i proporcionar-les als usuaris de la sala
    const json = sessionStorage.getItem('dataGame');
    const dataGame = JSON.parse(json);
    socket.emit("preguntes configurades", dataGame);
    //console.log(dataGame);
 
-
-   socket.emit("holaa", IdPartida);
-   
-
 }
 
+//partida començada, 
 socket.on("start game", function(data) {
   const { idPartida, preguntesPartida, nicknameAdmin, time } = data;
-  console.log("Información sobre preguntas recibida:", data);
+  //console.log("Informació sobre preguntes:", data);
+
+ const jsonString = JSON.stringify(data);
+ sessionStorage.setItem('dataGlobal', jsonString);
+
+ const jsonGlobal = sessionStorage.getItem('dataGlobal');
+ const dataGameGlobal = JSON.parse(jsonGlobal);
+ //console.log(dataGameGlobal);
+
+ window.location.href = "game.html";
 
 });
 
-socket.on("holaaa", function () {
-    
-});
-// Escuchar la respuesta del servidor con las preguntas
+if (window.location.pathname.endsWith("game.html")) {
+  const jsonGlobal = sessionStorage.getItem('dataGlobal');
+  const dataGameGlobal = JSON.parse(jsonGlobal);
+  console.log(dataGameGlobal);
 
-// Escuchar el evento del servidor para redirigir a los usuarios
-socket.on("redirectToGame", function() {
-   //window.location.href = "game.html";
-   
-});
+  const usersGame = sessionStorage.getItem('usersGame');
+  const usersData = JSON.parse(usersGame);
+  console.log(usersData)
 
+}
 
 // Obtenir llista d'usuaris que formen part de la sala a la que s'ha unit
 socket.on("users in room", function(data) {
@@ -241,6 +243,9 @@ socket.on("users in room", function(data) {
    //passar els usernamesArray al servidor, i cridar-ho desde game.js
    console.log("Usuaris en la sala:", usernamesArray);
 
+
+   const jsonString = JSON.stringify(data);
+   sessionStorage.setItem('usersGame', jsonString);
 
    // Obtén la referencia al elemento de la lista de usuarios
    const userListElement = document.getElementById("user-list");
@@ -256,5 +261,8 @@ socket.on("users in room", function(data) {
        userListElement.appendChild(liElement);
    });
 });
+
+
+
 
 
