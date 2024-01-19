@@ -235,7 +235,50 @@ if (window.location.pathname.endsWith("game.html")) {
   const usersData = JSON.parse(usersGame);
   console.log(usersData)
 
+  //definir l'admin de la partida
+  let userAdmin = dataGameGlobal.nicknameAdmin;
+
+  //plenar taula dinàmicament
+  const tbodyElement = document.querySelector("#user-table tbody");
+
+  // Limpiar el contenido actual de la tabla
+  tbodyElement.innerHTML = "";
+
+  // Rellenar la tabla con los usuarios dinámicamente
+  usersData.usernamesArray.forEach((username, index) => {
+    const trElement = document.createElement("tr");
+
+    // Columna de aciertos (inicialmente en 0)
+    const tdPunts = document.createElement("td");
+    tdPunts.textContent = "0";
+    trElement.appendChild(tdPunts);
+
+    // Columna de nombre de usuario
+    const tdUsername = document.createElement("td");
+    tdUsername.textContent = username;
+    trElement.appendChild(tdUsername);
+
+    // Columna de aciertos (inicialmente en 0)
+    const tdAciertos = document.createElement("td");
+    tdAciertos.textContent = "0";
+    trElement.appendChild(tdAciertos);
+
+    // Columna de fallos (inicialmente en 0)
+    const tdFallos = document.createElement("td");
+    tdFallos.textContent = "0";
+    trElement.appendChild(tdFallos);
+
+    // Columna de porcentaje de respuestas correctas/incorrectas (inicialmente en 0%)
+    const tdPorcentaje = document.createElement("td");
+    tdPorcentaje.textContent = "0%";
+    trElement.appendChild(tdPorcentaje);
+
+    // Agregar la fila a tbody
+    tbodyElement.appendChild(trElement);
+  });
+
 }
+
 
 // Obtenir llista d'usuaris que formen part de la sala a la que s'ha unit
 socket.on("users in room", function(data) {

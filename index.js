@@ -15,7 +15,7 @@ const preguntes = JSON.parse(fs.readFileSync("preguntes.json", "utf-8"));
 const { v4: uuidv4 } = require('uuid');
 const users = [];
 const socketUsernames = {};
-
+let temps;
 
 io.on("connection", (socket) => {
    console.log('Connectat un client...')
