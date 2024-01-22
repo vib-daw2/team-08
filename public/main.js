@@ -295,13 +295,21 @@ if (nicknameJugador !== nicknameAdmin) {
     tbodyElement.appendChild(trElement);
   });
 
+   // Aquí s'hauri de fer una funció que rebés l'id de la pregunta per servidor i omplís de forma dinàmica la posició del array
   // Introdueix el contingut de la primera pregunta a l'element question
   const pregunta = document.getElementById("pregunta");
-   console.log(dataGameGlobal.preguntesPartida[0].pregunta);
+  // console.log(dataGameGlobal.preguntesPartida[0].pregunta);
   pregunta.textContent= dataGameGlobal.preguntesPartida[0].pregunta;
 
   const respA= document.getElementById("resposta-a");
-  console.log(dataGameGlobal.preguntesPartida[0].respostes.a);
+  const respB= document.getElementById("resposta-b");
+  const respC= document.getElementById("resposta-c");
+  const respD= document.getElementById("resposta-d");
+  
+  respA.textContent= dataGameGlobal.preguntesPartida[0].respostes['a'];
+  respB.textContent= dataGameGlobal.preguntesPartida[0].respostes['b'];
+  respC.textContent= dataGameGlobal.preguntesPartida[0].respostes['c'];
+  respD.textContent= dataGameGlobal.preguntesPartida[0].respostes['d'];
 
   
 }
