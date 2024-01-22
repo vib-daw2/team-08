@@ -282,7 +282,7 @@ button:hover {
           </div>
            <div id="countdown-container">
               <div id="countdown-circle">
-                  <div id="countdown">10</div> <!--¡¡IMPORTANTE!! <-- PENDIENTE DE MODIFICAR! ESTA VARIABLE DEBE TOMAR EL VALOR DESDE SERVER-->
+                  <div id="countdown"></div> <!--¡¡IMPORTANTE!! <-- PENDIENTE DE MODIFICAR! ESTA VARIABLE DEBE TOMAR EL VALOR DESDE SERVER-->
               </div>
           </div>
 
@@ -301,7 +301,7 @@ button:hover {
 
 
               <!-- Etiqueta de texto que se mostrará al pasar el ratón -->
-              <div id="tooltip">Texto adicional</div> <!--IMPORTANTE! ESTE COMENTARIO ADICIONAL TIENE QUE VENIR POR SERVER -->
+              <div id="comentari">Texto adicional</div> <!--IMPORTANTE! ESTE COMENTARIO ADICIONAL TIENE QUE VENIR POR SERVER -->
               <!-- Icono de Wikipedia que envía a la referencia webgráfica -->
               <a href="" target="_blank"> <!--IMPORNTANTE! Introducir enlace de la referencia mediante servidor-->
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-wikipedia" viewBox="0 0 16 16">
@@ -376,12 +376,21 @@ button:hover {
       var clicks = [0, 0, 0, 0];
     
       document.addEventListener("DOMContentLoaded", function () {
-          // Variable para almacenar el tiempo que hay para reponder cada pregunta
-          var secondsRemaining = 10; // ¡¡IMPORTANTE!! <-- PENDIENTE DE MODIFICAR! ESTA VARIABLE DEBE TOMAR EL VALOR DESDE SERVER
 
-
-          // Variable para almacenar la cuenta atrás de cada pregunta
+        // Variable para almacenar la cuenta atrás de cada pregunta
           var countdownElement = document.getElementById("countdown");
+
+          // Variable para almacenar el tiempo que hay para reponder cada pregunta
+          var secondsRemaining = document.getElementById("countdown").innerHTML; // ¡¡IMPORTANTE!! <-- PENDIENTE DE MODIFICAR! ESTA VARIABLE DEBE TOMAR EL VALOR DESDE SERVER
+
+        /*
+        var countdownElement = document.getElementById("countdown").innerHTML;
+          console.log("a");
+        console.log(countdownElement);
+          // Variable para almacenar el tiempo que hay para reponder cada pregunta  
+          var secondsRemaining = countdownElement; // ¡¡IMPORTANTE!! <-- PENDIENTE DE MODIFICAR! ESTA VARIABLE DEBE TOMAR EL VALOR DESDE SERVER
+        */
+          
           // Variable que almacena la respuesta correcta
           var rightAnswerElement = document.getElementById("right-answer");
           // Variable que almacena el comentario que se puede leer al finalizar el tiempo para responder a la pregunta
@@ -525,7 +534,7 @@ button:hover {
           var myChart = new Chart(ctx, {
               type: "bar",
               data: {
-                  labels: ["París", "Londres", "Madrid", "Berlín"],
+                  labels: [document.getElementById("resposta-a").textContent, document.getElementById("resposta-c").textContent ,document.getElementById("resposta-b").textContent ,document.getElementById("resposta-d").textContent ],
                   datasets: [{
                       label: "Clics por respuesta",
                       data: clicks,
@@ -543,34 +552,39 @@ button:hover {
               }
           });
       }
+
+      
+
+
+
       // Variables que obtienen las referencias de los elementos del DOM
       var textoPrincipal = document.getElementById("texto-principal");
-      var tooltip = document.getElementById("tooltip");
+      var comentari = document.getElementById("comentari");
 
 
 
 
       // Agrega el evento de ratón para mostrar/ocultar el texto adicional
       textoPrincipal.addEventListener("mouseover", function () {
-          // Muestra el tooltip
-          tooltip.style.display = "block";
+          // Muestra el comentari
+          comentari.style.display = "block";
       });
 
 
 
 
       textoPrincipal.addEventListener("mouseout", function () {
-          // Oculta el tooltip
-          tooltip.style.display = "none";
+          // Oculta el comentari
+          comentari.style.display = "none";
       });
 
 
 
 
       textoPrincipal.addEventListener("mousemove", function (event) {
-          // Posiciona el tooltip cerca del puntero del ratón
-          tooltip.style.left = event.pageX + 10 + "px";
-          tooltip.style.top = event.pageY + 10 + "px";
+          // Posiciona el comentari cerca del puntero del ratón
+          comentari.style.left = event.pageX + 10 + "px";
+          comentari.style.top = event.pageY + 10 + "px";
       });
   </script>
   </body>

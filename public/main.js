@@ -295,22 +295,54 @@ if (nicknameJugador !== nicknameAdmin) {
     tbodyElement.appendChild(trElement);
   });
 
-   // Aquí s'hauri de fer una funció que rebés l'id de la pregunta per servidor i omplís de forma dinàmica la posició del array
+  
+  var index = 0;
+  var sP= 1;
+
+   // Aquí s'hauria de fer una funció que rebés l'id de la pregunta per servidor i omplís de forma dinàmica la posició del array
+   function mostrarPregunta(index){
+  // Introdueix el número de countdown 
+  const countD= document.getElementById("countdown");
+  countD.textContent= dataGameGlobal.time;
+  console.log(dataGameGlobal.time);
+
+  // Introdueix el contingut de la resposta correcta a l'element right-answer-text
+  const respCorr= document.getElementById("right-answer-text");
+  respCorr.textContent= dataGameGlobal.preguntesPartida[index].correcta;
+
+  // Introdueix el contingut del comentari a l'element comentari
+  const coment= document.getElementById("comentari");
+  coment.textContent= dataGameGlobal.preguntesPartida[index].comentari;
+
   // Introdueix el contingut de la primera pregunta a l'element question
   const pregunta = document.getElementById("pregunta");
   // console.log(dataGameGlobal.preguntesPartida[0].pregunta);
-  pregunta.textContent= dataGameGlobal.preguntesPartida[0].pregunta;
+  pregunta.textContent= dataGameGlobal.preguntesPartida[index].pregunta;
 
+  // Introdueix el contingut de les respostes als elements resposta-x
   const respA= document.getElementById("resposta-a");
   const respB= document.getElementById("resposta-b");
   const respC= document.getElementById("resposta-c");
   const respD= document.getElementById("resposta-d");
   
-  respA.textContent= dataGameGlobal.preguntesPartida[0].respostes['a'];
-  respB.textContent= dataGameGlobal.preguntesPartida[0].respostes['b'];
-  respC.textContent= dataGameGlobal.preguntesPartida[0].respostes['c'];
-  respD.textContent= dataGameGlobal.preguntesPartida[0].respostes['d'];
+  respA.textContent= dataGameGlobal.preguntesPartida[index].respostes['a'];
+  respB.textContent= dataGameGlobal.preguntesPartida[index].respostes['b'];
+  respC.textContent= dataGameGlobal.preguntesPartida[index].respostes['c'];
+  respD.textContent= dataGameGlobal.preguntesPartida[index].respostes['d'];
+}
+// Inicializar con la primera pregunta (índice 0)
+let preguntaIndex = 0;
+mostrarPregunta(preguntaIndex);
 
+ nextQuestionButton = document.getElementById("next-question");
+
+nextQuestionButton.addEventListener("click", function() {
+    // Incrementar el índice
+    preguntaIndex++;
+
+    // Mostrar la siguiente pregunta
+    mostrarPregunta(preguntaIndex);
+});
   
 }
 
