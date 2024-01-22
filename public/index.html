@@ -1,71 +1,87 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!-- Agrega estas líneas en el encabezado -->
+  <!-- carousel  -->
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"/>
 
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
 
-        #logo-container {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            z-index: 1000;
-        }
+#logo-container {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+}
 
-        #logo {
-            width: 300px; /* Ajusta el tamaño de acuerdo a tus necesidades */
-            height: auto; /* Mantén la proporción del logo */
-        }
+#logo {
+    width: 300px;
+    height: auto;
+}
 
-        #carousel-container {
-            position: fixed;
-            top: 50%;
-            left: 10px;
-            transform: translate(0, -50%);
-            z-index: 999;
-        }
+#join-container {
+    position: fixed;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 1000;
+}
 
-        #carousel {
-            width: 750px; /* Ajusta el tamaño de acuerdo a tus necesidades */
-            height: auto; /* Mantén la proporción del carrusel */
-        }
+#input-container {
+    display: flex;
+    align-items: center;
+}
 
-        #join-container {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            z-index: 1000;
-        }
+#nicknameInput {
+    flex: 1;
+    margin-right: 10px;
+    padding: 10px;
+    width: 300px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
 
-        #nicknameInput {
-            display: block;
-            margin-bottom: 10px;
-        }
+#sendButton {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: white;
+    background-color: black;
+}
 
-        #sendButton {
-            display: block;
-            margin-top: 10px;
-        }
+#sendButton:hover {
+    background-color: #333;
+}
 
-        #message {
-            margin-top: 10px;
-        }
-        #image {
-               width: 550px;
-               height: 350px;
-               
-               margin-top: 20px;
-           }
+#carousel-container {
+    position: fixed;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+}
+
+#carousel {
+    width: 750px;
+    height: auto;
+}
+
+#image {
+    width: 550px;
+    height: 400px;
+    margin-top: 20px;
+}
+
+
     </style>
 </head>
 <body>
@@ -73,9 +89,17 @@
         <img id="logo" src="../images/altres/PiR-8_logo2.png" alt="Logo2">
     </div>
 
+    <div id="join-container">
+        <p>Entra el teu nom</p>
+        <div id="input-container">
+            <input id="nicknameInput" type="text" placeholder="Nom">
+            <button id="sendButton">Entrar</button>
+        </div>
+    </div>
+
     <div id="carousel-container">
         <div id="carousel">
-            <!-- Agrega aquí las imágenes del carrusel -->
+            <!-- Imatges del carousel-->
             <img id="image" src="../images/altres/ciencias1.jpg" alt="ciencias1">
             <img id="image" src="../images/altres/ciencias2.jpg" alt="ciencias1">
             <img id="image" src="../images/altres/historia1.jpg" alt="historia1">
@@ -87,22 +111,18 @@
         </div>
     </div>
 
-    <div id="join-container">
-        <p>Entra el teu nom</p>
-        <input id="nicknameInput" type="text">
-        <button id="sendButton">Enviar</button>
-    </div>
+    
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.0/socket.io.min.js"></script>
     <script src="main.js"></script>
-    <!-- Agrega estas líneas al final del cuerpo del HTML, después de tus scripts actuales -->
+
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
 <script>
     $(document).ready(function(){
         $('#carousel').slick({
             autoplay: true,
-            autoplaySpeed: 2000, // Ajusta la velocidad del carrusel según sea necesario
+            autoplaySpeed: 3000, 
         });
     });
 </script>

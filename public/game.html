@@ -264,17 +264,17 @@ button:hover {
             </svg>
           
           <div id="question">
-              <p>Pregunta: ¿Cuál es la capital de Francia?</p> <!--IMPORTANTE!! AQUÍ TIENE QUE VENIR LA PREGUNTA DESDE SERVER! -->
+              <p id="pregunta">Pregunta: ¿Cuál es la capital de Francia?</p> <!--IMPORTANTE!! AQUÍ TIENE QUE VENIR LA PREGUNTA DESDE SERVER! -->
           </div>
            <img id="image" src="../images/ciencies/Aluminium.jpg" alt="Paris">
            <div id="buttons-container"> <!-- IMPORTANTE!! AQUÍ TIENEN QUE VENIR LAS POSIBLES RESPUESTAS DESDE SERVER!-->
               <div class="column">
-                  <button class="answer-btn" onclick="handleButtonClick(0)">París</button>
-                  <button class="answer-btn" onclick="handleButtonClick(1)">Londres</button>
+                  <button id="resposta-a" class="answer-btn" onclick="handleButtonClick(0)">París</button>
+                  <button id="resposta-c" class="answer-btn" onclick="handleButtonClick(1)">Londres</button>
               </div>
               <div class="column">
-                  <button class="answer-btn" onclick="handleButtonClick(2)">Madrid</button>
-                  <button class="answer-btn" onclick="handleButtonClick(3)">Berlín</button>
+                  <button id="resposta-b" class="answer-btn" onclick="handleButtonClick(2)">Madrid</button>
+                  <button id="resposta-d" class="answer-btn" onclick="handleButtonClick(3)">Berlín</button>
               </div>
           </div>
            <div id="countdown-container">
@@ -340,7 +340,7 @@ button:hover {
 
 
       <!-- Afegir botó per admin, PASSAR A LA SEGÜENT PREGUNTA-->
-      <button>
+      <button id="next-question">
        Següent pregunta
       </button>
 </div>
@@ -429,7 +429,7 @@ button:hover {
 
 
                   // Actualiza el marcador después de que haya terminado el tiempo
-                  updateScoreboard();
+                  
 
 
 

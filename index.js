@@ -123,6 +123,7 @@ socket.on("join game", function(data) {
 
    //Enviar la llista d'usuaris al client per mostrar-los en la llista
    socket.emit("users in room", { usersArray: Array.from(usersInRoom), usernamesArray });
+   
 });
 
 // redirigir als usuaris de room(data) a game.html
@@ -140,6 +141,8 @@ socket.on("preguntes configurades", function(data) {
    const salaPartida = `partida-${idPartida}`;
     console.log("partida comensada" + idPartida)
    io.to(salaPartida).emit('start game', data);
+
+   
 });
 
 socket.on("holaa", function(data) {

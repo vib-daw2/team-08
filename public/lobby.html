@@ -11,8 +11,19 @@
            font-family: Arial, sans-serif;
            text-align: center;
            margin: 20px;
+           background-color: #f4f4f4;
        }
-  
+       #logo-container {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        z-index: 1000;
+    }
+
+    #logo {
+        width: 300px;
+        height: auto;
+    }
        #lobby-container {
            max-width: 700px;
            width: 600px;
@@ -34,8 +45,16 @@
        }
   
        #start-button {
-           cursor: pointer;
-           margin-top: 10px; /* Ajusta el margen superior del botón de inicio */
+        padding: 10px;
+            background-color: black;
+            color: white;
+            border: none;
+            border-radius: 5px;
+           margin-top: 10px; 
+
+       }
+       #start-button:hover {
+        background-color: #333;
        }
   
        #llistaUsuaris {
@@ -70,6 +89,11 @@
   
 </head>
 <body>
+
+    <div id="logo-container">
+        <img id="logo" src="../images/altres/PiR-8_logo2.png" alt="Logo2">
+    </div>
+
    <div id="lobby-container">
        <h1 id="titleLobby"></h1>
        <div id="url-container" class="input-group">
@@ -83,7 +107,7 @@
                    </svg></button>
            </div>
        </div>
-       <button id="start-button" class="btn btn-primary">Començar partida</button>
+       <button id="start-button" >Començar partida</button>
    </div>
    <div id="llistaUsuaris">
        <!-- Llista d'usuaris -->

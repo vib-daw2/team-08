@@ -1,18 +1,111 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
 
+#logo-container {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+}
+
+#logo {
+    width: 300px;
+    height: auto;
+}
+
+#container {
+    text-align: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+p {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+#linkInput {
+    width: 300px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+#entrarButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: black;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+#entrarButton:hover {
+    background-color: #333;
+}
+
+#createSection {
+    margin-top: 50px;
+}
+
+#createSection h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+#createButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: black;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#createButton:hover {
+    background-color: #333;
+}
+
+    </style>
     </head>
     <body>
+
+        <div id="logo-container">
+            <img id="logo" src="../images/altres/PiR-8_logo2.png" alt="Logo2">
+        </div>
     
-
-        <p>Entra el Link</p>
-        <input id="linkInput" type="text">
-        <button id="entrarButton">Entrar</button>
-
-        <button id ="createButton">Nova partida</button>
-        
-        
+        <div id="container">
+            <p>Entra el Link</p>
+            <input id="linkInput" type="text" placeholder="URL de la partida">
+            <button id="entrarButton">Entrar</button>
+    
+            <div id="createSection">
+                <p>Crea una partida</p>
+                <button id="createButton">Nova partida</button>
+            </div>
+        </div>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.0/socket.io.min.js"></script>
     <script src="main.js"></script>   
     </body>

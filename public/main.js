@@ -15,6 +15,8 @@ function send() {
   socket.emit("nickname", { nickname });
 }
 
+
+
 socket.on('nickname rebut', function(data) {
 
   console.log(data)
@@ -238,6 +240,22 @@ if (window.location.pathname.endsWith("game.html")) {
   //definir l'admin de la partida
   let userAdmin = dataGameGlobal.nicknameAdmin;
 
+  // Amagar el botó següent pregunta si l'usuari 
+
+// Obtener el nickname del jugador actual y del usuario administrador
+/* Aquí debes obtener el nickname del jugador desde tu objeto */
+const nicknameJugador = sessionStorage.getItem('nicknameUser');
+const nicknameAdmin = userAdmin;
+
+// Obtener referencia al botón "Següent pregunta"
+const nextQuestionButton = document.getElementById("next-question");
+
+// Comparar los nicknames
+if (nicknameJugador !== nicknameAdmin) {
+    // Ocultar el botón si los nicknames no coinciden
+    nextQuestionButton.style.display = "none";
+}
+
   //plenar taula dinàmicament
   const tbodyElement = document.querySelector("#user-table tbody");
 
@@ -277,6 +295,15 @@ if (window.location.pathname.endsWith("game.html")) {
     tbodyElement.appendChild(trElement);
   });
 
+  // Introdueix el contingut de la primera pregunta a l'element question
+  const pregunta = document.getElementById("pregunta");
+   console.log(dataGameGlobal.preguntesPartida[0].pregunta);
+  pregunta.textContent= dataGameGlobal.preguntesPartida[0].pregunta;
+
+  const respA= document.getElementById("resposta-a");
+  console.log(pregunta.textContent= dataGameGlobal.preguntesPartida[0].resposta);
+  pregunta.textContent= dataGameGlobal.preguntesPartida[0].respostes[a];
+  
 }
 
 
@@ -304,6 +331,7 @@ socket.on("users in room", function(data) {
        userListElement.appendChild(liElement);
    });
 });
+
 
 
 
