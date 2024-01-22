@@ -43,51 +43,54 @@
              
               margin-top: 20px;
           }
-           .answer-btn {
-              display: inline-block;
-              padding: 10px 20px;
-              margin: 5px;
-              font-size: 16px;
-              cursor: pointer;
-              background-color: #4caf50;
-              color: #fff;
-              border: none;
-              border-radius: 5px;
-              transition: background-color 0.3s ease;
-              cursor: pointer; /* Establece el cursor como puntero */
-          }
-           .answer-btn:hover {
-              background-color: #45a049;
-          }
 
 
 
 
-          .answer-btn {
-          display: block;
+#resposta-a, #resposta-b, #resposta-c, #resposta-d {
+    display: inline-block;
           margin: 5px 0; /* Ajusta el espacio vertical entre los botones */
           padding: 15px; /* Ajusta el tamaño de los botones */
           width: 100%; /* Hace que todos los botones tengan el mismo ancho */
           box-sizing: border-box; /* Incluye el padding en el ancho del botón */
           font-size: 16px;
-          }
+          color: white;
+          cursor: pointer;
+          border: none;
+          border-radius: 5px;
+          transition: background-color 0.3s ease;
+}
+#resposta-a {
+    background-color: #e21b3c;
+}
+#resposta-b {
+    background-color: #1268cd;
+}
+#resposta-c {
+    background-color: #d89e00;
+}
+#resposta-d {
+    background-color: #2a8f0d;
+}
 
-
-
-
-          .answer-btn.clicked {
-          background-color: blue; /* Cambia el fondo a azul cuando se hace clic */
+    #resposta-a.clicked,
+    #resposta-b.clicked,
+    #resposta-c.clicked,
+    #resposta-d.clicked {
+    background-color: blue; /* Cambia el fondo a azul cuando se hace clic */
           color: white; /* Cambia el color del texto a blanco */
-          cursor: not-allowed; /* Cambia el cursor a "no permitido" después de hacer clic */
-          }
+          cursor: not-allowed;
+}
 
 
 
-
-          .answer-btn.disabled {
-          background-color: gray; /* Cambia el fondo a gris para botones desactivados */
-          cursor: not-allowed; /* Cambia el cursor a "no permitido" para botones desactivados */
-          }
+          #resposta-a.disabled,
+#resposta-b.disabled,
+#resposta-c.disabled,
+#resposta-d.disabled {
+  background-color: gray; /* Cambia el fondo a gris para botones desactivados */
+  cursor: not-allowed; /* Cambia el cursor a "no permitido" para botones desactivados */
+}
 
 
 

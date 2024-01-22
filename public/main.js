@@ -212,7 +212,7 @@ function start() {
 
 }
 
-//partida començada, 
+//partida començada
 socket.on("start game", function(data) {
   const { idPartida, preguntesPartida, nicknameAdmin, time } = data;
   //console.log("Informació sobre preguntes:", data);
@@ -301,8 +301,8 @@ if (nicknameJugador !== nicknameAdmin) {
   pregunta.textContent= dataGameGlobal.preguntesPartida[0].pregunta;
 
   const respA= document.getElementById("resposta-a");
-  console.log(pregunta.textContent= dataGameGlobal.preguntesPartida[0].resposta);
-  pregunta.textContent= dataGameGlobal.preguntesPartida[0].respostes[a];
+  console.log(dataGameGlobal.preguntesPartida[0].respostes.a);
+
   
 }
 
