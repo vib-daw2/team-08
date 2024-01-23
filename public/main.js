@@ -228,6 +228,8 @@ socket.on("start game", function(data) {
 
 });
 
+
+// JOC INICIAT
 if (window.location.pathname.endsWith("game.html")) {
   const jsonGlobal = sessionStorage.getItem('dataGlobal');
   const dataGameGlobal = JSON.parse(jsonGlobal);
@@ -240,19 +242,17 @@ if (window.location.pathname.endsWith("game.html")) {
   //definir l'admin de la partida
   let userAdmin = dataGameGlobal.nicknameAdmin;
 
-  // Amagar el botó següent pregunta si l'usuari 
+// Amagar el botó següent pregunta si l'usuari no es admin
 
-// Obtener el nickname del jugador actual y del usuario administrador
-/* Aquí debes obtener el nickname del jugador desde tu objeto */
 const nicknameJugador = sessionStorage.getItem('nicknameUser');
 const nicknameAdmin = userAdmin;
 
 // Obtener referencia al botón "Següent pregunta"
-const nextQuestionButton = document.getElementById("next-question");
+let nextQuestionButton = document.getElementById("next-question");
 
 // Comparar los nicknames
 if (nicknameJugador !== nicknameAdmin) {
-    // Ocultar el botón si los nicknames no coinciden
+    //ocultar el botón si los nicknames no coinciden
     nextQuestionButton.style.display = "none";
 }
 

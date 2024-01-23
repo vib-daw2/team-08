@@ -29,7 +29,7 @@ io.on("connection", (socket) => {
    // verificar si usuario ha proporcionat username
    if (nicknameUser) {
        // el usuari té nickname
-       console.log("nicknameUser:", nicknameUser);
+       //console.log("nicknameUser:", nicknameUser);
        usernameUser = nicknameUser;
      
    } else {
@@ -122,7 +122,7 @@ socket.on("join game", function(data) {
    const usernamesArray = usersInRoom ? Array.from(usersInRoom).map(socketID => socketUsernames[socketID]) : [];
 
    //Enviar la llista d'usuaris al client per mostrar-los en la llista
-   socket.emit("users in room", { usersArray: Array.from(usersInRoom), usernamesArray });
+   io.to(salaPartida).emit("users in room", { usersArray: Array.from(usersInRoom), usernamesArray });
    
 });
 

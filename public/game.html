@@ -53,12 +53,15 @@
           padding: 15px; /* Ajusta el tamaño de los botones */
           width: 100%; /* Hace que todos los botones tengan el mismo ancho */
           box-sizing: border-box; /* Incluye el padding en el ancho del botón */
-          font-size: 16px;
+          font-size: 18px;
           color: white;
           cursor: pointer;
           border: none;
           border-radius: 5px;
           transition: background-color 0.3s ease;
+          font-weight: 600;
+          height: 100px;
+          margin-top: 30px;
 }
 #resposta-a {
     background-color: #e21b3c;
@@ -295,13 +298,9 @@ button:hover {
               <p id="texto-principal">Sabies que...<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-asterisk" viewBox="0 0 16 16">
                   <path d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1"/>
                 </svg></p>
-            
-
-
-
 
               <!-- Etiqueta de texto que se mostrará al pasar el ratón -->
-              <div id="comentari">Texto adicional</div> <!--IMPORTANTE! ESTE COMENTARIO ADICIONAL TIENE QUE VENIR POR SERVER -->
+              <div id="comentari"></div> <!--IMPORTANTE! ESTE COMENTARIO ADICIONAL TIENE QUE VENIR POR SERVER -->
               <!-- Icono de Wikipedia que envía a la referencia webgráfica -->
               <a href="" target="_blank"> <!--IMPORNTANTE! Introducir enlace de la referencia mediante servidor-->
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-wikipedia" viewBox="0 0 16 16">
@@ -351,7 +350,7 @@ button:hover {
 
    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.0/socket.io.min.js"></script>
   <script src="main.js" ></script>
-  <script src="game.js" ></script>
+ 
   <script>
 
 
