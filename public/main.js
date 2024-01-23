@@ -239,6 +239,27 @@ if (window.location.pathname.endsWith("game.html")) {
   const usersData = JSON.parse(usersGame);
   console.log(usersData)
 
+ // Asegúrate de que 'usersData' sea un array
+ const usersArray = Array.isArray(usersData) ? usersData : [usersData];
+
+
+ //Inicialitzar objecte d'usuaris
+  socket.emit("users started", {
+    users: usersArray,
+    roomId: dataGameGlobal.idPartida,
+ 
+ 
+  });
+ //Inicialitzar contador
+  socket.emit("game started", {
+    time: dataGameGlobal.time,
+    roomId: dataGameGlobal.idPartida,
+    preguntes: dataGameGlobal.preguntesPartida,
+ 
+ 
+ });
+ 
+
   //definir l'admin de la partida
   let userAdmin = dataGameGlobal.nicknameAdmin;
 
