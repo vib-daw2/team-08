@@ -275,12 +275,12 @@ button:hover {
            <img id="image" src="../images/altres/gratis-png-signo-de-interrogacion-ilustracion-digital-signo-de-interrogacion-preguntas-frecuentes-pregunta-thumbnail.png" alt="Pregunta">
            <div id="buttons-container"> <!-- IMPORTANTE!! AQUÍ TIENEN QUE VENIR LAS POSIBLES RESPUESTAS DESDE SERVER!-->
               <div class="column">
-                  <button id="resposta-a" class="answer-btn" onclick="handleButtonClick(0)">París</button>
-                  <button id="resposta-c" class="answer-btn" onclick="handleButtonClick(1)">Londres</button>
+                  <button id="resposta-a" class="answer-btn" onclick="handleButtonClick(0)" onclick="sendAnswer" >París</button>
+                  <button id="resposta-c" class="answer-btn" onclick="handleButtonClick(1)" onclick="" >Londres</button>
               </div>
               <div class="column">
-                  <button id="resposta-b" class="answer-btn" onclick="handleButtonClick(2)">Madrid</button>
-                  <button id="resposta-d" class="answer-btn" onclick="handleButtonClick(3)">Berlín</button>
+                  <button id="resposta-b" class="answer-btn" onclick="handleButtonClick(2)" onclick="" >Madrid</button>
+                  <button id="resposta-d" class="answer-btn" onclick="handleButtonClick(3)" onclick="" >Berlín</button>
               </div>
           </div>
            <div id="countdown-container">
@@ -378,74 +378,37 @@ button:hover {
 
         // Variable para almacenar la cuenta atrás de cada pregunta
           var countdownElement = document.getElementById("countdown");
-
           // Variable para almacenar el tiempo que hay para reponder cada pregunta
           var secondsRemaining = document.getElementById("countdown").innerHTML; // ¡¡IMPORTANTE!! <-- PENDIENTE DE MODIFICAR! ESTA VARIABLE DEBE TOMAR EL VALOR DESDE SERVER
-
-        /*
-        var countdownElement = document.getElementById("countdown").innerHTML;
-          console.log("a");
-        console.log(countdownElement);
-          // Variable para almacenar el tiempo que hay para reponder cada pregunta  
-          var secondsRemaining = countdownElement; // ¡¡IMPORTANTE!! <-- PENDIENTE DE MODIFICAR! ESTA VARIABLE DEBE TOMAR EL VALOR DESDE SERVER
-        */
-          
           // Variable que almacena la respuesta correcta
           var rightAnswerElement = document.getElementById("right-answer");
           // Variable que almacena el comentario que se puede leer al finalizar el tiempo para responder a la pregunta
           var commentContainer = document.getElementById("addComment-container");
-
-
-
-
           // Variables para calcular la puntuación
           var tiempoTotal = secondsRemaining * 1000; // en milisegundos
           var tiempoRestante = tiempoTotal;
           var puntuacion = 0;
-
-
-
-
           var countdownInterval = setInterval(function () {
               secondsRemaining--;
-
-
-
 
               if (secondsRemaining >= 0) {
                   countdownElement.innerHTML = secondsRemaining;
               } else {
                   // Terminar con el contador
                   clearInterval(countdownInterval);
-
-
                   // Quitarle el blur a la imagen
                   unblurImage();
-
-
                   // Esconder el contenedor de botones-respuestas
                   document.getElementById("buttons-container").style.display = "none";
                   rightAnswerElement.removeAttribute("hidden");
-
-
                   // Esconder el contenedor de la cuenta atrás
                   document.getElementById("countdown-container").style.display = "none";
-                 
                   // Actualiza el gráfico de respuestas escogidas
                   updateChart();
-
-
                   // Muestra el gráfico
                   commentContainer.removeAttribute("hidden");
-
-
                   // Actualiza el marcador después de que haya terminado el tiempo
-                  
-
-
-
-
-           }
+                }
        }, 1000); // Actualizar cada segundo
 
 
@@ -485,35 +448,7 @@ button:hover {
 
 
 
-       // Función que almacena la cantidad de clics que se ha hecho a cada botón y ejecuta la función que deshabilita el resto de los botones
-       function handleButtonClick(buttonIndex) {
-           const buttons = document.querySelectorAll('.answer-btn');
-
-
-
-
-           buttons.forEach((button, index) => {
-               if (index === buttonIndex) {
-                      button.classList.add('clicked');
-               } else {
-                   button.classList.remove('clicked');
-                   button.classList.add('disabled');
-                   button.disabled = true; // Deshabilita todos los botones
-               }
-           });
-
-
-
-
-           // Incrementar el contador de clics para el botón correspondiente
-           clicks[buttonIndex]++;
-
-
-
-
-           // Deshabilitar todos los botones después de que uno ha sido clicado
-           disableAllButtons();
-       }
+       
    
          
       // Función que deshabilita los botones

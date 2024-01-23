@@ -240,25 +240,57 @@ if (window.location.pathname.endsWith("game.html")) {
   console.log(usersData)
 
  // Asegúrate de que 'usersData' sea un array
- const usersArray = Array.isArray(usersData) ? usersData : [usersData];
+const usersArray = Array.isArray(usersData) ? usersData : [usersData];
 
 
- //Inicialitzar objecte d'usuaris
-  socket.emit("users started", {
-    users: usersArray,
-    roomId: dataGameGlobal.idPartida,
- 
- 
-  });
- //Inicialitzar contador
-  socket.emit("game started", {
-    time: dataGameGlobal.time,
-    roomId: dataGameGlobal.idPartida,
-    preguntes: dataGameGlobal.preguntesPartida,
- 
- 
+
+
+//Inicialitzar objecte d'usuaris
+ socket.emit("users started", {
+   users: usersArray,
+   roomId: dataGameGlobal.idPartida,
+   preguntes: dataGameGlobal.preguntesPartida,
  });
- 
+//Inicialitzar contador
+ socket.emit("game started", {
+   time: dataGameGlobal.time,
+   roomId: dataGameGlobal.idPartida,
+  
+});
+
+
+socket.on("new question", function(data) {
+ const { question } = data;
+
+
+console.log("primera pregunta per a tots ", data)
+});
+
+
+  // Función que envía el contenido de la respuesta seleccionada
+  function sendAnswer(option){
+    console.log('Opcio seleccionada:',option);
+    socket.emit('respuestaSeleccionada', { option: option });
+  }
+
+  // Función que almacena la cantidad de clics que se ha hecho a cada botón y ejecuta la función que deshabilita el resto de los botones
+  function handleButtonClick(buttonIndex) {
+    const buttons = document.querySelectorAll('.answer-btn');
+    buttons.forEach((button, index) => {
+        if (index === buttonIndex) {
+               button.classList.add('clicked');
+        } else {
+            button.classList.remove('clicked');
+            button.classList.add('disabled');
+            button.disabled = true; // Deshabilita todos los botones
+        }
+    });
+    // Incrementar el contador de clics para el botón correspondiente
+    clicks[buttonIndex]++;
+
+    // Deshabilitar todos los botones después de que uno ha sido clicado
+    disableAllButtons();
+}
 
   //definir l'admin de la partida
   let userAdmin = dataGameGlobal.nicknameAdmin;
