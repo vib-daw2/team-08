@@ -1,4 +1,4 @@
 assignar preguntes amb la ruta de la imatge
 crear model de joc i plenar-lo dinàmicament
-guardar quantitat de preguntes en game.html 
-fer reload quan s'uneixen 
+
+fer emit de times up desde client

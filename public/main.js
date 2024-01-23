@@ -53,13 +53,8 @@ if (!redirected) {
        const redirectUrl = data.redirectUrl;
        console.log("Redirigiendo a:", redirectUrl);
 
-
        // Marcar que ya se ha realizado la redirección en sessionStorage
        sessionStorage.setItem('redirected', 'true');
-
-
-      
-
 
        // Realizar la redirección del lado del cliente
        //messageElement.innerText = "Escriu un username!";
@@ -93,6 +88,8 @@ createButton.addEventListener("click", function() {
 });
 }
 
+
+//crear partida
 document.addEventListener("DOMContentLoaded", function () {
   // Verificar si estem en createGame.html
   if (window.location.href.endsWith("createGame.html")) {
@@ -159,7 +156,6 @@ document.addEventListener("DOMContentLoaded", function () {
       entrarButton.addEventListener("click", function () {
           // Obtener la URL ingresada por el usuario
           const lobbyUrl = linkInput.value;
-
           // Redirigir a la lobby
           window.location.href = lobbyUrl;
       });
@@ -223,10 +219,39 @@ socket.on("start game", function(data) {
  const jsonGlobal = sessionStorage.getItem('dataGlobal');
  const dataGameGlobal = JSON.parse(jsonGlobal);
  //console.log(dataGameGlobal);
-
- window.location.href = "game.html";
+ const lobbyUrl = `http://localhost:3000/game.html?partida=${dataGameGlobal.idPartida}&nickname=${dataGameGlobal.nicknameAdmin}`;
+ window.location.href = lobbyUrl;
 
 });
+
+
+
+// Obtenir llista d'usuaris que formen part de la sala a la que s'ha unit
+socket.on("users in room", function(data) {
+  const usernamesArray = data.usernamesArray;
+  //passar els usernamesArray al servidor, i cridar-ho desde game.js
+  console.log("Usuaris en la sala:", usernamesArray);
+
+
+  const jsonString = JSON.stringify(data);
+  sessionStorage.setItem('usersGame', jsonString);
+
+  // Obtén la referencia al elemento de la lista de usuarios
+  const userListElement = document.getElementById("user-list");
+
+  if (window.location.pathname.endsWith("lobby.html")) {
+  // Limpia la lista actual
+  userListElement.innerHTML = "";
+
+  // Actualiza la lista con los nuevos usuarios
+  usernamesArray.forEach(username => {
+      const liElement = document.createElement("li");
+      liElement.textContent = username;
+      userListElement.appendChild(liElement);
+  });
+}
+});
+
 
 
 // JOC INICIAT
@@ -258,11 +283,8 @@ const usersArray = Array.isArray(usersData) ? usersData : [usersData];
   
 });
 
-
 socket.on("new question", function(data) {
  const { question } = data;
-
-
 console.log("primera pregunta per a tots ", data)
 });
 
@@ -354,6 +376,7 @@ if (nicknameJugador !== nicknameAdmin) {
 
    // Aquí s'hauria de fer una funció que rebés l'id de la pregunta per servidor i omplís de forma dinàmica la posició del array
    function mostrarPregunta(index){
+    //canviar per la pregunta rebuda per servidor..
   // Introdueix el número de countdown 
   const countD= document.getElementById("countdown");
   countD.textContent= dataGameGlobal.time;
@@ -406,35 +429,3 @@ nextQuestionButton.addEventListener("click", function() {
 });
   
 }
-
-
-// Obtenir llista d'usuaris que formen part de la sala a la que s'ha unit
-socket.on("users in room", function(data) {
-   const usernamesArray = data.usernamesArray;
-   //passar els usernamesArray al servidor, i cridar-ho desde game.js
-   console.log("Usuaris en la sala:", usernamesArray);
-
-
-   const jsonString = JSON.stringify(data);
-   sessionStorage.setItem('usersGame', jsonString);
-
-   // Obtén la referencia al elemento de la lista de usuarios
-   const userListElement = document.getElementById("user-list");
-
-
-   // Limpia la lista actual
-   userListElement.innerHTML = "";
-
-   // Actualiza la lista con los nuevos usuarios
-   usernamesArray.forEach(username => {
-       const liElement = document.createElement("li");
-       liElement.textContent = username;
-       userListElement.appendChild(liElement);
-   });
-});
-
-
-
-
-
-

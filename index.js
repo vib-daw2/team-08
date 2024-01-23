@@ -17,6 +17,7 @@ const users = [];
 const socketUsernames = {};
 let temps;
 let userScores = {};
+const preguntesPerSala = {};
 let currentQuestionIndex = 0;
 
 
@@ -193,24 +194,35 @@ socket.on("users started", function(data) {
  socket.on("game started", function(data) {
   const { time, roomId } = data;
   const salaPartida = `partida-${roomId}`;
-  console.log("sala de la partida ", salaPartida);
+  //console.log("sala de la partida ", salaPartida);
   // Obtener las preguntas de la sala desde el objeto global
   const preguntes = preguntesPerSala[salaPartida];
+  const timeNumeric = parseInt(time) * 1000;
+
   //console.log(preguntes)
   // Iniciar el temporizador para la pregunta actual
   let timer = setTimeout(() => {
-    io.to(salaPartida).emit("time's up", { time });
+    console.log("times up enviat!")
+    io.to(salaPartida).emit("time's up", { time, roomId });
     // Puedes realizar otras acciones al agotarse el tiempo
-  }, time);
- 
+  }, timeNumeric);
  
   // Enviar la primera pregunta al cliente cuando inicia el juego
   io.to(salaPartida).emit("new question", preguntes[currentQuestionIndex]);
   currentQuestionIndex++;
  });
+
+
  socket.on("time's up", function(data) {
-  //socket.emit("game started", { time: tiempoNuevo, roomId: roomIdNuevo, preguntes: preguntesNuevo });
- });
+  const { time, roomId } = data;
+  console.log("hola desde time's up")
+  // Agregar un contador de 5 segundos antes de iniciar la próxima pregunta
+  setTimeout(() => {
+    // Emitir "game started" para la siguiente pregunta
+    socket.emit("game started", { time, roomId });
+  }, 5000); // 5000 milisegundos = 5 segundos
+});
+
  
  
 
