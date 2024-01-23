@@ -16,6 +16,9 @@ const { v4: uuidv4 } = require('uuid');
 const users = [];
 const socketUsernames = {};
 let temps;
+let userScores = {};
+let currentQuestionIndex = 0;
+
 
 io.on("connection", (socket) => {
    console.log('Connectat un client...')
@@ -152,6 +155,61 @@ const salaPartida = `partida-${data}`;
 });
 
 //passar els usuaris de la sala a gmae.js
+socket.on("users started", function(data) {
+  const { users, roomId } = data;
+  //console.log(data);
+   const salaPartida = `partida-${roomId}`;
+  const roomIdString = JSON.stringify(salaPartida);
+ 
+ 
+  userScores[roomIdString] = {};
+ 
+ 
+  // Inicializar los datos de puntuación para cada usuario
+  users.forEach(user => {
+    userScores[roomIdString][user] = {
+      puntuacio: 0,
+      incorrectes: 0,
+      correctes: 0,
+      percentatge: 0,
+    };
+  });
+ 
+ 
+  console.log(userScores[roomIdString][users[0]])
+ });
+ 
+ 
+ 
+ 
+ socket.on("game started", function(data) {
+  const { time, roomId, preguntes } = data;
+ 
+ 
+  const salaPartida = `partida-${roomId}`;
+ 
+ 
+  // Iniciar el temporizador para la pregunta actual
+  let timer = setTimeout(() => {
+    io.to(salaPartida).emit("time's up", { time: time, questions: preguntes });
+    // Puedes realizar otras acciones al agotarse el tiempo
+  }, time);
+ 
+ 
+  // Enviar la primera pregunta al cliente cuando inicia el juego
+  io.to(salaPartida).emit("new question", { question: preguntes[currentQuestionIndex] });
+  currentQuestionIndex++;
+ });
+ 
+ 
+ socket.on("time's up", function(data) {
+ 
+ 
+  socket.emit("game started", { time: tiempoNuevo, roomId: roomIdNuevo, preguntes: preguntesNuevo });
+ });
+ 
+
+
 
 });
 

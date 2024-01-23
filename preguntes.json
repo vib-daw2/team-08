@@ -10,7 +10,8 @@
       },
       "correcta": "Alumini",
       "comentari": "L'alumini és el metall més abundant en l'escorça terrestre. És dúctil i molt resistent a la corrosió.",
-      "imatge": "images/ciencies/Aluminium.jpg"
+      "imatge": "images/ciencies/Aluminium.jpg",
+      "font": "https://www.nationalgeographic.com.es/ciencia/propiedades-hierro-fe_18218"
     },
     {
       "modalitat": "ciències",
@@ -22,7 +23,9 @@
         "d": "Venus"
       },
       "correcta": "Venus",
-      "comentari": "El dia a Venus és més llarg que un any. Venus triga al voltant de 243 dies terrestres a girar només una vegada, mentre que el seu any és de 225 dies terrestres. A més, gira en sentit contrari al de la resta de planetes."
+      "comentari": "El dia a Venus és més llarg que un any. Venus triga al voltant de 243 dies terrestres a girar només una vegada, mentre que el seu any és de 225 dies terrestres. A més, gira en sentit contrari al de la resta de planetes.",
+      "imatge": "images/ciencies/Venus_globe.jpg",
+      "font": "https://es.wikipedia.org/wiki/Venus_(planeta)"
     },
     {
       "modalitat": "ciències",
@@ -34,7 +37,9 @@
         "d": "Okapi"
       },
       "correcta": "Ornitorinc",
-      "comentari": "Els ornitorincs desenvolupen un esperó als talons, però només els mascles són capaços d'alliberar verí. A més de verinosos, són l'únic mamífer amb bec i que usen electrolocalització, també pon ous."
+      "comentari": "Els ornitorincs desenvolupen un esperó als talons, però només els mascles són capaços d'alliberar verí. A més de verinosos, són l'únic mamífer amb bec i que usen electrolocalització, també pon ous.",
+      "imatge": "images/ciencies/ornitorrinco.jpg",
+      "font": "https://es.wikipedia.org/wiki/Ornithorhynchus_anatinus"
     },
     {
       "modalitat": "ciències",
@@ -46,7 +51,9 @@
         "d": "Marie Curie"
       },
       "correcta": "Albert Einstein",
-      "comentari": "La teoria de la relativitat d'Albert Einstein és famosa per la seva predicció de fenòmens bastant estranys però reals, com l'envelliment més lent dels astronautes respecte a les persones que vivim en la Terra i el canvi en la forma dels objectes a altes velocitats."
+      "comentari": "La teoria de la relativitat d'Albert Einstein és famosa per la seva predicció de fenòmens bastant estranys però reals, com l'envelliment més lent dels astronautes respecte a les persones que vivim en la Terra i el canvi en la forma dels objectes a altes velocitats.",
+      "imatge": "images/ciencies/Albert_Einstein_Head.jpg",
+      "font": "https://www.nationalgeographic.es/ciencia/la-teoria-de-la-relatividad-de-einstein-explicada-en-cuatro-simples-pasos"
     },
     {
       "modalitat": "ciències",
@@ -58,7 +65,9 @@
         "d": "Hidrogen"
       },
       "correcta": "Nitrogen",
-      "comentari": "El 75% de massa atmosfèrica es troba en els primers 11 km d'altura, des de la superfície de la mar. Els principals gasos que la componen són: l'oxigen (21%) i el nitrogen (78%), seguits de l'argó, el diòxid de carboni i el vapor d'aigua."
+      "comentari": "El 75% de massa atmosfèrica es troba en els primers 11 km d'altura, des de la superfície de la mar. Els principals gasos que la componen són: l'oxigen (21%) i el nitrogen (78%), seguits de l'argó, el diòxid de carboni i el vapor d'aigua.",
+      "imatge": "images/ciencies/nitrogeno.jpg",
+      "font": "https://es.wikipedia.org/wiki/Atm%C3%B3sfera_terrestre"
     },
     {
       "modalitat": "ciències",
@@ -70,7 +79,9 @@
         "d": "Cristal·lí"
       },
       "correcta": "Retina",
-      "comentari": "Està formada bàsicament per diverses capes de neurones interconnectades mitjançant sinapsis. Les úniques cèl·lules sensibles directament a la llum són els cons i els bastons."
+      "comentari": "Està formada bàsicament per diverses capes de neurones interconnectades mitjançant sinapsis. Les úniques cèl·lules sensibles directament a la llum són els cons i els bastons.",
+      "imatge": "images/ciencies/retina.jpg",
+      "font": "https://es.wikipedia.org/wiki/Retina"
     },
     {
       "modalitat": "ciències",
@@ -82,7 +93,9 @@
         "d": "Pell"
       },
       "correcta": "Pell",
-      "comentari": "És l'òrgan més gran del cos humà, en un adult mitjà posseeix una superfície aproximada de 2 metres quadrats i pes al voltant de 5 kg."
+      "comentari": "És l'òrgan més gran del cos humà, en un adult mitjà posseeix una superfície aproximada de 2 metres quadrats i pes al voltant de 5 kg.",
+      "imatge": "images/ciencies/piel.jpg",
+      "font": "https://www.hospitalaleman.org.ar/mujeres/la-piel-conoce-el-organo-mas-grande-de-tu-cuerpo/"
     },
     {
       "modalitat": "ciències",
@@ -94,7 +107,9 @@
         "d": "Ozó"
       },
       "correcta": "Nitrogen",
-      "comentari": "Altres factors a tenir en compte són la dispersió de Rayleigh i l’albedo."
+      "comentari": "Altres factors a tenir en compte són la dispersió de Rayleigh i l’albedo.",
+      "imatge": "images/ciencies/nitrogeno2.png",
+      "font": "http://www.ideam.gov.co/web/tiempo-y-clima/la-radiacion-solar-y-su-paso-por-la-atmosfera"
     },
     {
       "modalitat": "ciències",
@@ -106,7 +121,9 @@
         "d": "Georges Lemaître"
       },
       "correcta": "Georges Lemaître",
-      "comentari": "Físic i sacerdot catòlic, que va arribar a aquest model gràcies a una filosofia realista i a conjugar raonaments teòrics i observacions astronòmiques."
+      "comentari": "Físic i sacerdot catòlic, que va arribar a aquest model gràcies a una filosofia realista i a conjugar raonaments teòrics i observacions astronòmiques.",
+      "imatge": "images/ciencies/lemaitre.jpg",
+      "font": "https://www.unav.edu/web/ciencia-razon-y-fe/materia-big-bang"
     },
     {
       "modalitat": "ciències",
@@ -118,7 +135,9 @@
         "d": "Marejada"
       },
       "correcta": "Tsunami",
-      "comentari": "El terme és d’origen japonès i significa ‘onada gegant’."
+      "comentari": "El terme és d’origen japonès i significa ‘onada gegant’.",
+      "imatge": "images/ciencies/tsunami.jpg",
+      "font": "https://es.wikipedia.org/wiki/Tsunami"
     },
     
     {
@@ -131,7 +150,9 @@
           "d": "1776"
         },
         "correcta": "1776",
-        "comentari": "A la Cambra Estatal de Pennsilvània (ara Saló de la Independència) a Filadèlfia el 4 de juliol de 1776— que va proclamar que les Tretze Colònies nord-americanes."
+        "comentari": "A la Cambra Estatal de Pennsilvània (ara Saló de la Independència) a Filadèlfia el 4 de juliol de 1776— que va proclamar que les Tretze Colònies nord-americanes.",
+        "imatge": "images/historia/declaracionIndependencia.jpg",
+        "font": "https://es.wikipedia.org/wiki/Declaraci%C3%B3n_de_Independencia_de_los_Estados_Unidos"
       },
       {
         "modalitat": "història",
@@ -143,7 +164,9 @@
           "d": "Tractat de Versalles"
         },
         "correcta": "Assassinat dels Arxiducs d’Àustria",
-        "comentari": "Sèrie d'atacs que van incloure l'assassinat, el 28 de juny de 1914, de l'hereu de la corona de l'Imperi austrohongarès, l'arxiduc Francesc Ferran d'Àustria, i de la seva esposa, la duquessa Sofía Chotek, a Sarajevo, capital de la província imperial de Bòsnia i Hercegovina."
+        "comentari": "Sèrie d'atacs que van incloure l'assassinat, el 28 de juny de 1914, de l'hereu de la corona de l'Imperi austrohongarès, l'arxiduc Francesc Ferran d'Àustria, i de la seva esposa, la duquessa Sofía Chotek, a Sarajevo, capital de la província imperial de Bòsnia i Hercegovina.",
+        "imatge": "images/historia/asesinatoFranzFerdinand.jpg",
+        "font": "https://es.wikipedia.org/wiki/Atentado_de_Sarajevo"
       },
       {
         "modalitat": "història",
@@ -155,7 +178,9 @@
           "d": "Grigori Rasputin"
         },
         "correcta": "León Trotsky",
-        "comentari": "Juntament amb Vladimir Lenin, segons la font, es pren per certa la seva posició fins el seu exili a Mèxic."
+        "comentari": "Juntament amb Vladimir Lenin, segons la font, es pren per certa la seva posició fins el seu exili a Mèxic.",
+        "imatge": "images/historia/leonTrotski.jpg",
+        "font": "https://es.wikipedia.org/wiki/Ej%C3%A9rcito_Rojo"
       },
       {
         "modalitat": "història",
@@ -167,7 +192,9 @@
           "d": "1789"
         },
         "correcta": "1789",
-        "comentari": "Irònicament, les causes del descontent social es remunten a la guerra d’independència dels Estats Units, ja que la monarquia francesa va finançar el bàndol liberal antimonàrquic americà que no va retornar els diners, la qual cosa acabaria per incitar una revolució basada en justament aquests pensaments liberals."
+        "comentari": "Irònicament, les causes del descontent social es remunten a la guerra d’independència dels Estats Units, ja que la monarquia francesa va finançar el bàndol liberal antimonàrquic americà que no va retornar els diners, la qual cosa acabaria per incitar una revolució basada en justament aquests pensaments liberals.",
+        "imatge": "images/historia/revolucionFrancesa.jpeg",
+        "font": "https://es.wikipedia.org/wiki/Revoluci%C3%B3n_francesa"
       },
       {
         "modalitat": "història",
@@ -179,7 +206,9 @@
           "d": "Batalla de Midway"
         },
         "correcta": "Invasió de Polònia",
-        "comentari": "Les primeres accions militars es daten de finals d’agost del 1939 malgrat que la invasió començà al setembre."
+        "comentari": "Les primeres accions militars es daten de finals d’agost del 1939 malgrat que la invasió començà al setembre.",
+        "imatge": "images/historia/invasionPolonia.webp",
+        "font": "https://es.wikipedia.org/wiki/Invasi%C3%B3n_alemana_de_Polonia_de_1939"
       },
       {
         "modalitat": "història",
@@ -191,7 +220,9 @@
           "d": "Fi de l'esclavitud"
         },
         "correcta": "Augment de la producció industrial",
-        "comentari": "La Revolució Industrial va portar a un significatiu augment en la producció industrial i a canvis socioeconòmics importants."
+        "comentari": "La Revolució Industrial va portar a un significatiu augment en la producció industrial i a canvis socioeconòmics importants.",
+        "imatge": "images/historia/revolucionIndustrial.JPG",
+        "font": "https://es.wikipedia.org/wiki/Revoluci%C3%B3n_Industrial"
       },
       {
         "modalitat": "història",
@@ -203,7 +234,9 @@
           "d": "Caiguda del Mur de Berlín"
         },
         "correcta": "Dissolució de l'URSS",
-        "comentari": "La Guerra Freda va finalitzar amb la dissolució de l'Unió Soviètica el 1991, marcat pel col·lapse del comunisme a Europa de l'Est."
+        "comentari": "La Guerra Freda va finalitzar amb la dissolució de l'Unió Soviètica el 1991, marcat pel col·lapse del comunisme a Europa de l'Est.",
+        "imatge": "images/historia/disolucionURSS.jpg",
+        "font": "https://es.wikipedia.org/wiki/Disoluci%C3%B3n_de_la_Uni%C3%B3n_Sovi%C3%A9tica"
       },
       {
         "modalitat": "història",
@@ -215,7 +248,9 @@
           "d": "1525"
         },
         "correcta": "1492",
-        "comentari": "L'arribada de Cristòfol Colom a Amèrica va tenir lloc el 12 d'octubre de 1492, marcant un punt d'inflexió en la història mundial."
+        "comentari": "L'arribada de Cristòfol Colom a Amèrica va tenir lloc el 12 d'octubre de 1492, marcant un punt d'inflexió en la història mundial.",
+        "imatge": "images/historia/descubrimientoAmerica.jpg",
+        "font": "https://es.wikipedia.org/wiki/Descubrimiento_de_Am%C3%A9rica"
       },
       {
         "modalitat": "història",
@@ -227,7 +262,9 @@
           "d": "Jordà"
         },
         "correcta": "Nil",
-        "comentari": "El riu Nil va ser fonamental per al desenvolupament de l'antiga civilització egípcia, proporcionant recursos essencials per a l'agricultura i el creixement de la població."
+        "comentari": "El riu Nil va ser fonamental per al desenvolupament de l'antiga civilització egípcia, proporcionant recursos essencials per a l'agricultura i el creixement de la població.",
+        "imatge": "images/historia/rioNilo.jpg",
+        "font": "https://es.wikipedia.org/wiki/Nilo"
       },
       {
         "modalitat": "història",
@@ -239,11 +276,13 @@
           "d": "Trajà"
         },
         "correcta": "August",
-        "comentari": "L'emperador August va ser responsable de la construcció del Colosseu a Roma, un dels més grans amfiteatres romans utilitzats per a espectacles públics i combats de gladiadors."
+        "comentari": "L'emperador August va ser responsable de la construcció del Colosseu a Roma, un dels més grans amfiteatres romans utilitzats per a espectacles públics i combats de gladiadors.",
+        "imatge": "images/historia/Aluminium.jpg",
+        "font": "https://es.wikipedia.org/wiki/Augusto"
       },
       
         {
-          "modalitat": "geografía",
+          "modalitat": "geografia",
           "pregunta": "Quants continents existeixen?",
           "respostes": {
             "a": "5",
@@ -252,10 +291,12 @@
             "d": "7"
           },
           "correcta": "7",
-          "comentari": "Hi ha set continents a la Terra, cadascun amb la seva diversitat geogràfica i cultural."
+          "comentari": "Hi ha set continents a la Terra, cadascun amb la seva diversitat geogràfica i cultural.",
+          "imatge": "images/geografia/continentes.png",
+          "font": "https://es.wikipedia.org/wiki/Continente"
         },
         {
-          "modalitat": "geografía",
+          "modalitat": "geografia",
           "pregunta": "Quina és la ciutat més poblada del món?",
           "respostes": {
             "a": "Nova York",
@@ -264,10 +305,12 @@
             "d": "Mumbai"
           },
           "correcta": "Tòquio",
-          "comentari": "Tòquio ostenta el títol de la ciutat més poblada del món, reflectint la seva gran densitat demogràfica."
+          "comentari": "Tòquio ostenta el títol de la ciutat més poblada del món, reflectint la seva gran densitat demogràfica.",
+          "imatge": "images/geografia/tokio.avif",
+          "font": "https://es.wikipedia.org/wiki/Tokio"
         },
         {
-          "modalitat": "geografía",
+          "modalitat": "geografia",
           "pregunta": "En quin ocean es troba l'illa de Java?",
           "respostes": {
             "a": "Oceà Pacífic",
@@ -276,10 +319,12 @@
             "d": "Oceà Àrtic"
           },
           "correcta": "Oceà Índic",
-          "comentari": "Java es troba a l'Oceà Índic, oferint paisatges exòtics i una rica diversitat cultural."
+          "comentari": "Java es troba a l'Oceà Índic, oferint paisatges exòtics i una rica diversitat cultural.",
+          "imatge": "images/geografia/oceanoIndico.webp",
+          "font": "https://es.wikipedia.org/wiki/Oc%C3%A9ano_%C3%8Dndico"
         },
         {
-          "modalitat": "geografía",
+          "modalitat": "geografia",
           "pregunta": "Quina cadena muntanyosa separa Espanya de França?",
           "respostes": {
             "a": "Alps",
@@ -288,10 +333,12 @@
             "d": "Andes"
           },
           "correcta": "Pirineus",
-          "comentari": "Els Pirineus formen una barrera natural impressionant i serveixen de frontera entre Espanya i França."
+          "comentari": "Els Pirineus formen una barrera natural impressionant i serveixen de frontera entre Espanya i França.",
+          "imatge": "images/geografia/pirineos.jpeg",
+          "font": "https://es.wikipedia.org/wiki/Pirineos"
         },
         {
-          "modalitat": "geografía",
+          "modalitat": "geografia",
           "pregunta": "Quin és el nom de l'oceà més gran del món?",
           "respostes": {
             "a": "Oceà Pacífic",
@@ -300,10 +347,12 @@
             "d": "Oceà Àrtic"
           },
           "correcta": "Oceà Pacífic",
-          "comentari": "L'Oceà Pacífic ocupa la major part de la superfície oceànica i destaca per la seva immensitat."
+          "comentari": "L'Oceà Pacífic ocupa la major part de la superfície oceànica i destaca per la seva immensitat.",
+          "imatge": "images/geografia/oceanoPacifico.png",
+          "font": "https://es.wikipedia.org/wiki/Oc%C3%A9ano_Pac%C3%ADfico"
         },
         {
-          "modalitat": "geografía",
+          "modalitat": "geografia",
           "pregunta": "Quina és la ciutat capital de Tailàndia?",
           "respostes": {
             "a": "Hanoi",
@@ -312,10 +361,12 @@
             "d": "Bangkok"
           },
           "correcta": "Bangkok",
-          "comentari": "Bangkok, la vibrant capital de Tailàndia, combina modernitat i tradició en un escenari únic."
+          "comentari": "Bangkok, la vibrant capital de Tailàndia, combina modernitat i tradició en un escenari únic.",
+          "imatge": "images/geografia/bangkok.avif",
+          "font": "https://es.wikipedia.org/wiki/Bangkok"
         },
         {
-          "modalitat": "geografía",
+          "modalitat": "geografia",
           "pregunta": "En quin ocean es troba l'illa de Madagascar?",
           "respostes": {
             "a": "Oceà Pacífic",
@@ -324,10 +375,12 @@
             "d": "Oceà Àrtic"
           },
           "correcta": "Oceà Índic",
-          "comentari": "Madagascar, situada a l'Oceà Índic, és coneguda per la seva flora i fauna úniques."
+          "comentari": "Madagascar, situada a l'Oceà Índic, és coneguda per la seva flora i fauna úniques.",
+          "imatge": "images/geografia/oceanoIndico.webp",
+          "font": "https://es.wikipedia.org/wiki/Oc%C3%A9ano_%C3%8Dndico"
         },
         {
-          "modalitat": "geografía",
+          "modalitat": "geografia",
           "pregunta": "Quin riu és el més llarg del món?",
           "respostes": {
             "a": "Nil",
@@ -336,10 +389,12 @@
             "d": "Misisipi"
           },
           "correcta": "Nil",
-          "comentari": "El Nil, el riu més llarg del món, ha estat una font de vida i civilització durant mil·lennis a l'Àfrica."
+          "comentari": "El Nil, el riu més llarg del món, ha estat una font de vida i civilització durant mil·lennis a l'Àfrica.",
+          "imatge": "images/geografia/rioNilo2.jpeg",
+          "font": "https://es.wikipedia.org/wiki/Nilo"
         },
         {
-          "modalitat": "geografía",
+          "modalitat": "geografia",
           "pregunta": "En quin continent es troba el desert del Sahara?",
           "respostes": {
             "a": "Amèrica del Nord",
@@ -348,10 +403,12 @@
             "d": "Europa"
           },
           "correcta": "Àfrica",
-          "comentari": "El desert del Sahara cobreix gran part del continent africà, creant un paisatge àrid i majestuós."
+          "comentari": "El desert del Sahara cobreix gran part del continent africà, creant un paisatge àrid i majestuós.",
+          "imatge": "images/geografia/desiertoSahara.jpg",
+          "font": "https://es.wikipedia.org/wiki/S%C3%A1hara"
         },
         {
-          "modalitat": "geografía",
+          "modalitat": "geografia",
           "pregunta": "Quin és el punt més alt del món?",
           "respostes": {
             "a": "Everest",
@@ -360,7 +417,9 @@
             "d": "Lhotse"
           },
           "correcta": "Everest",
-          "comentari": "L'Everest, la muntanya més alta del món, atreu alpinistes i aventurers de tot el planeta."
+          "comentari": "L'Everest, la muntanya més alta del món, atreu alpinistes i aventurers de tot el planeta.",
+          "imatge": "images/geografia/everest.jpg",
+          "font": "https://es.wikipedia.org/wiki/Monte_Everest"
         },
         {
           "modalitat": "esports",
@@ -372,7 +431,9 @@
               "d": "Simone Biles"
             },
             "correcta": "Michael Phelps",
-            "comentari": "Michael Phelps, el nadador, és l'esportista amb més medalles d'or guanyades en uns Jocs Olímpics d'estiu."
+            "comentari": "Michael Phelps, el nadador, és l'esportista amb més medalles d'or guanyades en uns Jocs Olímpics d'estiu.",
+            "imatge": "images/esports/michaelPhelps.jpeg",
+            "font": "https://es.wikipedia.org/wiki/Michael_Phelps"
           },
           {
             "modalitat": "esports",
@@ -384,7 +445,9 @@
               "d": "Madrid"
             },
             "correcta": "Londres",
-            "comentari": "Londres és coneguda com la 'Meca' del tennis per ser l'amfitriona del prestigiós torneig de Wimbledon."
+            "comentari": "Londres és coneguda com la 'Meca' del tennis per ser l'amfitriona del prestigiós torneig de Wimbledon.",
+            "imatge": "images/esports/londres.jpg",
+            "font": "https://es.wikipedia.org/wiki/Campeonato_de_Wimbledon"
           },
           {
             "modalitat": "esports",
@@ -396,7 +459,9 @@
               "d": "Ciclisme"
             },
             "correcta": "Fórmula 1",
-            "comentari": "Lewis Hamilton és conegut per les seves proeses a la Fórmula 1, destacant com un dels millors pilots de la història."
+            "comentari": "Lewis Hamilton és conegut per les seves proeses a la Fórmula 1, destacant com un dels millors pilots de la història.",
+            "imatge": "images/esports/F1.jpg",
+            "font": "https://es.wikipedia.org/wiki/Lewis_Hamilton"
           },
           {
             "modalitat": "esports",
@@ -408,7 +473,9 @@
               "d": "Anglaterra"
             },
             "correcta": "Índia",
-            "comentari": "Índia és un país que destaca pel seu domini en el cricket, amb una gran passió per a aquest esport."
+            "comentari": "Índia és un país que destaca pel seu domini en el cricket, amb una gran passió per a aquest esport.",
+            "imatge": "images/esports/cricket.avif",
+            "font": "https://es.wikipedia.org/wiki/Cr%C3%ADquet"
           },
           {
             "modalitat": "esports",
@@ -420,7 +487,9 @@
               "d": "Suècia"
             },
             "correcta": "Xina",
-            "comentari": "Xina ha estat un poder dominant en el tennis de taula internacional, amb èxits continuats en aquest esport."
+            "comentari": "Xina ha estat un poder dominant en el tennis de taula internacional, amb èxits continuats en aquest esport.",
+            "imatge": "images/esports/pingpong.jpeg",
+            "font": "https://es.wikipedia.org/wiki/Tenis_de_mesa"
           },
           {
             "modalitat": "esports",
@@ -432,7 +501,9 @@
               "d": "Diego Maradona"
             },
             "correcta": "Pelé",
-            "comentari": "Pelé és considerat com 'O Rei' i un dels millors jugadors de futbol de tots els temps, guanyant tres Copes del Món amb Brasil."
+            "comentari": "Pelé és considerat com 'O Rei' i un dels millors jugadors de futbol de tots els temps, guanyant tres Copes del Món amb Brasil.",
+            "imatge": "images/esports/pele.jpg",
+            "font": "https://es.wikipedia.org/wiki/Pel%C3%A9"
           },
           {
             "modalitat": "esports",
@@ -444,7 +515,9 @@
               "d": "Argentina"
             },
             "correcta": "França",
-            "comentari": "França va guanyar la Copa del Món de futbol masculina el 2018, exhibint un rendiment impressionant al torneig."
+            "comentari": "França va guanyar la Copa del Món de futbol masculina el 2018, exhibint un rendiment impressionant al torneig.",
+            "imatge": "images/esports/francia.jpg",
+            "font": "https://es.wikipedia.org/wiki/Copa_Mundial_de_F%C3%BAtbol_de_2018"
           },
           {
             "modalitat": "esports",
@@ -456,7 +529,9 @@
               "d": "Grècia"
             },
             "correcta": "Grècia",
-            "comentari": "Grècia va ser l'amfitrió dels primers Jocs Olímpics moderns, connectant amb la seva rica història olímpica de l'antiguitat."
+            "comentari": "Grècia va ser l'amfitrió dels primers Jocs Olímpics moderns, connectant amb la seva rica història olímpica de l'antiguitat.",
+            "imatge": "images/esports/grecia.jpeg",
+            "font": "https://es.wikipedia.org/wiki/Juegos_Ol%C3%ADmpicos"
           },
           {
             "modalitat": "esports",
@@ -468,7 +543,9 @@
               "d": "Romário"
             },
             "correcta": "Pelé",
-            "comentari": "Pelé, conegut com 'O Rei', va guanyar tres Copes del Món amb Brasil a Suècia 1958, Xile 1962, i Mèxic 1970, consolidant la seva llegenda."
+            "comentari": "Pelé, conegut com 'O Rei', va guanyar tres Copes del Món amb Brasil a Suècia 1958, Xile 1962, i Mèxic 1970, consolidant la seva llegenda.",
+            "imatge": "images/esports/pele2.webp",
+            "font": "https://cnnespanol.cnn.com/2022/12/29/titulos-pele-mundiales-balones-de-oro-equipos-orix/"
           },
           {
             "modalitat": "esports",
@@ -480,7 +557,9 @@
               "d": "Bàsquet"
             },
             "correcta": "Tennis",
-            "comentari": "Rafael Nadal destaca en el tennis, essent un dels millors tennistes del món amb nombrosos títols de Gran Slam a la seva carrera."
+            "comentari": "Rafael Nadal destaca en el tennis, essent un dels millors tennistes del món amb nombrosos títols de Gran Slam a la seva carrera.",
+            "imatge": "images/esports/rafaNadal.jpg",
+            "font": "https://es.wikipedia.org/wiki/Rafael_Nadal"
           }
         ]
       

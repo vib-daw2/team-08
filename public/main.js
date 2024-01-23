@@ -296,8 +296,8 @@ if (nicknameJugador !== nicknameAdmin) {
   });
 
   
-  var index = 0;
-  var sP= 1;
+  //var index = 0;
+  //var sP= 1;
 
    // Aquí s'hauria de fer una funció que rebés l'id de la pregunta per servidor i omplís de forma dinàmica la posició del array
    function mostrarPregunta(index){
@@ -305,6 +305,10 @@ if (nicknameJugador !== nicknameAdmin) {
   const countD= document.getElementById("countdown");
   countD.textContent= dataGameGlobal.time;
   console.log(dataGameGlobal.time);
+
+  // Introdueix la imatge corresponent a l'element img id=image
+  const imaG= document.getElementById("image");
+  imaG.src = dataGameGlobal.preguntesPartida[index].imatge;
 
   // Introdueix el contingut de la resposta correcta a l'element right-answer-text
   const respCorr= document.getElementById("right-answer-text");
@@ -329,12 +333,16 @@ if (nicknameJugador !== nicknameAdmin) {
   respB.textContent= dataGameGlobal.preguntesPartida[index].respostes['b'];
   respC.textContent= dataGameGlobal.preguntesPartida[index].respostes['c'];
   respD.textContent= dataGameGlobal.preguntesPartida[index].respostes['d'];
+
+  // Introdueix el contingut de la font a l'element a id=referencia
+  const refeR = document.getElementById("referencia");
+  refeR.href = dataGameGlobal.preguntesPartida[index].font;
 }
 // Inicializar con la primera pregunta (índice 0)
 let preguntaIndex = 0;
 mostrarPregunta(preguntaIndex);
 
- nextQuestionButton = document.getElementById("next-question");
+nextQuestionButton = document.getElementById("next-question");
 
 nextQuestionButton.addEventListener("click", function() {
     // Incrementar el índice
