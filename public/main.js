@@ -253,7 +253,6 @@ socket.on("users in room", function(data) {
 });
 
 
-
 // JOC INICIAT
 if (window.location.pathname.endsWith("game.html")) {
   const jsonGlobal = sessionStorage.getItem('dataGlobal');
@@ -267,9 +266,16 @@ if (window.location.pathname.endsWith("game.html")) {
  // Asegúrate de que 'usersData' sea un array
 const usersArray = Array.isArray(usersData) ? usersData : [usersData];
 
+//definir l'admin de la partida
+let userAdmin = dataGameGlobal.nicknameAdmin;
 
+// Amagar el botó següent pregunta si l'usuari no es admin
 
+const nicknameJugador = sessionStorage.getItem('nicknameUser');
+const nicknameAdmin = userAdmin;
 
+if(nicknameAdmin == nicknameJugador)
+{
 //Inicialitzar objecte d'usuaris
  socket.emit("users started", {
    users: usersArray,
@@ -282,12 +288,15 @@ const usersArray = Array.isArray(usersData) ? usersData : [usersData];
    time: dataGameGlobal.time,
    roomId: dataGameGlobal.idPartida,
 });
+}
 
-socket.on("new question", function(data) {
- const { question } = data;
+socket.on("new question", function(pregunta) {
+ const { question } = pregunta;
  //mostrar la pregunta per pantalla
-console.log("primera pregunta per a tots ", data)
-mostrarPregunta(data);
+console.log("primera pregunta per a tots ", pregunta)
+mostrarPregunta(pregunta);
+
+
 });
 
 socket.on("time's up", function(data) {
@@ -304,15 +313,12 @@ socket.on("time finished", function(data) {
 });
 
 
+  
+// Función que almacena la cantidad de clics que se ha hecho a cada botón y ejecuta la función que deshabilita el resto de los botones
+function handleButtonClick(buttonIndex) {
 
-  // Función que envía el contenido de la respuesta seleccionada
-  function sendAnswer(option){
-    console.log('Opcio seleccionada:',option);
-    socket.emit('respuestaSeleccionada', { option: option });
-  }
-
-  // Función que almacena la cantidad de clics que se ha hecho a cada botón y ejecuta la función que deshabilita el resto de los botones
-  function handleButtonClick(buttonIndex) {
+    console.log('Opcio seleccionada:',buttonIndex);
+    socket.emit('resposta', { buttonIndex });
     const buttons = document.querySelectorAll('.answer-btn');
     buttons.forEach((button, index) => {
         if (index === buttonIndex) {
@@ -325,18 +331,12 @@ socket.on("time finished", function(data) {
     });
     // Incrementar el contador de clics para el botón correspondiente
     clicks[buttonIndex]++;
-
+  
     // Deshabilitar todos los botones después de que uno ha sido clicado
     disableAllButtons();
-}
+  }
 
-  //definir l'admin de la partida
-  let userAdmin = dataGameGlobal.nicknameAdmin;
 
-// Amagar el botó següent pregunta si l'usuari no es admin
-
-const nicknameJugador = sessionStorage.getItem('nicknameUser');
-const nicknameAdmin = userAdmin;
 
 // Obtener referencia al botón "Següent pregunta"
 let nextQuestionButton = document.getElementById("next-question");
