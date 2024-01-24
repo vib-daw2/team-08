@@ -411,7 +411,7 @@ button:hover {
                   countdownElement.innerHTML = secondsRemaining;
               } else {
                   // Terminar con el contador
-                  clearInterval(countdownInterval);
+                  //clearInterval(countdownInterval);
                   pausarMusica();
                   // Quitarle el blur a la imagen
                   unblurImage();
@@ -431,30 +431,9 @@ button:hover {
 
 
 
-       function calcularPuntuacion() {
-      // Obtén la respuesta correcta (sustituye 'TuRespuestaCorrecta' por la respuesta correcta real)
-      const respuestaCorrecta = 'París';
-
-
-
-
-      // Obtén la respuesta seleccionada por el usuario
-      const respuestaUsuario = document.querySelector('.clicked').innerText;
-
-
-
-
-      // Calcular la puntuación basada en el tiempo restante
-      if (respuestaUsuario === respuestaCorrecta) {
-          const tiempoExtra = tiempoTotal - tiempoRestante;
-          const puntosExtra = Math.floor(tiempoExtra / 1000); // 1 punto por cada segundo extra
-          return puntosExtra + 1; // Se suma 1 punto por la respuesta correcta
-      } else {
-          return 0; // No se suman puntos por una respuesta incorrecta
-      }
-  }
+       
       });
-
+      
 
       // Función que le quita el blur a la imagen annexa a la pregunta, se ejecuta al acabar el tiempo para responder la pregunta
       function unblurImage() {
