@@ -164,11 +164,12 @@ socket.on("users started", function(data)){
 */
 
 
-
 //passar els usuaris de la sala a gmae.js
 socket.on("users started", function(data) {
   const { users, roomId, preguntes } = data;
   const salaPartida = `partida-${roomId}`;
+ 
+ 
   // Inicializar los datos de puntuación para cada usuario
   userScores[salaPartida] = {};
    users.forEach(user => {
@@ -179,10 +180,16 @@ socket.on("users started", function(data) {
       percentatge: 0,
     };
   });
+ 
+ 
   // Almacenar las preguntas en el objeto global
   preguntesPerSala[salaPartida] = preguntes;
+  currentQuestionIndex = 0;
+ 
   //console.log(userScores[salaPartida][users[0]], preguntesPerSala[salaPartida]);
  });
+ 
+ 
  socket.on("game started", function(data) {
   const { time, roomId } = data;
   const salaPartida = `partida-${roomId}`;
@@ -190,8 +197,7 @@ socket.on("users started", function(data) {
   // Obtener las preguntas de la sala desde el objeto global
   const preguntes = preguntesPerSala[salaPartida];
   const timeNumeric = parseInt(time) * 1000;
- 
- 
+
   //console.log(preguntes)
   // Iniciar el temporizador para la pregunta actual
   let timer = setTimeout(() => {
@@ -199,7 +205,8 @@ socket.on("users started", function(data) {
     io.to(salaPartida).emit("time's up", { time, roomId });
     // Puedes realizar otras acciones al agotarse el tiempo
   }, timeNumeric);
-   //comprovar que hi han més preguntes
+  
+  //comprovar que hi han més preguntes
   if (currentQuestionIndex < preguntes.length) {
     //hi ha més preguntes, enviar-la
     io.to(salaPartida).emit("new question", preguntes[currentQuestionIndex]);
@@ -209,12 +216,11 @@ socket.on("users started", function(data) {
     //io.to(salaPartida).emit("game over");
   }
  });
- 
- 
- 
- 
+
+
  socket.on("extra time", function(data) {
   const { time, roomId } = data;
+  const salaPartida = `partida-${roomId}`;
   console.log("hola desde time's up")
   // Agregar un contador de 5 segundos antes de iniciar la próxima pregunta
   setTimeout(() => {
@@ -222,16 +228,9 @@ socket.on("users started", function(data) {
     // Emitir "game started" para la siguiente pregunta
     socket.emit("time finished", { time, roomId });
   }, 5000); // 5000 milisegundos = 5 segundos
- });
- 
- 
- 
+});
 
  
- 
-
-
-
 });
 
 /*
