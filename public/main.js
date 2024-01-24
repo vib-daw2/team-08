@@ -259,42 +259,73 @@ if (window.location.pathname.endsWith("game.html")) {
   const jsonGlobal = sessionStorage.getItem('dataGlobal');
   const dataGameGlobal = JSON.parse(jsonGlobal);
   console.log(dataGameGlobal);
-
+ 
+ 
   const usersGame = sessionStorage.getItem('usersGame');
   const usersData = JSON.parse(usersGame);
   console.log(usersData)
-
+ 
+ 
  // Asegúrate de que 'usersData' sea un array
-const usersArray = Array.isArray(usersData) ? usersData : [usersData];
-
-
-
-
-//Inicialitzar objecte d'usuaris
+ const usersArray = Array.isArray(usersData) ? usersData : [usersData];
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ //Inicialitzar objecte d'usuaris
  socket.emit("users started", {
    users: usersArray,
    roomId: dataGameGlobal.idPartida,
    preguntes: dataGameGlobal.preguntesPartida,
  });
-//Inicialitzar contador
+ 
+ 
+ //Inicialitzar contador
  socket.emit("game started", {
    time: dataGameGlobal.time,
    roomId: dataGameGlobal.idPartida,
-  
-});
-
-socket.on("new question", function(data) {
+ });
+ 
+ 
+ socket.on("new question", function(data) {
  const { question } = data;
-console.log("primera pregunta per a tots ", data)
-});
-
-
+ //mostrar la pregunta per pantalla
+ console.log("primera pregunta per a tots ", data)
+ mostrarPregunta(data);
+ });
+ 
+ 
+ socket.on("time's up", function(data) {
+  const { time, roomId } = data;
+ 
+ 
+  console.log("primer temps acabat!")
+  socket.emit("extra time", { time, roomId });
+ });
+ 
+ 
+ socket.on("time finished", function(data) {
+  const { time, roomId } = data;
+  console.log("segon temps acabat!")
+  socket.emit("game started", { time, roomId });
+ });
+ 
+ 
+ 
+ 
+ 
+ 
   // Función que envía el contenido de la respuesta seleccionada
   function sendAnswer(option){
     console.log('Opcio seleccionada:',option);
     socket.emit('respuestaSeleccionada', { option: option });
   }
-
+ 
+ 
   // Función que almacena la cantidad de clics que se ha hecho a cada botón y ejecuta la función que deshabilita el resto de los botones
   function handleButtonClick(buttonIndex) {
     const buttons = document.querySelectorAll('.answer-btn');
@@ -309,123 +340,135 @@ console.log("primera pregunta per a tots ", data)
     });
     // Incrementar el contador de clics para el botón correspondiente
     clicks[buttonIndex]++;
-
+ 
+ 
     // Deshabilitar todos los botones después de que uno ha sido clicado
     disableAllButtons();
-}
-
+ }
+ 
+ 
   //definir l'admin de la partida
   let userAdmin = dataGameGlobal.nicknameAdmin;
-
-// Amagar el botó següent pregunta si l'usuari no es admin
-
-const nicknameJugador = sessionStorage.getItem('nicknameUser');
-const nicknameAdmin = userAdmin;
-
-// Obtener referencia al botón "Següent pregunta"
-let nextQuestionButton = document.getElementById("next-question");
-
-// Comparar los nicknames
-if (nicknameJugador !== nicknameAdmin) {
+ 
+ 
+ // Amagar el botó següent pregunta si l'usuari no es admin
+ 
+ 
+ const nicknameJugador = sessionStorage.getItem('nicknameUser');
+ const nicknameAdmin = userAdmin;
+ 
+ 
+ // Obtener referencia al botón "Següent pregunta"
+ let nextQuestionButton = document.getElementById("next-question");
+ 
+ 
+ // Comparar los nicknames
+ if (nicknameJugador !== nicknameAdmin) {
     //ocultar el botón si los nicknames no coinciden
     nextQuestionButton.style.display = "none";
-}
-
+ }
+ 
+ 
   //plenar taula dinàmicament
   const tbodyElement = document.querySelector("#user-table tbody");
-
+ 
+ 
   // Limpiar el contenido actual de la tabla
   tbodyElement.innerHTML = "";
-
+ 
+ 
   // Rellenar la tabla con los usuarios dinámicamente
   usersData.usernamesArray.forEach((username, index) => {
     const trElement = document.createElement("tr");
-
+ 
+ 
     // Columna de aciertos (inicialmente en 0)
     const tdPunts = document.createElement("td");
     tdPunts.textContent = "0";
     trElement.appendChild(tdPunts);
-
+ 
+ 
     // Columna de nombre de usuario
     const tdUsername = document.createElement("td");
     tdUsername.textContent = username;
     trElement.appendChild(tdUsername);
-
+ 
+ 
     // Columna de aciertos (inicialmente en 0)
     const tdAciertos = document.createElement("td");
     tdAciertos.textContent = "0";
     trElement.appendChild(tdAciertos);
-
+ 
+ 
     // Columna de fallos (inicialmente en 0)
     const tdFallos = document.createElement("td");
     tdFallos.textContent = "0";
     trElement.appendChild(tdFallos);
-
+ 
+ 
     // Columna de porcentaje de respuestas correctas/incorrectas (inicialmente en 0%)
     const tdPorcentaje = document.createElement("td");
     tdPorcentaje.textContent = "0%";
     trElement.appendChild(tdPorcentaje);
-
+ 
+ 
     // Agregar la fila a tbody
     tbodyElement.appendChild(trElement);
   });
-
-  
-  //var index = 0;
+ 
+ 
+   //var index = 0;
   //var sP= 1;
-
+ 
+ 
    // Aquí s'hauria de fer una funció que rebés l'id de la pregunta per servidor i omplís de forma dinàmica la posició del array
-   function mostrarPregunta(index){
-    //canviar per la pregunta rebuda per servidor..
-  // Introdueix el número de countdown 
-  const countD= document.getElementById("countdown");
-  countD.textContent= dataGameGlobal.time;
-  console.log(dataGameGlobal.time);
-
-  // Introdueix la imatge corresponent a l'element img id=image
-  const imaG= document.getElementById("image");
-  imaG.src = dataGameGlobal.preguntesPartida[index].imatge;
-
-  // Introdueix el contingut de la resposta correcta a l'element right-answer-text
-  const respCorr= document.getElementById("right-answer-text");
-  respCorr.textContent= dataGameGlobal.preguntesPartida[index].correcta;
-
-  // Introdueix el contingut del comentari a l'element comentari
-  const coment= document.getElementById("comentari");
-  coment.textContent= dataGameGlobal.preguntesPartida[index].comentari;
-
-  // Introdueix el contingut de la primera pregunta a l'element question
-  const pregunta = document.getElementById("pregunta");
-  // console.log(dataGameGlobal.preguntesPartida[0].pregunta);
-  pregunta.textContent= dataGameGlobal.preguntesPartida[index].pregunta;
-
-  // Introdueix el contingut de les respostes als elements resposta-x
-  const respA= document.getElementById("resposta-a");
-  const respB= document.getElementById("resposta-b");
-  const respC= document.getElementById("resposta-c");
-  const respD= document.getElementById("resposta-d");
-  
-  respA.textContent= dataGameGlobal.preguntesPartida[index].respostes['a'];
-  respB.textContent= dataGameGlobal.preguntesPartida[index].respostes['b'];
-  respC.textContent= dataGameGlobal.preguntesPartida[index].respostes['c'];
-  respD.textContent= dataGameGlobal.preguntesPartida[index].respostes['d'];
-
-  // Introdueix el contingut de la font a l'element a id=referencia
-  const refeR = document.getElementById("referencia");
-  refeR.href = dataGameGlobal.preguntesPartida[index].font;
-}
-// Inicializar con la primera pregunta (índice 0)
-let preguntaIndex = 0;
-mostrarPregunta(preguntaIndex);
-
-nextQuestionButton = document.getElementById("next-question");
-
-nextQuestionButton.addEventListener("click", function() {
+ 
+ 
+   function mostrarPregunta(pregunta) {
+    // Introdueix el número de countdown
+    const countD = document.getElementById("countdown");
+    countD.textContent = 10; // Asumiendo que la pregunta tiene un campo 'time'
+ 
+ 
+    // Introdueix la imatge corresponent a l'element img id=image
+    const imaG = document.getElementById("image");
+    imaG.src = pregunta.imatge;
+     // Introdueix el contingut de la resposta correcta a l'element right-answer-text
+    const respCorr = document.getElementById("right-answer-text");
+    respCorr.textContent = pregunta.correcta;
+     // Introdueix el contingut del comentari a l'element comentari
+    const coment = document.getElementById("comentari");
+    coment.textContent = pregunta.comentari;
+     // Introdueix el contingut de la primera pregunta a l'element question
+    const preguntaElem = document.getElementById("pregunta");
+    preguntaElem.textContent = pregunta.pregunta;
+     // Introdueix el contingut de les respostes als elements resposta-x
+    const respA = document.getElementById("resposta-a");
+    const respB = document.getElementById("resposta-b");
+    const respC = document.getElementById("resposta-c");
+    const respD = document.getElementById("resposta-d");
+     respA.textContent = pregunta.respostes['a'];
+    respB.textContent = pregunta.respostes['b'];
+    respC.textContent = pregunta.respostes['c'];
+    respD.textContent = pregunta.respostes['d'];
+     // Introdueix el contingut de la font a l'element a id=referencia
+    const refeR = document.getElementById("referencia");
+    refeR.href = pregunta.font;
+  }
+ 
+ 
+ nextQuestionButton = document.getElementById("next-question");
+ 
+ 
+ nextQuestionButton.addEventListener("click", function() {
     // Incrementar el índice
     preguntaIndex++;
-
+ 
+ 
     // Mostrar la siguiente pregunta
     mostrarPregunta(preguntaIndex);
-});
-  
-}
+ });
+  }
+ 
+ 
+ 

@@ -275,12 +275,12 @@ button:hover {
            <img id="image" src="../images/altres/gratis-png-signo-de-interrogacion-ilustracion-digital-signo-de-interrogacion-preguntas-frecuentes-pregunta-thumbnail.png" alt="Pregunta">
            <div id="buttons-container"> <!-- IMPORTANTE!! AQUÍ TIENEN QUE VENIR LAS POSIBLES RESPUESTAS DESDE SERVER!-->
               <div class="column">
-                  <button id="resposta-a" class="answer-btn" onclick="handleButtonClick(0)" onclick="sendAnswer" >París</button>
-                  <button id="resposta-c" class="answer-btn" onclick="handleButtonClick(1)" onclick="" >Londres</button>
+                  <button id="resposta-a" class="answer-btn" onclick="handleButtonClick(0)" onclick="sendAnswer('a')" >París</button>
+                  <button id="resposta-c" class="answer-btn" onclick="handleButtonClick(1)" onclick="sendAnswer('c')" >Londres</button>
               </div>
               <div class="column">
-                  <button id="resposta-b" class="answer-btn" onclick="handleButtonClick(2)" onclick="" >Madrid</button>
-                  <button id="resposta-d" class="answer-btn" onclick="handleButtonClick(3)" onclick="" >Berlín</button>
+                  <button id="resposta-b" class="answer-btn" onclick="handleButtonClick(2)" onclick="sendAnswer('b')" >Madrid</button>
+                  <button id="resposta-d" class="answer-btn" onclick="handleButtonClick(3)" onclick="sendAnswer('d')" >Berlín</button>
               </div>
           </div>
            <div id="countdown-container">
@@ -345,6 +345,12 @@ button:hover {
       <button id="next-question">
        Següent pregunta
       </button>
+
+      <audio id="miMusica" controls loop>
+        <source src="../musica/Koopa Trace-Walking - Super Mario Odyssey.mp3" type="audio/mp3">
+        Tu navegador no soporta el elemento de audio.
+      </audio>
+
 </div>
 
 
@@ -376,6 +382,16 @@ button:hover {
     
       document.addEventListener("DOMContentLoaded", function () {
 
+        var musica = document.getElementById("miMusica");
+
+            function pausarMusica() {
+                if (!musica.paused) {
+                    musica.pause();
+                }
+            }
+
+            musica.play(); // Comienza a reproducir automáticamente
+
         // Variable para almacenar la cuenta atrás de cada pregunta
           var countdownElement = document.getElementById("countdown");
           // Variable para almacenar el tiempo que hay para reponder cada pregunta
@@ -396,6 +412,7 @@ button:hover {
               } else {
                   // Terminar con el contador
                   clearInterval(countdownInterval);
+                  pausarMusica();
                   // Quitarle el blur a la imagen
                   unblurImage();
                   // Esconder el contenedor de botones-respuestas
@@ -520,6 +537,8 @@ button:hover {
           comentari.style.left = event.pageX + 10 + "px";
           comentari.style.top = event.pageY + 10 + "px";
       });
+
+      
   </script>
   </body>
 </html>
