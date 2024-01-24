@@ -202,7 +202,7 @@ socket.on("users started", function(data) {
   // Iniciar el temporizador para la pregunta actual
   let timer = setTimeout(() => {
     console.log("times up enviat!")
-    io.to(salaPartida).emit("time's up", { time, roomId });
+    socket.emit("time's up", { time, roomId });
     // Puedes realizar otras acciones al agotarse el tiempo
   }, timeNumeric);
   
@@ -231,6 +231,11 @@ socket.on("users started", function(data) {
 });
 
  
+socket.on("resposta", function(data) {
+  const { buttonIndex, preguntes } = data;
+  console.log("resposta clicada"+ preguntes)
+  //comprovar la resposta if(pregunta[x].resposta[buttonIndex] == pregunta[x].correcta) {+1 punt} else{return 0;}...
+});
 });
 
 /*
