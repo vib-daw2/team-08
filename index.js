@@ -16,7 +16,7 @@ const { v4: uuidv4 } = require('uuid');
 const users = [];
 const socketUsernames = {};
 let temps;
-let userScores = {};
+const userScores = {};
 const preguntesPerSala = {};
 let currentQuestionIndex = 0;
 
@@ -170,18 +170,6 @@ socket.on("users started", function(data) {
   const salaPartida = `partida-${roomId}`;
  
  
-  // Inicializar los datos de puntuación para cada usuario
-  userScores[salaPartida] = {};
-   users.forEach(user => {
-    userScores[salaPartida][user] = {
-      puntuacio: 0,
-      incorrectes: 0,
-      correctes: 0,
-      percentatge: 0,
-    };
-  });
- 
- 
   // Almacenar las preguntas en el objeto global
   preguntesPerSala[salaPartida] = preguntes;
   currentQuestionIndex = 0;
@@ -232,10 +220,49 @@ socket.on("users started", function(data) {
 
  
 socket.on("resposta", function(data) {
-  const { buttonIndex, preguntes } = data;
-  console.log("resposta clicada"+ preguntes)
-  //comprovar la resposta if(pregunta[x].resposta[buttonIndex] == pregunta[x].correcta) {+1 punt} else{return 0;}...
+  const { buttonIndex, pregunta, idPartida, nicknameUser } = data;
+  const preguntaObj = JSON.parse(pregunta);
+  
+  const username = nicknameUser;
+  const salaPartida = `partida-${idPartida}`;
+  console.log("resposta clicada", preguntaObj.respostes[buttonIndex]);
+
+  // Verificar si el usuario ya tiene una puntuación almacenada
+if (!userScores[nicknameUser]) {
+  userScores[nicknameUser] = {
+    puntuacio: 0,
+    correctes: 0,
+    incorrectes: 0,
+  };
+}
+
+  const respostaUsuari = preguntaObj.respostes[buttonIndex];
+  const respostaCorrecta = preguntaObj.correcta;
+  
+
+  //Modificar scoreUsers en funcio de la resposta
+  if (respostaUsuari === respostaCorrecta) 
+  {
+    //resposta correcta
+    userScores[nicknameUser].correctes++;
+    userScores[nicknameUser].puntuacio++;
+    console.log("+1 punt");
+  }
+  else{
+     // Resposta incorrecta
+     userScores[nicknameUser].incorrectes++;
+     console.log("MAAL!");
+  }
+  io.to(salaPartida).emit("noves puntuacions", { userScores: userScores[nicknameUser], username });
 });
+
+
+socket.on('disconnect', function() {
+ console.log("desconnectat!")
+  //socket.emit("desconnectat");
+});
+
+
 });
 
 /*

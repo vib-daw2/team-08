@@ -15,8 +15,6 @@ function send() {
   socket.emit("nickname", { nickname });
 }
 
-
-
 socket.on('nickname rebut', function(data) {
 
   console.log(data)
@@ -263,6 +261,9 @@ if (window.location.pathname.endsWith("game.html")) {
   const usersData = JSON.parse(usersGame);
   console.log(usersData)
 
+ 
+
+
  // Asegúrate de que 'usersData' sea un array
 const usersArray = Array.isArray(usersData) ? usersData : [usersData];
 
@@ -292,10 +293,12 @@ if(nicknameAdmin == nicknameJugador)
 
 socket.on("new question", function(pregunta) {
  const { question } = pregunta;
+ //guardar l'objecte per passar-lo amb la resposta de l'usuari
+ sessionStorage.setItem("currentQuestion", JSON.stringify(pregunta));
  //mostrar la pregunta per pantalla
 console.log("primera pregunta per a tots ", pregunta)
 mostrarPregunta(pregunta);
-
+//actualitzar contador
 
 });
 
@@ -312,13 +315,32 @@ socket.on("time finished", function(data) {
   socket.emit("game started", { time, roomId });
 });
 
+socket.on("noves puntuacions", function(data) {
+  const { userScores, username } = data;
+
+  const nicknameP = username;
+  console.log("Puntuaciones actualizadas:", userScores , "per a ", nicknameP);
+  
+  //actualitzar la taula...
+  actualizarTablaPuntuaciones(userScores, nicknameP);
+});
 
   
 // Función que almacena la cantidad de clics que se ha hecho a cada botón y ejecuta la función que deshabilita el resto de los botones
 function handleButtonClick(buttonIndex) {
+  const storedQuestion = sessionStorage.getItem("currentQuestion");
 
-    console.log('Opcio seleccionada:',buttonIndex);
-    socket.emit('resposta', { buttonIndex });
+  if (storedQuestion) {
+    // Convierte la pregunta de cadena a objeto
+    const pregunta = JSON.parse(storedQuestion);
+
+    // Emite la respuesta y la pregunta al servidor
+    console.log('Opció seleccionada:',buttonIndex);
+    socket.emit('resposta', { buttonIndex, pregunta: JSON.stringify(pregunta), idPartida, nicknameUser });
+
+    // Resto del código...
+  }
+    
     const buttons = document.querySelectorAll('.answer-btn');
     buttons.forEach((button, index) => {
         if (index === buttonIndex) {
@@ -335,7 +357,6 @@ function handleButtonClick(buttonIndex) {
     // Deshabilitar todos los botones después de que uno ha sido clicado
     disableAllButtons();
   }
-
 
 
 // Obtener referencia al botón "Següent pregunta"
@@ -385,6 +406,34 @@ if (nicknameJugador !== nicknameAdmin) {
     // Agregar la fila a tbody
     tbodyElement.appendChild(trElement);
   });
+
+  function actualizarTablaPuntuaciones(userScores, username) { //username ha de ser el del que ha actualitzat
+    // Obtener la tabla y sus filas
+    const table = document.getElementById("user-table");
+    const rows = table.getElementsByTagName("tr");
+
+    // Iterar sobre las filas y actualizar la información del usuario específico (jan)
+    for (let i = 0; i < rows.length; i++) {
+        const usernameCell = rows[i].cells[1]; // La celda que contiene el nombre de usuario
+
+        // Comprobar si la fila pertenece al usuario específico (jan)
+        if (usernameCell.textContent.trim() === username) {
+            const puntosCell = rows[i].cells[0];
+            const aciertosCell = rows[i].cells[2];
+            const fallosCell = rows[i].cells[3];
+            const porcentajeCell = rows[i].cells[4];
+
+            // Actualizar la información del usuario específico
+            puntosCell.textContent = userScores.puntuacio;
+            aciertosCell.textContent = userScores.correctes;
+            fallosCell.textContent = userScores.incorrectes;
+            // Calcular y actualizar el porcentaje
+            const porcentaje = (userScores.correctes / (userScores.correctes + userScores.incorrectes)) * 100;
+            porcentajeCell.textContent = porcentaje.toFixed(2) + "%";
+            break; // Salir del bucle después de actualizar la fila del usuario específico
+        }
+    }
+}
 
   
   //var index = 0;

@@ -236,12 +236,6 @@ button:hover {
               background-color: #45a049;
 }
 
-
-
-
-
-
-         
       </style>
   </head>
   <body>
@@ -261,10 +255,6 @@ button:hover {
               <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
               <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286m1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94"/>
             </svg>
-
-
-
-
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
               <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247m2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"/>
             </svg>
@@ -275,12 +265,12 @@ button:hover {
            <img id="image" src="../images/altres/gratis-png-signo-de-interrogacion-ilustracion-digital-signo-de-interrogacion-preguntas-frecuentes-pregunta-thumbnail.png" alt="Pregunta">
            <div id="buttons-container"> <!-- IMPORTANTE!! AQUÍ TIENEN QUE VENIR LAS POSIBLES RESPUESTAS DESDE SERVER!-->
               <div class="column">
-                  <button id="resposta-a" class="answer-btn" onclick="handleButtonClick(0)" onclick="sendAnswer('a')" >París</button>
-                  <button id="resposta-c" class="answer-btn" onclick="handleButtonClick(1)" onclick="sendAnswer('c')" >Londres</button>
+                  <button id="resposta-a" class="answer-btn" onclick="handleButtonClick('a')">París</button>
+                  <button id="resposta-c" class="answer-btn" onclick="handleButtonClick('c')">Londres</button>
               </div>
               <div class="column">
-                  <button id="resposta-b" class="answer-btn" onclick="handleButtonClick(2)" onclick="sendAnswer('b')" >Madrid</button>
-                  <button id="resposta-d" class="answer-btn" onclick="handleButtonClick(3)" onclick="sendAnswer('d')" >Berlín</button>
+                  <button id="resposta-b" class="answer-btn" onclick="handleButtonClick('b')">Madrid</button>
+                  <button id="resposta-d" class="answer-btn" onclick="handleButtonClick('d')">Berlín</button>
               </div>
           </div>
            <div id="countdown-container">
@@ -321,19 +311,24 @@ button:hover {
 <!-- Nuevo div para la tabla de usuarios -->
 <div id="user-table-container">
    <table id="user-table">
-       <thead>
-           <tr>
-               <th>Punts</th>
-               <th>Username</th>
-               <th id="columna-aciertos"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
-                   <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
-                 </svg></th>
-               <th id="columna-fallos"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
-                   <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
-                 </svg></th>
-               <th>%</th>
-           </tr>
-       </thead>
+    <thead>
+        <tr>
+            <th>Punts</th>
+            <th>Username</th>
+            <th id="columna-aciertos">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                    <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z"/>
+                </svg>
+            </th>
+            <th id="columna-fallos">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                    <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+                </svg>
+            </th>
+            <th>%</th>
+        </tr>
+    </thead>
+    
        <tbody>
            
        </tbody>
@@ -421,7 +416,7 @@ button:hover {
                   // Esconder el contenedor de la cuenta atrás
                   document.getElementById("countdown-container").style.display = "none";
                   // Actualiza el gráfico de respuestas escogidas
-                  updateChart();
+       
                   // Muestra el gráfico
                   commentContainer.removeAttribute("hidden");
                   // Actualiza el marcador después de que haya terminado el tiempo
@@ -455,44 +450,9 @@ button:hover {
           });
       }
 
-
-
-
-      // Función que actualiza los gráficos en función de las respuestas escogidas <-- DEBE RECIBIR DATOS POR SERVER -- PENDIENTE DE MODIFICAR
-      function updateChart() {
-          var ctx = document.getElementById("myChart").getContext("2d");
-          var myChart = new Chart(ctx, {
-              type: "bar",
-              data: {
-                  labels: [document.getElementById("resposta-a").textContent, document.getElementById("resposta-c").textContent ,document.getElementById("resposta-b").textContent ,document.getElementById("resposta-d").textContent ],
-                  datasets: [{
-                      label: "Clics por respuesta",
-                      data: clicks,
-                      backgroundColor: ["rgba(255, 99, 132, 0.5)", "rgba(54, 162, 235, 0.5)", "rgba(255, 206, 86, 0.5)", "rgba(75, 192, 192, 0.5)"],
-                      borderColor: ["rgba(255, 99, 132, 1)", "rgba(54, 162, 235, 1)", "rgba(255, 206, 86, 1)", "rgba(75, 192, 192, 1)"],
-                      borderWidth: 1
-                  }]
-              },
-              options: {
-                  scales: {
-                      y: {
-                          beginAtZero: true
-                      }
-                  }
-              }
-          });
-      }
-
-      
-
-
-
       // Variables que obtienen las referencias de los elementos del DOM
       var textoPrincipal = document.getElementById("texto-principal");
       var comentari = document.getElementById("comentari");
-
-
-
 
       // Agrega el evento de ratón para mostrar/ocultar el texto adicional
       textoPrincipal.addEventListener("mouseover", function () {
@@ -517,7 +477,32 @@ button:hover {
           comentari.style.top = event.pageY + 10 + "px";
       });
 
-      
+      /*
+      // Función que actualiza los gráficos en función de las respuestas escogidas <-- DEBE RECIBIR DATOS POR SERVER -- PENDIENTE DE MODIFICAR
+      function updateChart() {
+          var ctx = document.getElementById("myChart").getContext("2d");
+          var myChart = new Chart(ctx, {
+              type: "bar",
+              data: {
+                  labels: [document.getElementById("resposta-a").textContent, document.getElementById("resposta-c").textContent ,document.getElementById("resposta-b").textContent ,document.getElementById("resposta-d").textContent ],
+                  datasets: [{
+                      label: "Clics por respuesta",
+                      data: clicks,
+                      backgroundColor: ["rgba(255, 99, 132, 0.5)", "rgba(54, 162, 235, 0.5)", "rgba(255, 206, 86, 0.5)", "rgba(75, 192, 192, 0.5)"],
+                      borderColor: ["rgba(255, 99, 132, 1)", "rgba(54, 162, 235, 1)", "rgba(255, 206, 86, 1)", "rgba(75, 192, 192, 1)"],
+                      borderWidth: 1
+                  }]
+              },
+              options: {
+                  scales: {
+                      y: {
+                          beginAtZero: true
+                      }
+                  }
+              }
+          });
+      }
+/*/
   </script>
   </body>
 </html>
