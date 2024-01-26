@@ -1,95 +1,104 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Podio</title>
-    <link rel="stylesheet" href="podio.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <style>
         body {
             background-color: #f4f4f4;
-        }
-        @font-face {
-  font-family: DaggerSquare;
-  src: url("fonts/podium-font.woff") format("woff"), url("fonts/podium-font.ttf") format("truetype");
-}
 
-#podium-box {
-  margin: 0 auto;
+  margin: 0;
+  padding: 0;
+}
+html {
+  min-height: 100vh;
+  background-color: teal;
+  background: 
+    radial-gradient(55% 100% at center 100vmin, transparent 70%, 90%, rgba(25, 25, 112, 0.65) 105%),
+    linear-gradient(-30deg, teal, lightBlue 40%, teal);
+}
+.podium {
   display: flex;
+  align-items: flex-end;
+  padding: 0;
+  margin: 5vmin;
+  font-family: serif;
+  font-variant: small-caps;
 }
-
-.podium-number {
-  font-family: DaggerSquare;
-  font-weight: bold;
-  font-size: 4em;
-  color: white;
-}
-
-.step-container {
+.podium li {
+  position: relative;
+  list-style: none;
+  background: linear-gradient(to right, black, 30%, silver 40%, 55%, black);
   flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.step-container>div:first-child {
-  margin-top: auto;
+  padding: 1rem;
+  margin: 0 0.5rem;
+  box-sizing: border-box;
   text-align: center;
+  font-size: calc(0.8rem + 3vw);
+  text-shadow:
+    -1px -1px black,
+    +1px -1px black,
+    +1px +1px black,
+    -1px +1px black,
+    -1px -1px 1px lightBlue,
+    +1px -1px 1px lightBlue,
+    +1px +1px 1px lightBlue,
+    -1px +1px 1px lightBlue;
+  border-top: solid 0.7rem;
+  border-bottom: solid 0.2rem rgba(0,0,0,0.7);
+  border-radius: 50% / 0.5rem 0.5rem 1rem 1rem;
+}
+.podium li::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 100%;
+  border-bottom: solid 0.7rem;
+  border-radius: 0 0 50% 50% / 0 0 1rem 1rem;
+}
+.podium li:first-child {
+  color: #fc3;
+  height: 50vh;
+  min-height: 6em;
+  order: 2;
+}
+.podium li:nth-child(2) {
+  color: #ccd;
+  height: 40vh;
+  min-height: 4em;
+  order: 1;
+}
+.podium li:nth-child(3) {
+  color: #b62;
+  height: 10vh;
+  min-height: 2em;
+  order: 3;
 }
 
-.step {
-  text-align: center;
-}
-
-.bg-blue {
-  background-color: #063b65;
-}
-
-#first-step {
-  height: 50%;
-}
-
-#second-step {
-  height: 35%;
-}
-
-#third-step {
-  height: 30%;
+@media (max-width: 24em) {
+  .podium {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .podium li:nth-child(n) {
+    order: 0;
+    height: 4em;
+    min-height: 0;
+    margin: 0.5rem 0;
+  }
 }
     </style>
 </head>
 <body>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-    <link rel="import" type="css" href="podium-chart.css">
-    
-    <div id="podium-box" class="row" style="height: 300px">
-      <div class="col-md-4 step-container m-0 p-0">
-        <div>
-          Text 2
-        </div>
-        <div id="second-step" class="bg-blue step centerBoth podium-number">
-          2
-        </div>
-      </div>
-      <div class="col-md-4 step-container m-0 p-0">
-        <div>
-          Text 1
-        </div>
-        <div id="first-step" class="bg-blue step centerBoth podium-number">
-          1
-        </div>
-      </div>
-      <div class="col-md-4 step-container m-0 p-0">
-        <div>
-          Text 3
-        </div>
-        <div id="third-step" class="bg-blue step centerBoth podium-number">
-          3
-        </div>
-      </div>
-    </div>
-
+  <ol class="podium">
+    <li>Gold</li>
+    <li>Silver</li>
+    <li>Bronze</li>
+  </ol>
     
     </body>
     </html>

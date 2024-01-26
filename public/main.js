@@ -6,6 +6,10 @@ const sendButton = document.getElementById("sendButton");
 const messageElement = document.getElementById('message');
 const startButton = document.getElementById('start-button');
 
+
+
+
+//Gestionar el nickname de l'usuari
 if (sendButton) {
   sendButton.addEventListener("click", send);
 }
@@ -14,7 +18,7 @@ function send() {
   const nickname = nicknameInput.value;
   socket.emit("nickname", { nickname });
 }
-
+//guardar els valors en sessionStorage per no perdre'ls al redireccionar
 socket.on('nickname rebut', function(data) {
 
   console.log(data)
@@ -30,44 +34,37 @@ socket.on('nickname rebut', function(data) {
       window.location.href = data.redirectUrl;
   }
  })
+
+ //declarar el id i username de l'usuari de forma global
 const nicknameUser = sessionStorage.getItem('nicknameUser');
 const socketID = sessionStorage.getItem('socketId');
 
-
-// Enviar la información al servidor independientemente de si el usuario proporcionó un nickname
+//Enviar la informació al servidor
 socket.emit("nicknameUser", { nicknameUser });
 
 
-
-
-// Verificar si ya se ha redirigido
-// Verificar si ya se ha redirigido
+// Verificar usuari té nickname o no
 const redirected = sessionStorage.getItem('redirected');
 
-
-// Si no se ha redirigido, manejar el evento de redirección desde el servidor
+// Si no s'ha redirigit, gestionar-ho desde servidor
 if (!redirected) {
    socket.on("redirect", (data) => {
        const redirectUrl = data.redirectUrl;
        console.log("Redirigiendo a:", redirectUrl);
 
-       // Marcar que ya se ha realizado la redirección en sessionStorage
+       // Marcar que ja s'ha fet la redirecció en sessionStorage
        sessionStorage.setItem('redirected', 'true');
 
-       // Realizar la redirección del lado del cliente
+       // Realitzar la redirecció a index.html
        //messageElement.innerText = "Escriu un username!";
        console.log(messageElement);
        window.location.href = redirectUrl;
       
    });
 } else {
-   // Si ya se ha redirigido, eliminar la marca de sessionStorage
+   // Si ja s'ha redirigit eliminar la marca de sessionStorage
    sessionStorage.removeItem('redirected');
 }
-
-socket.on("connect", function () {
-  console.log("Connexió amb el servidor");
-});
 
 //cridar "get users"
 socket.emit("get users");
@@ -78,23 +75,21 @@ socket.on("users", function(data) {
   console.log("Llista d'usuaris:", userList);
 });
 
-
+// Redirigir a la pàgina per crear partida
 if (createButton) {
 createButton.addEventListener("click", function() {
-  // Redirigir a la pàgina createGame.html
   window.location.href = "createGame.html";
 });
 }
 
-
-//crear partida
+// Crear partida
 document.addEventListener("DOMContentLoaded", function () {
   // Verificar si estem en createGame.html
   if (window.location.href.endsWith("createGame.html")) {
-     // Obtener el nickname del almacenamiento local
+     // Obtenir el nickname del sessionStorage
      const nicknameLocal = sessionStorage.getItem("nicknameUser");
 
-     // Completar automáticamente el campo de entrada de título con el nickname
+     // CCompletar automàticament el camp títol amb el nom de l'usuari
      const titleInput = document.getElementById("title");
      if (titleInput) {
          titleInput.value = "Partida de " + nicknameLocal;
@@ -121,18 +116,18 @@ document.addEventListener("DOMContentLoaded", function () {
  });
 
 
-//assignar un títol
+//assignar un títol a la partida
 document.addEventListener("DOMContentLoaded", function () {
   const params = new URLSearchParams(window.location.search);
   const nickname = params.get("nickname");
   const storedNickname = sessionStorage.getItem("nicknameUser");
   //console.log(storedNickname);
-  // Modificar el título en lobby.html
+  // Modificar el títol en lobby.html
   const titleLobby = document.getElementById("titleLobby");
   if (titleLobby && nickname) {
       titleLobby.innerText = "Partida de " + nickname;
 
-      // Ocultar el botón de empezar partida si el nickname actual no coincide
+      // Ocultar el botó "Començar partida" si l'user no és administrador
       const startButton = document.getElementById("start-button");
       if (storedNickname !== nickname) {
           startButton.style.display = "none";
@@ -146,13 +141,12 @@ document.addEventListener("DOMContentLoaded", function () {
   // Verificar si estas en home.html
   if (window.location.href.endsWith("home.html")) {
    
-      // Obtener elementos del DOM
       const linkInput = document.getElementById("linkInput");
       const entrarButton = document.getElementById("entrarButton");
 
-      // Agregar un evento de clic al botón "Entrar"
+      // Redirigir a l'usuari quan cliqui "enviar" a la url proporcionada
       entrarButton.addEventListener("click", function () {
-          // Obtener la URL ingresada por el usuario
+          // Url proporcionada per l'usuari
           const lobbyUrl = linkInput.value;
           // Redirigir a la lobby
           window.location.href = lobbyUrl;
@@ -162,18 +156,18 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-// Extraer parámetros de la URL
+// Extreure paràmetres de la URL (per comprovar que l'usuari ha entrat en una partida)
 const urlParams = new URLSearchParams(window.location.search);
 const idPartida = urlParams.get('partida');
 const nicknameUrl = urlParams.get('nickname');
+
 console.log(nicknameUser)
 console.log(socketID)
 
 
-// Enviar mensaje al servidor para unirse a la sala de la partida
+// Enviar missatge al servidor per unir-se a la sala
 if (idPartida && nicknameUrl) {
-   // Enviar mensaje al servidor para unirse a la sala de la partida
-  
+
    socket.emit("join game", { idPartida, nicknameUser, socketID });
 }
 
@@ -192,10 +186,10 @@ socket.on("preguntes partida", function(dataPartida) {
    
 });
 
+//botó per començar partida
 if (startButton) {
    startButton.addEventListener("click", start);
 }
-
 
 function start() {
   //demanar preguntes i proporcionar-les als usuaris de la sala
@@ -234,14 +228,14 @@ socket.on("users in room", function(data) {
   const jsonString = JSON.stringify(data);
   sessionStorage.setItem('usersGame', jsonString);
 
-  // Obtén la referencia al elemento de la lista de usuarios
+  // Obtenir la referència de la llista d'usuaris de lobby
   const userListElement = document.getElementById("user-list");
 
   if (window.location.pathname.endsWith("lobby.html")) {
-  // Limpia la lista actual
+  // Neteja la llista actual
   userListElement.innerHTML = "";
 
-  // Actualiza la lista con los nuevos usuarios
+  // Actualitza la llista amb els nous usuaris
   usernamesArray.forEach(username => {
       const liElement = document.createElement("li");
       liElement.textContent = username;
@@ -251,8 +245,21 @@ socket.on("users in room", function(data) {
 });
 
 
-// JOC INICIAT
+// JOC INICIAT (quan entren a game.html)
 if (window.location.pathname.endsWith("game.html")) {
+
+  //fer que si l'usuari fa refresh l'envï a home
+  document.addEventListener("DOMContentLoaded", function () {
+    //verificar si es una recàrrega
+    if (performance.navigation.type === 1) {
+      //Redirigir a home.html
+      window.onload = function (e) {
+        window.location.href = 'home.html';
+      }
+    }
+  });
+
+  //obtenir dades de la partida(dataGameGlobal) i els usuaris de la partida(usersData)
   const jsonGlobal = sessionStorage.getItem('dataGlobal');
   const dataGameGlobal = JSON.parse(jsonGlobal);
   console.log(dataGameGlobal);
@@ -262,16 +269,13 @@ if (window.location.pathname.endsWith("game.html")) {
   console.log(usersData)
 
  
-
-
- // Asegúrate de que 'usersData' sea un array
+ // Canviar el format de users a array
 const usersArray = Array.isArray(usersData) ? usersData : [usersData];
 
 //definir l'admin de la partida
 let userAdmin = dataGameGlobal.nicknameAdmin;
 
-// Amagar el botó següent pregunta si l'usuari no es admin
-
+// Obtenir l'usuari administrador i el del jugador connectat
 const nicknameJugador = sessionStorage.getItem('nicknameUser');
 const nicknameAdmin = userAdmin;
 
@@ -288,6 +292,16 @@ if(nicknameAdmin == nicknameJugador)
  socket.emit("game started", {
    time: dataGameGlobal.time,
    roomId: dataGameGlobal.idPartida,
+});
+
+//deshabilitar botons per l'admin
+const buttons = document.querySelectorAll('.answer-btn');
+buttons.forEach((button, index) => {
+
+        button.classList.remove('clicked');
+        button.classList.add('disabled');
+        button.disabled = true; // Deshabilita todos los botones
+    
 });
 }
 
@@ -322,7 +336,13 @@ socket.on("noves puntuacions", function(data) {
   console.log("Puntuaciones actualizadas:", userScores , "per a ", nicknameP);
   
   //actualitzar la taula...
-  actualizarTablaPuntuaciones(userScores, nicknameP);
+  actualitzarPuntuacions(userScores, nicknameP);
+});
+
+socket.on("game over", function() {
+console.log("Game over!")
+window.location.href = 'podio.html';
+
 });
 
   
@@ -338,9 +358,9 @@ function handleButtonClick(buttonIndex) {
     console.log('Opció seleccionada:',buttonIndex);
     socket.emit('resposta', { buttonIndex, pregunta: JSON.stringify(pregunta), idPartida, nicknameUser });
 
-    // Resto del código...
   }
     
+  //Obtenir el botó clicat, i deshabilitar els botons
     const buttons = document.querySelectorAll('.answer-btn');
     buttons.forEach((button, index) => {
         if (index === buttonIndex) {
@@ -348,41 +368,29 @@ function handleButtonClick(buttonIndex) {
         } else {
             button.classList.remove('clicked');
             button.classList.add('disabled');
-            button.disabled = true; // Deshabilita todos los botones
+            button.disabled = true; 
         }
     });
     // Incrementar el contador de clics para el botón correspondiente
     clicks[buttonIndex]++;
   
-    // Deshabilitar todos los botones después de que uno ha sido clicado
-    disableAllButtons();
   }
-
-
-// Obtener referencia al botón "Següent pregunta"
-let nextQuestionButton = document.getElementById("next-question");
-
-// Comparar los nicknames
-if (nicknameJugador !== nicknameAdmin) {
-    //ocultar el botón si los nicknames no coinciden
-    nextQuestionButton.style.display = "none";
-}
 
   //plenar taula dinàmicament
   const tbodyElement = document.querySelector("#user-table tbody");
 
-  // Limpiar el contenido actual de la tabla
   tbodyElement.innerHTML = "";
 
-  // Rellenar la tabla con los usuarios dinámicamente
   usersData.usernamesArray.forEach((username, index) => {
+    // Verificar que l'usuari no sigui administrador
+    if (username !== nicknameAdmin) {
     const trElement = document.createElement("tr");
 
     // Columna de aciertos (inicialmente en 0)
     const tdPunts = document.createElement("td");
     tdPunts.textContent = "0";
     trElement.appendChild(tdPunts);
-
+    
     // Columna de nombre de usuario
     const tdUsername = document.createElement("td");
     tdUsername.textContent = username;
@@ -405,9 +413,11 @@ if (nicknameJugador !== nicknameAdmin) {
 
     // Agregar la fila a tbody
     tbodyElement.appendChild(trElement);
+    }
   });
 
-  function actualizarTablaPuntuaciones(userScores, username) { //username ha de ser el del que ha actualitzat
+  //actualitzar la taula de jugadors cada resposta
+  function actualitzarPuntuacions(userScores, username) { //username ha de ser el del que ha actualitzat
     // Obtener la tabla y sus filas
     const table = document.getElementById("user-table");
     const rows = table.getElementsByTagName("tr");
@@ -443,8 +453,8 @@ if (nicknameJugador !== nicknameAdmin) {
 
    function mostrarPregunta(pregunta) {
     // Introdueix el número de countdown 
-    const countD = document.getElementById("countdown");
-    countD.textContent = 10; // Asumiendo que la pregunta tiene un campo 'time'
+    //const countD = document.getElementById("countdown");
+    //countD.textContent = 10; // Asumiendo que la pregunta tiene un campo 'time'
 
     // Introdueix la imatge corresponent a l'element img id=image
     const imaG = document.getElementById("image");
@@ -479,16 +489,8 @@ if (nicknameJugador !== nicknameAdmin) {
   }
   
 
-nextQuestionButton = document.getElementById("next-question");
-
-nextQuestionButton.addEventListener("click", function() {
-    // Incrementar el índice
-    preguntaIndex++;
-
-    // Mostrar la siguiente pregunta
-    mostrarPregunta(preguntaIndex);
-});
-  
 }
  
+
+
  

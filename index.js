@@ -71,7 +71,7 @@ io.on("connection", (socket) => {
           const preguntasPorTema = {};
            //Agrupar les preguntes segons el tema escollit
           preguntes.forEach((pregunta) => {
-            //evitar errors sintactics
+            //evitar errors sintàctics
               const tema = pregunta.modalitat.toLowerCase();
               if (topics.includes(tema)) {
                   preguntasPorTema[tema] = preguntasPorTema[tema] || [];
@@ -155,22 +155,14 @@ const salaPartida = `partida-${data}`;
     io.to(salaPartida).emit("holaaa",{"response":"ok"})
 });
 
-/*
-// guardar respostes
-socket.on("users started", function(data)){
-  const { users, roomId } = data;
 
-}
-*/
-
-
-//passar els usuaris de la sala a gmae.js
+//inicialitzar objecte de preguntes d'aquella partida
 socket.on("users started", function(data) {
   const { users, roomId, preguntes } = data;
   const salaPartida = `partida-${roomId}`;
  
  
-  // Almacenar las preguntas en el objeto global
+  //guardar les preguntes en l'objecte global
   preguntesPerSala[salaPartida] = preguntes;
   currentQuestionIndex = 0;
  
@@ -182,16 +174,16 @@ socket.on("users started", function(data) {
   const { time, roomId } = data;
   const salaPartida = `partida-${roomId}`;
   //console.log("sala de la partida ", salaPartida);
-  // Obtener las preguntas de la sala desde el objeto global
+
+  //obtenir les preguntes de l'objecte global
   const preguntes = preguntesPerSala[salaPartida];
   const timeNumeric = parseInt(time) * 1000;
 
   //console.log(preguntes)
-  // Iniciar el temporizador para la pregunta actual
+  // Iniciar el temporitzador per la pregunta actual
   let timer = setTimeout(() => {
     console.log("times up enviat!")
     socket.emit("time's up", { time, roomId });
-    // Puedes realizar otras acciones al agotarse el tiempo
   }, timeNumeric);
   
   //comprovar que hi han més preguntes
@@ -201,24 +193,25 @@ socket.on("users started", function(data) {
     currentQuestionIndex++;
   } else {
     // no hi ha més preguntes, enviar "game over"
-    //io.to(salaPartida).emit("game over");
+    io.to(salaPartida).emit("game over");
   }
  });
 
-
+ //Quan acaba el temps de la pregunta, donar 7 segons per comprovar els resultats
  socket.on("extra time", function(data) {
   const { time, roomId } = data;
   const salaPartida = `partida-${roomId}`;
-  console.log("hola desde time's up")
-  // Agregar un contador de 5 segundos antes de iniciar la próxima pregunta
+  //console.log("hola desde time's up")
+
+  //Afegir un contador abans de començar la següent pregunta
   setTimeout(() => {
     console.log(time, roomId)
-    // Emitir "game started" para la siguiente pregunta
+    // Emitir "game started" per a que comensi la següent
     socket.emit("time finished", { time, roomId });
-  }, 5000); // 5000 milisegundos = 5 segundos
+  }, 7000); // 5000 mil·Lisegons = 5 segundos
 });
 
- 
+// Rebre les respostes, comprovar el resultat i actualitzar objecte "userScores"
 socket.on("resposta", function(data) {
   const { buttonIndex, pregunta, idPartida, nicknameUser } = data;
   const preguntaObj = JSON.parse(pregunta);
@@ -227,7 +220,7 @@ socket.on("resposta", function(data) {
   const salaPartida = `partida-${idPartida}`;
   console.log("resposta clicada", preguntaObj.respostes[buttonIndex]);
 
-  // Verificar si el usuario ya tiene una puntuación almacenada
+  //Verificar si l'usuari ja té una puntuació associada (l'usuari admin mai s'inicialitza perque no pot clicar)
 if (!userScores[nicknameUser]) {
   userScores[nicknameUser] = {
     puntuacio: 0,
@@ -235,7 +228,7 @@ if (!userScores[nicknameUser]) {
     incorrectes: 0,
   };
 }
-
+  //resposta de l'usuari i resposta correcta
   const respostaUsuari = preguntaObj.respostes[buttonIndex];
   const respostaCorrecta = preguntaObj.correcta;
   
@@ -253,13 +246,14 @@ if (!userScores[nicknameUser]) {
      userScores[nicknameUser].incorrectes++;
      console.log("MAAL!");
   }
+  //enviar al client l'objecte "userScores" actualitzat
   io.to(salaPartida).emit("noves puntuacions", { userScores: userScores[nicknameUser], username });
 });
 
 
 socket.on('disconnect', function() {
- console.log("desconnectat!")
-  //socket.emit("desconnectat");
+  console.log("desconnectat!")
+
 });
 
 
