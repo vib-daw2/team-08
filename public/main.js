@@ -246,6 +246,8 @@ socket.on("users in room", function(data) {
 
 
 // JOC INICIAT (quan entren a game.html)
+
+
 if (window.location.pathname.endsWith("game.html")) {
 
   //fer que si l'usuari fa refresh l'envï a home
@@ -278,6 +280,7 @@ let userAdmin = dataGameGlobal.nicknameAdmin;
 // Obtenir l'usuari administrador i el del jugador connectat
 const nicknameJugador = sessionStorage.getItem('nicknameUser');
 const nicknameAdmin = userAdmin;
+temps =  dataGameGlobal.time;
 
 if(nicknameAdmin == nicknameJugador)
 {
@@ -300,19 +303,20 @@ buttons.forEach((button, index) => {
 
         button.classList.remove('clicked');
         button.classList.add('disabled');
-        button.disabled = true; // Deshabilita todos los botones
+        button.disabled = true;
     
 });
 }
 
 socket.on("new question", function(pregunta) {
- const { question } = pregunta;
+ const { question, time } = pregunta;
  //guardar l'objecte per passar-lo amb la resposta de l'usuari
- sessionStorage.setItem("currentQuestion", JSON.stringify(pregunta));
+ sessionStorage.setItem("currentQuestion", JSON.stringify(question));
  //mostrar la pregunta per pantalla
-console.log("primera pregunta per a tots ", pregunta)
-mostrarPregunta(pregunta);
-//actualitzar contador
+console.log("primera pregunta per a tots ", question)
+mostrarPregunta(question);
+startCountdown(time);
+console.log("temps de cont: ", time)
 
 });
 
@@ -416,34 +420,44 @@ function handleButtonClick(buttonIndex) {
     }
   });
 
-  //actualitzar la taula de jugadors cada resposta
-  function actualitzarPuntuacions(userScores, username) { //username ha de ser el del que ha actualitzat
-    // Obtener la tabla y sus filas
+  function actualitzarPuntuacions(userScores, username) {
     const table = document.getElementById("user-table");
     const rows = table.getElementsByTagName("tr");
 
-    // Iterar sobre las filas y actualizar la información del usuario específico (jan)
     for (let i = 0; i < rows.length; i++) {
-        const usernameCell = rows[i].cells[1]; // La celda que contiene el nombre de usuario
+        const usernameCell = rows[i].cells[1];
 
-        // Comprobar si la fila pertenece al usuario específico (jan)
         if (usernameCell.textContent.trim() === username) {
             const puntosCell = rows[i].cells[0];
             const aciertosCell = rows[i].cells[2];
             const fallosCell = rows[i].cells[3];
             const porcentajeCell = rows[i].cells[4];
 
+            // Calcular el porcentaje de aciertos
+            const totalRespuestas = userScores.correctes + userScores.incorrectes;
+            const porcentajeAciertos = totalRespuestas === 0 ? 0 : (userScores.correctes / totalRespuestas) * 100;
+
             // Actualizar la información del usuario específico
             puntosCell.textContent = userScores.puntuacio;
             aciertosCell.textContent = userScores.correctes;
             fallosCell.textContent = userScores.incorrectes;
-            // Calcular y actualizar el porcentaje
-            const porcentaje = (userScores.correctes / (userScores.correctes + userScores.incorrectes)) * 100;
-            porcentajeCell.textContent = porcentaje.toFixed(2) + "%";
-            break; // Salir del bucle después de actualizar la fila del usuario específico
+            porcentajeCell.textContent = porcentajeAciertos.toFixed(2) + "%";
+
+            // Mostrar missatge d'encert o fallo
+            const mensajeCell = document.createElement("td");
+            mensajeCell.textContent = userScores.correctes > 0 ? "¡Correcte!✅" : "¡Incorrecte!❌";
+            rows[i].appendChild(mensajeCell);
+
+            //eliminar missatge despres de 3 segons
+            setTimeout(() => {
+                mensajeCell.remove();
+            }, 3000);
+
+            break;
         }
     }
 }
+
 
   
   //var index = 0;
@@ -489,8 +503,49 @@ function handleButtonClick(buttonIndex) {
   }
   
 
-}
+  // Funció que comença el compte enrere del temps per respondre cada pregunta
+ function startCountdown(initialTime) {
+  // Variable local que emmagatzema la quantitat de temps del compte enrere, s'inicialitza amb el temps inicial (questionTime) 
+    let remainingTime = initialTime;
  
+  // Funció que actualitza el compte enrere i modifica la visibilitat dels elements HTML segons el comptador
+    function updateCountdown() {
+      document.getElementById('countdown').innerText = remainingTime;
+ 
+ 
+      if (remainingTime === 0) {
+        updateChart();
+    // Amaguem i mostrem els elements HTML adients quan el compte enrere s'ha acabat
+     showAndHideAfterFirstCountDown();
+    // Modificació estils dels botons de les respostes
+     enableAllButtons();
+     removeClickedStyles();
+    // AQUÍ HAY QUE EVALUAR CUÁNTAS PREGUNTAS QUEDAN Y EJECUTAR UNA FUNCIÓN U OTRA SEGÚN SI QUEDAN O NO PREGUNTAS
+ 
+ 
+    getReadyCountDown(waitTime);
+      } else if(remainingTime>0) {
+    // Amaguem i mostrem els elements HTML adients durant el compte enrere
+    showAndHideDuringFirstCountDown();
+  }
+ 
+ 
+      if (remainingTime < 0) {
+    
+      } else {
+    // Reduïm els segons del compte enrere
+     remainingTime--;
+     setTimeout(updateCountdown, 1000); // Actualitzar cada segon
+      }
+    }
+  // Executem updateCountdown() per modificar el compte enrere i assegurar-se que els elements es mostren i s'amaguen adienment
+    updateCountdown();
+ 
+ 
+  }
+
+}
+
 
 
  

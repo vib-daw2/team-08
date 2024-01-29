@@ -138,24 +138,10 @@
          text-align: center; /* Centra los botones en cada columna */
          }
 
-
-
-
-
-
-
-
          #image {
          filter: blur(8px); /* Puedes ajustar el valor del desenfoque según tus preferencias */
          transition: filter 1s ease;
          }
-
-
-
-
-
-
-
 
          #countdown-container, #second-countdown-container {
          position: absolute;
@@ -164,13 +150,6 @@
          transform: translate(-50%, -50%);
          text-align: center;
          }
-
-
-
-
-
-
-
 
          #countdown-circle, #second-countdown-circle {
          width: 120px;
@@ -186,30 +165,12 @@
          justify-content: center;
          }
 
-
-
-
-
-
-
-
          #countdown, #second-countdown {
          font-size: 24px;
          color: white;
          }
 
-
-
-
-
-
-
-
-       
  /* ... Otros estilos existentes ... */
-
-
-
 
  #container {
   position: relative;
@@ -222,7 +183,7 @@
   padding: 20px;
   text-align: center;
   margin-right: 0px;
-  height: 950px;
+  height: 1000px;
   max-height: 1000px;
   margin-top: 6%;
   margin-left: 3%;
@@ -298,6 +259,10 @@ button:hover {
              background-color: #45a049;
 }
 
+#miMusica {
+    display: none;
+}
+
 
      </style>
  </head>
@@ -338,7 +303,7 @@ button:hover {
          </div>
           <div id="countdown-container">
              <div id="countdown-circle">
-                 <div id="countdown"></div>
+                 <div id="countdown"></div> <!--¡¡IMPORTANTE!! <-- PENDIENTE DE MODIFICAR! ESTA VARIABLE DEBE TOMAR EL VALOR DESDE SERVER-->
              </div>
          </div>
 
@@ -369,11 +334,17 @@ button:hover {
          <!-- Contenedor para la gráfica -->
 <div id="chart-container" style="display: none; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-top: 10px;">
    <canvas id="myChart"></canvas>
-   <div style="font-size: 14px; font-weight: bold; margin-top: 10px;">RESULTADOS</div>
 </div>
 
 
      </div>
+
+
+
+
+
+
+
 
     <!-- Nuevo div para la tabla de usuarios -->
 <!-- Nuevo div para la tabla de usuarios -->
@@ -403,12 +374,6 @@ button:hover {
   </table>
 </div>
 
-     <!-- Afegir botó per admin, PASSAR A LA SEGÜENT PREGUNTA-->
-     <button id="next-question">
-      Següent pregunta
-     </button>
-
-
      <audio id="miMusica" controls loop>
        <source src="../musica/Koopa Trace-Walking - Super Mario Odyssey.mp3" type="audio/mp3">
        Tu navegador no soporta el elemento de audio.
@@ -433,15 +398,6 @@ button:hover {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.0/socket.io.min.js"></script>
  <script src="main.js" ></script>
  <script>
-
-     // Define la respuesta correcta (sustituye 'TuRespuestaCorrecta' por la respuesta correcta real)
-     const respuestaCorrecta = 'París'; // ¡¡IMPORTANTE!! <-- PENDIENTE DE MODIFICAR! ESTA VARIABLE DEBE TOMAR EL VALOR DESDE SERVER
-
-     // Marcador (scoreboard)
-     const scoreboard = {
-         respuestasCorrectas: 0,
-         respuestasIncorrectas: 0
-     };
 
      // Array para rastrear los clics en cada botón
      var clicks = [0, 0, 0, 0];
@@ -601,72 +557,35 @@ button:hover {
  }
 
 
- // Funció que comença el compte enrere del temps per respondre cada pregunta
- function startCountdown(initialTime) {
- // Variable local que emmagatzema la quantitat de temps del compte enrere, s'inicialitza amb el temps inicial (questionTime) 
-   let remainingTime = initialTime;
 
 
- // Funció que actualitza el compte enrere i modifica la visibilitat dels elements HTML segons el comptador
-   function updateCountdown() {
-     document.getElementById('countdown').innerText = remainingTime;
 
-
-     if (remainingTime === 0) {
-       updateChart();
-   // Amaguem i mostrem els elements HTML adients quan el compte enrere s'ha acabat
-    showAndHideAfterFirstCountDown();
-   // Modificació estils dels botons de les respostes
-    enableAllButtons();
-    removeClickedStyles();
-   // AQUÍ HAY QUE EVALUAR CUÁNTAS PREGUNTAS QUEDAN Y EJECUTAR UNA FUNCIÓN U OTRA SEGÚN SI QUEDAN O NO PREGUNTAS
-
-
-   getReadyCountDown(waitTime);
-     } else if(remainingTime>0) {
-   // Amaguem i mostrem els elements HTML adients durant el compte enrere
-   showAndHideDuringFirstCountDown();
- }
-
-     if (remainingTime < 0) {
-   
-     } else {
-   // Reduïm els segons del compte enrere
-    remainingTime--;
-    setTimeout(updateCountdown, 1000); // Actualitzar cada segon
-     }
-   }
- // Executem updateCountdown() per modificar el compte enrere i assegurar-se que els elements es mostren i s'amaguen adienment
-   updateCountdown();
-
- }
  // Funció que comença el compte enrere del temps d'espera entre pregunta i pregunta
  function startSecondCountdown(getReadyTime) {
    let remainingTime = getReadyTime;
+
 
  // Funció que actualitza el compte enrere i modifica la visibilitat dels elements HTML segons el comptador
    function updateCountdown() {
      document.getElementById('second-countdown').innerText = remainingTime;
 
+
      if (remainingTime === 0) {
    numPregRestants--;
    console.log("Número de preguntes restants"+ " " + numPregRestants);
+
 
    if(numPregRestants != 0){
        
    // Amaguem i mostrem els elements HTML adients quan el temps d'espera s'ha acabat
    showAndHideAfterSecondCountDown();
-  
-   // AQUÍ HAY QUE EVALUAR CUÁNTAS PREGUNTAS QUEDAN Y EJECUTAR UNA FUNCIÓN U OTRA SEGÚN SI QUEDAN O NO PREGUNTAS
+   
 
-   // Cridem la funció de startCountdown amb questionTime per paràmetre per començar el cicle de la següent pregunta
-    startCountdown(questionTime);
  }else{
    // Muestra el podio y esconde el resto de elementos
    showAndHideAtTheEnd();
  }
      }
-
      if (remainingTime < 0) {
    
      } else {
@@ -675,6 +594,7 @@ button:hover {
     setTimeout(updateCountdown, 1000); // Actualitzar cada segon
      }
    }
+
    updateCountdown();
  }
 
@@ -682,24 +602,14 @@ button:hover {
  // Constant que emmagatzema el temps d'espera entre una pregunta i una altra
  const waitTime= 5;
 
- // Constant que emmagatzema el temps per respondre cada pregunta
- const questionTime=5;
+
 
  // Constant que emmagatzema la quantitat de preguntes totals que té la partida
  const numPregTotals=10;
 
+
  // Variable que emmagatzema el número de preguntes de la partida que resten per mostrar
  var numPregRestants=10;
-
- function calcularNumPregRestants(numPregTotals, numPregRestants){
- if(numPregTotals >= numPregRestants){
-   numPreguntesRestants--;
-   return true;
- }else if (numPregRestants === 0){
-   //Acaba el joc i mostra el podi
-   return false;
- }
- }
 
  // Funció que mostra el comptador de temps d'espera entre pregunta i pregunta, executa i guarda en la constant la funció startSecondCountdown amb paràmetre del temps d'espera
  function getReadyCountDown(waitTime){
@@ -707,8 +617,8 @@ button:hover {
  const secondCountdown = startSecondCountdown(waitTime);
  };
 
- // Iniciar el CD amb el temps questionTime per paràmetre
- startCountdown(questionTime);
+
+
      
    // Función que habilita todos los botones
    function enableAllButtons() {
@@ -718,6 +628,8 @@ button:hover {
        });
    }
 
+
+       
      // Función que deshabilita los botones
    function disableAllButtons() {
        const buttons = document.querySelectorAll('.answer-btn');

@@ -189,7 +189,8 @@ socket.on("users started", function(data) {
   //comprovar que hi han més preguntes
   if (currentQuestionIndex < preguntes.length) {
     //hi ha més preguntes, enviar-la
-    io.to(salaPartida).emit("new question", preguntes[currentQuestionIndex]);
+    io.to(salaPartida).emit("new question", { question: preguntes[currentQuestionIndex], time: time });
+    //console.log(time)
     currentQuestionIndex++;
   } else {
     // no hi ha més preguntes, enviar "game over"
