@@ -297,15 +297,6 @@ if(nicknameAdmin == nicknameJugador)
    roomId: dataGameGlobal.idPartida,
 });
 
-//deshabilitar botons per l'admin
-const buttons = document.querySelectorAll('.answer-btn');
-buttons.forEach((button, index) => {
-
-        button.classList.remove('clicked');
-        button.classList.add('disabled');
-        button.disabled = true;
-    
-});
 }
 
 socket.on("new question", function(pregunta) {
@@ -316,7 +307,7 @@ socket.on("new question", function(pregunta) {
 console.log("primera pregunta per a tots ", question)
 mostrarPregunta(question);
 startCountdown(time);
-console.log("temps de cont: ", time)
+//console.log("temps de cont: ", time)
 
 });
 
@@ -445,7 +436,7 @@ function handleButtonClick(buttonIndex) {
 
             // Mostrar missatge d'encert o fallo
             const mensajeCell = document.createElement("td");
-            mensajeCell.textContent = userScores.correctes > 0 ? "¡Correcte!✅" : "¡Incorrecte!❌";
+            mensajeCell.textContent = userScores.correctes > 0 ? "¡Correcte!" : "¡Incorrecte!";
             rows[i].appendChild(mensajeCell);
 
             //eliminar missatge despres de 3 segons
@@ -505,6 +496,20 @@ function handleButtonClick(buttonIndex) {
 
   // Funció que comença el compte enrere del temps per respondre cada pregunta
  function startCountdown(initialTime) {
+
+  if(nicknameAdmin == nicknameJugador)
+  {
+ 
+  //deshabilitar botons per l'admin
+  const buttons = document.querySelectorAll('.answer-btn');
+  buttons.forEach((button, index) => {
+  
+          button.classList.remove('clicked');
+          button.classList.add('disabled');
+          button.disabled = true;
+      
+  });
+  }
   // Variable local que emmagatzema la quantitat de temps del compte enrere, s'inicialitza amb el temps inicial (questionTime) 
     let remainingTime = initialTime;
  
@@ -543,6 +548,62 @@ function handleButtonClick(buttonIndex) {
  
  
   }
+
+
+
+
+ // Funció que comença el compte enrere del temps d'espera entre pregunta i pregunta
+ function startSecondCountdown(getReadyTime) {
+  let remainingTime = getReadyTime;
+
+
+// Funció que actualitza el compte enrere i modifica la visibilitat dels elements HTML segons el comptador
+  function updateCountdown() {
+    document.getElementById('second-countdown').innerText = remainingTime;
+
+
+    if (remainingTime === 0) {
+  numPregRestants--;
+  console.log("Número de preguntes restants"+ " " + numPregRestants);
+
+
+  if(numPregRestants != 0){
+      
+  // Amaguem i mostrem els elements HTML adients quan el temps d'espera s'ha acabat
+  showAndHideAfterSecondCountDown();
+  
+
+}else{
+  // Muestra el podio y esconde el resto de elementos
+  showAndHideAtTheEnd();
+}
+    }
+    if (remainingTime < 0) {
+  
+    } else {
+  // Reduïm els segons del compte enrere
+   remainingTime--;
+   setTimeout(updateCountdown, 1000); // Actualitzar cada segon
+    }
+  }
+
+  updateCountdown();
+}
+
+//VARIABLES GLOBALS //
+// Constant que emmagatzema el temps d'espera entre una pregunta i una altra
+const waitTime= 5;
+
+// Variable que emmagatzema el número de preguntes de la partida que resten per mostrar
+var numPregRestants = dataGameGlobal.preguntesPartida.length;
+
+
+// Funció que mostra el comptador de temps d'espera entre pregunta i pregunta, executa i guarda en la constant la funció startSecondCountdown amb paràmetre del temps d'espera
+function getReadyCountDown(waitTime){
+    toggleElementVisibility(document.getElementById('second-countdown-container'), true);
+const secondCountdown = startSecondCountdown(waitTime);
+};
+
 
 }
 

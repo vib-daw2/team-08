@@ -175,6 +175,19 @@ socket.on("users started", function(data) {
   const salaPartida = `partida-${roomId}`;
   //console.log("sala de la partida ", salaPartida);
 
+
+
+  const roomsInfo = io.sockets.adapter.rooms;
+
+    // Verificar si la sala específica existe en la información de las salas
+    if (roomsInfo.has(salaPartida)) {
+        // Obtener la cantidad de conexiones en la sala específica
+        const connectionsInRoom = roomsInfo.get(salaPartida).size;
+
+        // Mostrar la cantidad de conexiones por consola
+        console.log("Cantidad de conexiones en la sala " + salaPartida + ":", connectionsInRoom);
+    }
+
   //obtenir les preguntes de l'objecte global
   const preguntes = preguntesPerSala[salaPartida];
   const timeNumeric = parseInt(time) * 1000;
@@ -190,7 +203,7 @@ socket.on("users started", function(data) {
   if (currentQuestionIndex < preguntes.length) {
     //hi ha més preguntes, enviar-la
     io.to(salaPartida).emit("new question", { question: preguntes[currentQuestionIndex], time: time });
-    //console.log(time)
+    console.log(currentQuestionIndex)
     currentQuestionIndex++;
   } else {
     // no hi ha més preguntes, enviar "game over"
@@ -254,7 +267,7 @@ if (!userScores[nicknameUser]) {
 
 socket.on('disconnect', function() {
   console.log("desconnectat!")
-
+//modificar el objecte d'users
 });
 
 

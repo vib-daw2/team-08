@@ -554,68 +554,11 @@ button:hover {
  toggleElementVisibility(document.getElementById('second-countdown-container'), false); // Mostrar el nuevo contenedor
  toggleElementVisibility(document.getElementById('next-question'), false); // Mostrar el nuevo contenedor
  toggleElementVisibility(document.getElementById('question'), false); // Mostrar el nuevo contenedor
+ toggleElementVisibility(document.getElementById('pregunta'), false); // Mostrar el nuevo contenedor
  }
 
 
 
-
-
- // Funció que comença el compte enrere del temps d'espera entre pregunta i pregunta
- function startSecondCountdown(getReadyTime) {
-   let remainingTime = getReadyTime;
-
-
- // Funció que actualitza el compte enrere i modifica la visibilitat dels elements HTML segons el comptador
-   function updateCountdown() {
-     document.getElementById('second-countdown').innerText = remainingTime;
-
-
-     if (remainingTime === 0) {
-   numPregRestants--;
-   console.log("Número de preguntes restants"+ " " + numPregRestants);
-
-
-   if(numPregRestants != 0){
-       
-   // Amaguem i mostrem els elements HTML adients quan el temps d'espera s'ha acabat
-   showAndHideAfterSecondCountDown();
-   
-
- }else{
-   // Muestra el podio y esconde el resto de elementos
-   showAndHideAtTheEnd();
- }
-     }
-     if (remainingTime < 0) {
-   
-     } else {
-   // Reduïm els segons del compte enrere
-    remainingTime--;
-    setTimeout(updateCountdown, 1000); // Actualitzar cada segon
-     }
-   }
-
-   updateCountdown();
- }
-
- //VARIABLES GLOBALS //
- // Constant que emmagatzema el temps d'espera entre una pregunta i una altra
- const waitTime= 5;
-
-
-
- // Constant que emmagatzema la quantitat de preguntes totals que té la partida
- const numPregTotals=10;
-
-
- // Variable que emmagatzema el número de preguntes de la partida que resten per mostrar
- var numPregRestants=10;
-
- // Funció que mostra el comptador de temps d'espera entre pregunta i pregunta, executa i guarda en la constant la funció startSecondCountdown amb paràmetre del temps d'espera
- function getReadyCountDown(waitTime){
-     toggleElementVisibility(document.getElementById('second-countdown-container'), true);
- const secondCountdown = startSecondCountdown(waitTime);
- };
 
 
 
