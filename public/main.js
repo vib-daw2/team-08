@@ -295,23 +295,26 @@ let userAdmin = dataGameGlobal.nicknameAdmin;
 const nicknameJugador = sessionStorage.getItem('nicknameUser');
 const nicknameAdmin = userAdmin;
 temps =  dataGameGlobal.time;
+if (nicknameAdmin === nicknameJugador) {
+  // Inicializar objeto de usuarios
+  socket.emit("users started", {
+      users: usersArray,
+      roomId: dataGameGlobal.idPartida,
+      preguntes: dataGameGlobal.preguntesPartida,
+  });
 
-if(nicknameAdmin == nicknameJugador)
-{
-//Inicialitzar objecte d'usuaris
- socket.emit("users started", {
-   users: usersArray,
-   roomId: dataGameGlobal.idPartida,
-   preguntes: dataGameGlobal.preguntesPartida,
- });
+  const tiempoEspera = 300;
 
-//Inicialitzar contador
- socket.emit("game started", {
-   time: dataGameGlobal.time,
-   roomId: dataGameGlobal.idPartida,
-});
-
+  // Inicializar contador antes de enviar el evento "game started"
+  setTimeout(() => {
+      // Emitir el evento "game started" después del tiempo de espera
+      socket.emit("game started", {
+          time: dataGameGlobal.time,
+          roomId: dataGameGlobal.idPartida,
+      });
+  }, tiempoEspera);
 }
+
 
 socket.on("new question", function(pregunta) {
  const { question, time } = pregunta;
