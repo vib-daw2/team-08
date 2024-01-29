@@ -247,7 +247,6 @@ socket.on("users in room", function(data) {
 
 // JOC INICIAT (quan entren a game.html)
 
-
 if (window.location.pathname.endsWith("game.html")) {
 
   //fer que si l'usuari fa refresh l'envï a home
@@ -260,6 +259,21 @@ if (window.location.pathname.endsWith("game.html")) {
       }
     }
   });
+
+  // Extreure paràmetres de la URL (per comprovar que l'usuari ha entrat en una partida)
+const urlParams = new URLSearchParams(window.location.search);
+const idPartida = urlParams.get('partida');
+const nicknameUrl = urlParams.get('nickname');
+
+console.log(nicknameUser)
+console.log(socketID)
+
+
+// Enviar missatge al servidor per unir-se a la sala
+if (idPartida && nicknameUrl) {
+
+   socket.emit("join game", { idPartida, nicknameUser, socketID });
+}
 
   //obtenir dades de la partida(dataGameGlobal) i els usuaris de la partida(usersData)
   const jsonGlobal = sessionStorage.getItem('dataGlobal');
@@ -606,7 +620,6 @@ const secondCountdown = startSecondCountdown(waitTime);
 
 
 }
-
 
 
  
