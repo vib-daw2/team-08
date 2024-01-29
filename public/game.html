@@ -416,57 +416,8 @@ button:hover {
 
 
            musica.play(); // Comienza a reproducir automáticamente
-
-
-       // Variable para almacenar la cuenta atrás de cada pregunta
-         var countdownElement = document.getElementById("countdown");
-         // Variable para almacenar el tiempo que hay para reponder cada pregunta
-         var secondsRemaining = document.getElementById("countdown").innerHTML; // ¡¡IMPORTANTE!! <-- PENDIENTE DE MODIFICAR! ESTA VARIABLE DEBE TOMAR EL VALOR DESDE SERVER
-         // Variable que almacena la respuesta correcta
-         var rightAnswerElement = document.getElementById("right-answer");
-         // Variable que almacena el comentario que se puede leer al finalizar el tiempo para responder a la pregunta
-         var commentContainer = document.getElementById("addComment-container");
-         // Variables para calcular la puntuación
-         var tiempoTotal = secondsRemaining * 1000; // en milisegundos
-         var tiempoRestante = tiempoTotal;
-         var puntuacion = 0;
-         var countdownInterval = setInterval(function () {
-             secondsRemaining--;
-
-
-             if (secondsRemaining >= 0) {
-                 countdownElement.innerHTML = secondsRemaining;
-             } else {
-                 // Terminar con el contador
-                 //clearInterval(countdownInterval);
-                 pausarMusica();
-                 // Quitarle el blur a la imagen
-                 unblurImage();
-                 // Esconder el contenedor de botones-respuestas
-                 document.getElementById("buttons-container").style.display = "none";
-                 rightAnswerElement.removeAttribute("hidden");
-                 // Esconder el contenedor de la cuenta atrás
-                 document.getElementById("countdown-container").style.display = "none";
-                 // Actualiza el gráfico de respuestas escogidas
-
-
-                 // Muestra el gráfico
-                 commentContainer.removeAttribute("hidden");
-                 // Actualiza el marcador después de que haya terminado el tiempo
-               }
-      }, 1000); // Actualizar cada segundo
-
-
-
-
-
-
-
-
-     
-     });
-     */
-
+    */
+           
 
      /*
 
