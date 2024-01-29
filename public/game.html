@@ -338,7 +338,7 @@ button:hover {
          </div>
           <div id="countdown-container">
              <div id="countdown-circle">
-                 <div id="countdown"></div> <!--¡¡IMPORTANTE!! <-- PENDIENTE DE MODIFICAR! ESTA VARIABLE DEBE TOMAR EL VALOR DESDE SERVER-->
+                 <div id="countdown"></div>
              </div>
          </div>
 
@@ -375,13 +375,6 @@ button:hover {
 
      </div>
 
-
-
-
-
-
-
-
     <!-- Nuevo div para la tabla de usuarios -->
 <!-- Nuevo div para la tabla de usuarios -->
 <div id="user-table-container">
@@ -410,9 +403,6 @@ button:hover {
   </table>
 </div>
 
-
-
-
      <!-- Afegir botó per admin, PASSAR A LA SEGÜENT PREGUNTA-->
      <button id="next-question">
       Següent pregunta
@@ -440,42 +430,18 @@ button:hover {
 
 </div>
 
-
-
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.0/socket.io.min.js"></script>
  <script src="main.js" ></script>
  <script>
 
-
-
-
-
-
-
-
      // Define la respuesta correcta (sustituye 'TuRespuestaCorrecta' por la respuesta correcta real)
      const respuestaCorrecta = 'París'; // ¡¡IMPORTANTE!! <-- PENDIENTE DE MODIFICAR! ESTA VARIABLE DEBE TOMAR EL VALOR DESDE SERVER
-
-
-
-
-
-
-
 
      // Marcador (scoreboard)
      const scoreboard = {
          respuestasCorrectas: 0,
          respuestasIncorrectas: 0
      };
-
-
-
-
-
-
-
 
      // Array para rastrear los clics en cada botón
      var clicks = [0, 0, 0, 0];
@@ -635,10 +601,6 @@ button:hover {
  }
 
 
-
-
-
-
  // Funció que comença el compte enrere del temps per respondre cada pregunta
  function startCountdown(initialTime) {
  // Variable local que emmagatzema la quantitat de temps del compte enrere, s'inicialitza amb el temps inicial (questionTime) 
@@ -666,7 +628,6 @@ button:hover {
    showAndHideDuringFirstCountDown();
  }
 
-
      if (remainingTime < 0) {
    
      } else {
@@ -678,34 +639,25 @@ button:hover {
  // Executem updateCountdown() per modificar el compte enrere i assegurar-se que els elements es mostren i s'amaguen adienment
    updateCountdown();
 
-
  }
  // Funció que comença el compte enrere del temps d'espera entre pregunta i pregunta
  function startSecondCountdown(getReadyTime) {
    let remainingTime = getReadyTime;
 
-
  // Funció que actualitza el compte enrere i modifica la visibilitat dels elements HTML segons el comptador
    function updateCountdown() {
      document.getElementById('second-countdown').innerText = remainingTime;
-
 
      if (remainingTime === 0) {
    numPregRestants--;
    console.log("Número de preguntes restants"+ " " + numPregRestants);
 
-
    if(numPregRestants != 0){
        
    // Amaguem i mostrem els elements HTML adients quan el temps d'espera s'ha acabat
    showAndHideAfterSecondCountDown();
-   
-
-
+  
    // AQUÍ HAY QUE EVALUAR CUÁNTAS PREGUNTAS QUEDAN Y EJECUTAR UNA FUNCIÓN U OTRA SEGÚN SI QUEDAN O NO PREGUNTAS
-
-
-
 
    // Cridem la funció de startCountdown amb questionTime per paràmetre per començar el cicle de la següent pregunta
     startCountdown(questionTime);
@@ -713,10 +665,7 @@ button:hover {
    // Muestra el podio y esconde el resto de elementos
    showAndHideAtTheEnd();
  }
-
-
      }
-
 
      if (remainingTime < 0) {
    
@@ -726,35 +675,21 @@ button:hover {
     setTimeout(updateCountdown, 1000); // Actualitzar cada segon
      }
    }
-
-
-  
    updateCountdown();
-
-
  }
-
 
  //VARIABLES GLOBALS //
  // Constant que emmagatzema el temps d'espera entre una pregunta i una altra
  const waitTime= 5;
 
-
  // Constant que emmagatzema el temps per respondre cada pregunta
  const questionTime=5;
-
 
  // Constant que emmagatzema la quantitat de preguntes totals que té la partida
  const numPregTotals=10;
 
-
  // Variable que emmagatzema el número de preguntes de la partida que resten per mostrar
  var numPregRestants=10;
-
-
-
-
-
 
  function calcularNumPregRestants(numPregTotals, numPregRestants){
  if(numPregTotals >= numPregRestants){
@@ -766,20 +701,14 @@ button:hover {
  }
  }
 
-
  // Funció que mostra el comptador de temps d'espera entre pregunta i pregunta, executa i guarda en la constant la funció startSecondCountdown amb paràmetre del temps d'espera
  function getReadyCountDown(waitTime){
      toggleElementVisibility(document.getElementById('second-countdown-container'), true);
  const secondCountdown = startSecondCountdown(waitTime);
  };
 
-
-
-
  // Iniciar el CD amb el temps questionTime per paràmetre
  startCountdown(questionTime);
-
-
      
    // Función que habilita todos los botones
    function enableAllButtons() {
@@ -789,8 +718,6 @@ button:hover {
        });
    }
 
-
-       
      // Función que deshabilita los botones
    function disableAllButtons() {
        const buttons = document.querySelectorAll('.answer-btn');
