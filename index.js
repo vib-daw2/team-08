@@ -19,6 +19,7 @@ let temps;
 const userScores = {};
 const preguntesPerSala = {};
 let currentQuestionIndex = 0;
+const clickCounts = [0, 0, 0, 0];
 
 
 io.on("connection", (socket) => {
@@ -62,42 +63,53 @@ io.on("connection", (socket) => {
       socket.emit("users", { users });
   });
 
-    //socket crear partida, filtra les preguntes segons els requisits del form (quantitat i topics)
-    socket.on("crear partida", function(configuracioPartida) {
-      //console.log("hola");
-      try {
-          const { title, quantity, topics, nicknameAdmin, time } = configuracioPartida;
-           //array de preguntes segons el tema
-          const preguntasPorTema = {};
-           //Agrupar les preguntes segons el tema escollit
-          preguntes.forEach((pregunta) => {
-            //evitar errors sintàctics
-              const tema = pregunta.modalitat.toLowerCase();
-              if (topics.includes(tema)) {
-                  preguntasPorTema[tema] = preguntasPorTema[tema] || [];
-                  preguntasPorTema[tema].push(pregunta);
-              }
-          });
-           // array de les preguntes finals
-          const preguntesPartida = [];
-           //Calcular quantes preguntes per tema faran falta
-          const cantidadPorTema = Math.floor(quantity / topics.length);
-           //Seleccionar preguntes de cada tema segons la cantitat seleccionada
-          topics.forEach((tema) => {
-              const preguntasDelTema = preguntasPorTema[tema] || [];
-              preguntesPartida.push(...preguntasDelTema.slice(0, cantidadPorTema));
-          });
 
-           // SI es inpar i falta una pregunta escollir-la aleatòriament exemple: 10 preguntes / 3 temes
-          const preguntasRestantes = quantity - preguntesPartida.length;
-          if (preguntasRestantes > 0) {
-              const temasDisponibles = topics.filter((tema) => preguntasPorTema[tema]?.length > cantidadPorTema);
-              for (let i = 0; i < preguntasRestantes; i++) {
-                  const temaAleatorio = temasDisponibles[Math.floor(Math.random() * temasDisponibles.length)];
-                  const preguntasDelTema = preguntasPorTema[temaAleatorio] || [];
-                  preguntesPartida.push(preguntasDelTema[Math.floor(Math.random() * preguntasDelTema.length)]);
-              }
+
+
+  socket.on("crear partida", function(configuracioPartida) {
+    try {
+        const { title, quantity, topics, nicknameAdmin, time } = configuracioPartida;
+        // Array de preguntas por tema
+        const preguntasPorTema = {};
+        // Agrupar las preguntas según el tema elegido
+        preguntes.forEach((pregunta) => {
+          const tema = pregunta.modalitat.toLowerCase();
+          if (topics.includes(tema)) {
+              preguntasPorTema[tema] = preguntasPorTema[tema] || [];
+              preguntasPorTema[tema].push(pregunta);
           }
+        });
+        // Array de las preguntas finales
+        const preguntesPartida = [];
+  
+        // Seleccionar preguntas aleatorias de cada tema según la cantidad seleccionada
+        topics.forEach((tema) => {
+            const preguntasDelTema = preguntasPorTema[tema] || [];
+            // Obtener una selección aleatoria de preguntas de este tema
+            const preguntasAleatorias = shuffleArray(preguntasDelTema).slice(0, Math.floor(quantity / topics.length));
+            preguntesPartida.push(...preguntasAleatorias);
+        });
+  
+        // Función para mezclar aleatoriamente un array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+  
+        // Si queda un número impar de preguntas, elegir aleatoriamente una pregunta de cualquier tema
+        const preguntasRestantes = quantity - preguntesPartida.length;
+        if (preguntasRestantes > 0) {
+            const temasDisponibles = topics.filter((tema) => preguntasPorTema[tema]?.length > Math.floor(quantity / topics.length));
+            for (let i = 0; i < preguntasRestantes; i++) {
+                const temaAleatorio = temasDisponibles[Math.floor(Math.random() * temasDisponibles.length)];
+                const preguntasDelTema = preguntasPorTema[temaAleatorio] || [];
+                preguntesPartida.push(preguntasDelTema[Math.floor(Math.random() * preguntasDelTema.length)]);
+            }
+        }
+  
           //generar identificador únic per la partida
           const idPartida = uuidv4();
           const salaPartida = `partida-${idPartida}`;
@@ -219,7 +231,7 @@ socket.on("users started", function(data) {
 
   //Afegir un contador abans de començar la següent pregunta
   setTimeout(() => {
-    console.log(time, roomId)
+    //console.log(time, roomId)
     // Emitir "game started" per a que comensi la següent
     socket.emit("time finished", { time, roomId });
   }, 7000); // 5000 mil·Lisegons = 5 segundos
@@ -230,10 +242,20 @@ socket.on("resposta", function(data) {
   const { buttonIndex, pregunta, idPartida, nicknameUser, tempsResposta, tempsPregunta } = data;
   const preguntaObj = JSON.parse(pregunta);
   
-  console.log("temps de la resposta: ", tempsResposta)
+ // Mapear letras a índices numéricos
+const indexMap = { 'a': 0, 'b': 1, 'c': 2, 'd': 3 };
+
+// Obtener el índice numérico correspondiente a la letra
+const numericIndex = indexMap[buttonIndex];
+
+// Incrementar el contador en el array clickCounts usando el índice numérico
+clickCounts[numericIndex]++;
+
+  console.log("array: ", clickCounts)
+  //console.log("temps de la resposta: ", tempsResposta)
   const username = nicknameUser;
   const salaPartida = `partida-${idPartida}`;
-  console.log("resposta clicada", preguntaObj.respostes[buttonIndex], "amb temps: ", tempsPregunta);
+  //console.log("resposta clicada", preguntaObj.respostes[buttonIndex], "amb temps: ", tempsPregunta);
 
   // Verificar si el usuario ya tiene una puntuación asociada
   if (!userScores[nicknameUser]) {
@@ -250,9 +272,10 @@ socket.on("resposta", function(data) {
 
   // Calcular la puntuación basada en el tiempo restante y la precisión
   let puntuacio = 0;
+  let isCorrecta = false;
   if (respostaUsuari === respostaCorrecta) {
     // Respuesta correcta: calcular la puntuación basada en el tiempo restante
-    const maxPuntuacio = 800; // Puntuación máxima posible
+    const maxPuntuacio = 750; // Puntuación máxima posible
     const minPuntuacio = 100; // Puntuación mínima posible
     const tempsMaxim = tempsPregunta; // Tiempo máximo permitido para obtener la puntuación máxima (en segundos)
     const tempsMinim = 1; // Tiempo mínimo permitido para obtener la puntuación mínima (en segundos)
@@ -266,13 +289,16 @@ socket.on("resposta", function(data) {
 
     // Actualizar la puntuación acumulada del usuario
     userScores[nicknameUser].puntuacio += puntuacio;
+
+    // Definir que la resposta es correcta
+    isCorrecta = true;
   } else {
     // Respuesta incorrecta: no sumar puntos, solo actualizar las respuestas incorrectas
     userScores[nicknameUser].incorrectes++;
   }
 
   // Enviar al cliente el objeto "userScores" actualizado
-  io.to(salaPartida).emit("noves puntuacions", { userScores: userScores[nicknameUser], username });
+  io.to(salaPartida).emit("noves puntuacions", { userScores: userScores[nicknameUser], username, isCorrecta, clickCounts });
 });
 
 

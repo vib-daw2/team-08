@@ -1,0 +1,12 @@
+                           1
+Crear un podium        2       3
+                    4              5
+
+canviar calcul de puntuacio ✅ 
+podi de guanyadors
+tornar a jugar
+boto de admin ✅ 
+guardar els clicks de cada resposta(actualitzar l'array de servidor)
+URL sala
+indexPregunta = 0;
+

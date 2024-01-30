@@ -180,7 +180,7 @@ socket.on("preguntes partida", function(dataPartida) {
    
    sessionStorage.setItem('dataGame', JSON.stringify(dataPartida));
    // Redirigir a la página lobby.html con el identificador único en la URL
-   const lobbyUrl = `http://localhost:3000/lobby.html?partida=${dataPartida.idPartida}&nickname=${dataPartida.nicknameAdmin}`;
+   const lobbyUrl = `/lobby.html?partida=${dataPartida.idPartida}&nickname=${dataPartida.nicknameAdmin}`;
    //console.log(lobbyUrl);
    window.location.href = lobbyUrl;
    
@@ -211,7 +211,7 @@ socket.on("start game", function(data) {
  const jsonGlobal = sessionStorage.getItem('dataGlobal');
  const dataGameGlobal = JSON.parse(jsonGlobal);
  //console.log(dataGameGlobal);
- const lobbyUrl = `http://localhost:3000/game.html?partida=${dataGameGlobal.idPartida}&nickname=${dataGameGlobal.nicknameAdmin}`;
+ const lobbyUrl = `/game.html?partida=${dataGameGlobal.idPartida}&nickname=${dataGameGlobal.nicknameAdmin}`;
  window.location.href = lobbyUrl;
 
 });
@@ -249,6 +249,7 @@ socket.on("users in room", function(data) {
 
 if (window.location.pathname.endsWith("game.html")) {
 
+  let clicksChart = [0, 0, 0, 0];
   var tempsPregunta;
   var tempsResposta;
   //fer que si l'usuari fa refresh l'envï a home
@@ -344,18 +345,24 @@ socket.on("time finished", function(data) {
 });
 
 socket.on("noves puntuacions", function(data) {
-  const { userScores, username } = data;
+  const { userScores, username, isCorrecta, clickCounts } = data;
+  
+    //Actualitzar la variable global que guarda els clicks de cada resposta 
+    for (let i = 0; i < clickCounts.length; i++) {
+      clicksChart[i] += clickCounts[i];
+    }
+    console.log("array actualitzat: ", clicksChart)
 
   const nicknameP = username;
-  console.log("Puntuaciones actualizadas:", userScores , "per a ", nicknameP);
+  //console.log("Puntuaciones actualizadas:", userScores , "per a ", nicknameP);
   
   //actualitzar la taula...
-  actualitzarPuntuacions(userScores, nicknameP);
+  actualitzarPuntuacions(userScores, nicknameP, isCorrecta);
 });
 
 socket.on("game over", function() {
 console.log("Game over!")
-window.location.href = 'podio.html';
+//window.location.href = 'podio.html';
 
 });
 
@@ -384,53 +391,56 @@ function handleButtonClick(buttonIndex) {
             button.classList.add('disabled');
             button.disabled = true; 
         }
-    });
-    // Incrementar el contador de clics para el botón correspondiente
-    clicks[buttonIndex]++;
-  
+    });  
   }
 
-  //plenar taula dinàmicament
-  const tbodyElement = document.querySelector("#user-table tbody");
+// Plenar taula dinàmicament
+const tbodyElement = document.querySelector("#user-table tbody");
 
-  tbodyElement.innerHTML = "";
+tbodyElement.innerHTML = "";
 
-  usersData.usernamesArray.forEach((username, index) => {
+usersData.usernamesArray.forEach((username, index) => {
     // Verificar que l'usuari no sigui administrador
     if (username !== nicknameAdmin) {
-    const trElement = document.createElement("tr");
+        const trElement = document.createElement("tr");
 
-    // Columna de aciertos (inicialmente en 0)
-    const tdPunts = document.createElement("td");
-    tdPunts.textContent = "0";
-    trElement.appendChild(tdPunts);
-    
-    // Columna de nombre de usuario
-    const tdUsername = document.createElement("td");
-    tdUsername.textContent = username;
-    trElement.appendChild(tdUsername);
+        // Columna de aciertos (inicialmente en 0)
+        const tdPunts = document.createElement("td");
+        tdPunts.textContent = "0";
+        trElement.appendChild(tdPunts);
+        
+        // Columna de nombre de usuario
+        const tdUsername = document.createElement("td");
+        tdUsername.textContent = username;
+        // Agregar una clase especial para resaltar el nombre de usuario del usuario conectado
+        if (username === nicknameUser) {
+            tdUsername.classList.add("user-highlight"); // Agregar clase CSS para resaltar
+            console.log("usuario connectat: ", nicknameUser)
+        }
+        trElement.appendChild(tdUsername);
 
-    // Columna de aciertos (inicialmente en 0)
-    const tdAciertos = document.createElement("td");
-    tdAciertos.textContent = "0";
-    trElement.appendChild(tdAciertos);
+        // Columna de aciertos (inicialmente en 0)
+        const tdAciertos = document.createElement("td");
+        tdAciertos.textContent = "0";
+        trElement.appendChild(tdAciertos);
 
-    // Columna de fallos (inicialmente en 0)
-    const tdFallos = document.createElement("td");
-    tdFallos.textContent = "0";
-    trElement.appendChild(tdFallos);
+        // Columna de fallos (inicialmente en 0)
+        const tdFallos = document.createElement("td");
+        tdFallos.textContent = "0";
+        trElement.appendChild(tdFallos);
 
-    // Columna de porcentaje de respuestas correctas/incorrectas (inicialmente en 0%)
-    const tdPorcentaje = document.createElement("td");
-    tdPorcentaje.textContent = "0%";
-    trElement.appendChild(tdPorcentaje);
+        // Columna de porcentaje de respuestas correctas/incorrectas (inicialmente en 0%)
+        const tdPorcentaje = document.createElement("td");
+        tdPorcentaje.textContent = "0%";
+        trElement.appendChild(tdPorcentaje);
 
-    // Agregar la fila a tbody
-    tbodyElement.appendChild(trElement);
+        // Agregar la fila a tbody
+        tbodyElement.appendChild(trElement);
     }
-  });
+});
 
-  function actualitzarPuntuacions(userScores, username) {
+
+  function actualitzarPuntuacions(userScores, username, isCorrecta) {
     const table = document.getElementById("user-table");
     const rows = table.getElementsByTagName("tr");
 
@@ -453,14 +463,12 @@ function handleButtonClick(buttonIndex) {
             fallosCell.textContent = userScores.incorrectes;
             porcentajeCell.textContent = porcentajeAciertos.toFixed(2) + "%";
 
-            // Mostrar missatge d'encert o fallo
-            // Mostrar mensaje de acierto o fallo
-const mensajeCell = document.createElement("td");
-mensajeCell.textContent = respuestaCorrecta ? "¡Correcte!" : "¡Incorrecte!";
-rows[i].appendChild(mensajeCell);
+            // Mostrar mensaje de acuerdo a la respuesta
+            const mensajeCell = document.createElement("td");
+            mensajeCell.textContent = isCorrecta ? "¡Correcte! ✅ " : "¡Incorrecte! ❌";
+            rows[i].appendChild(mensajeCell);
 
-
-            //eliminar missatge despres de 3 segons
+            // Eliminar el mensaje después de 3 segundos
             setTimeout(() => {
                 mensajeCell.remove();
             }, 3000);
@@ -469,6 +477,7 @@ rows[i].appendChild(mensajeCell);
         }
     }
 }
+
 
 
   
@@ -540,7 +549,9 @@ rows[i].appendChild(mensajeCell);
       tempsResposta = remainingTime;
  
       if (remainingTime === 0) {
-        updateChart();
+        updateChart(clicksChart);
+        clicksChart = [0, 0, 0, 0];
+
     // Amaguem i mostrem els elements HTML adients quan el compte enrere s'ha acabat
      showAndHideAfterFirstCountDown();
     // Modificació estils dels botons de les respostes
@@ -624,6 +635,41 @@ function getReadyCountDown(waitTime){
     toggleElementVisibility(document.getElementById('second-countdown-container'), true);
 const secondCountdown = startSecondCountdown(waitTime);
 };
+
+
+//gàfic de barres
+
+let myChart;
+function updateChart(clickCounts) {
+  // Destruir el gráfico anterior si existe
+  if (myChart) {
+      myChart.destroy();
+  }
+  console.log("Valor de clickCounts en chart:", clickCounts);
+
+  var ctx = document.getElementById("myChart").getContext("2d");
+  myChart = new Chart(ctx, {
+      type: "bar",
+      data: {
+          labels: [document.getElementById("resposta-a").textContent, document.getElementById("resposta-c").textContent, document.getElementById("resposta-b").textContent, document.getElementById("resposta-d").textContent],
+          datasets: [{
+              label: "",
+              data: clickCounts,
+              backgroundColor: ["rgba(255, 99, 132, 0.5)", "rgba(54, 162, 235, 0.5)", "rgba(255, 206, 86, 0.5)", "rgba(75, 192, 192, 0.5)"],
+              borderColor: ["rgba(255, 99, 132, 1)", "rgba(54, 162, 235, 1)", "rgba(255, 206, 86, 1)", "rgba(75, 192, 192, 1)"],
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {
+              y: {
+                  beginAtZero: true
+              }
+          }
+      }
+  });
+}
+
 
 
 }
