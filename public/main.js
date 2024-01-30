@@ -249,6 +249,7 @@ socket.on("users in room", function(data) {
 
 if (window.location.pathname.endsWith("game.html")) {
 
+  var tempsPregunta;
   var tempsResposta;
   //fer que si l'usuari fa refresh l'envï a home
   document.addEventListener("DOMContentLoaded", function () {
@@ -284,7 +285,7 @@ if (idPartida && nicknameUrl) {
   const usersGame = sessionStorage.getItem('usersGame');
   const usersData = JSON.parse(usersGame);
   console.log(usersData)
-
+  tempsPregunta = dataGameGlobal.time;
  
  // Canviar el format de users a array
 const usersArray = Array.isArray(usersData) ? usersData : [usersData];
@@ -369,7 +370,7 @@ function handleButtonClick(buttonIndex) {
 
     // Emite la respuesta y la pregunta al servidor
     console.log('Opció seleccionada:',buttonIndex);
-    socket.emit('resposta', { buttonIndex, pregunta: JSON.stringify(pregunta), idPartida, nicknameUser, tempsResposta });
+    socket.emit('resposta', { buttonIndex, pregunta: JSON.stringify(pregunta), idPartida, nicknameUser, tempsResposta, tempsPregunta });
 
   }
     
@@ -453,9 +454,11 @@ function handleButtonClick(buttonIndex) {
             porcentajeCell.textContent = porcentajeAciertos.toFixed(2) + "%";
 
             // Mostrar missatge d'encert o fallo
-            const mensajeCell = document.createElement("td");
-            mensajeCell.textContent = userScores.correctes > 0 ? "¡Correcte!" : "¡Incorrecte!";
-            rows[i].appendChild(mensajeCell);
+            // Mostrar mensaje de acierto o fallo
+const mensajeCell = document.createElement("td");
+mensajeCell.textContent = respuestaCorrecta ? "¡Correcte!" : "¡Incorrecte!";
+rows[i].appendChild(mensajeCell);
+
 
             //eliminar missatge despres de 3 segons
             setTimeout(() => {

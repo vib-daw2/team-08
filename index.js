@@ -227,43 +227,54 @@ socket.on("users started", function(data) {
 
 // Rebre les respostes, comprovar el resultat i actualitzar objecte "userScores"
 socket.on("resposta", function(data) {
-  const { buttonIndex, pregunta, idPartida, nicknameUser, tempsResposta } = data;
+  const { buttonIndex, pregunta, idPartida, nicknameUser, tempsResposta, tempsPregunta } = data;
   const preguntaObj = JSON.parse(pregunta);
   
   console.log("temps de la resposta: ", tempsResposta)
   const username = nicknameUser;
   const salaPartida = `partida-${idPartida}`;
-  console.log("resposta clicada", preguntaObj.respostes[buttonIndex]);
+  console.log("resposta clicada", preguntaObj.respostes[buttonIndex], "amb temps: ", tempsPregunta);
 
-  //Verificar si l'usuari ja té una puntuació associada (l'usuari admin mai s'inicialitza perque no pot clicar)
-if (!userScores[nicknameUser]) {
-  userScores[nicknameUser] = {
-    puntuacio: 0,
-    correctes: 0,
-    incorrectes: 0,
-  };
-}
-  //resposta de l'usuari i resposta correcta
+  // Verificar si el usuario ya tiene una puntuación asociada
+  if (!userScores[nicknameUser]) {
+    userScores[nicknameUser] = {
+      puntuacio: 0,
+      correctes: 0,
+      incorrectes: 0,
+    };
+  }
+
+  // Respuesta del usuario y respuesta correcta
   const respostaUsuari = preguntaObj.respostes[buttonIndex];
   const respostaCorrecta = preguntaObj.correcta;
-  
 
-  //Modificar scoreUsers en funcio de la resposta
-  if (respostaUsuari === respostaCorrecta) 
-  {
-    //resposta correcta
+  // Calcular la puntuación basada en el tiempo restante y la precisión
+  let puntuacio = 0;
+  if (respostaUsuari === respostaCorrecta) {
+    // Respuesta correcta: calcular la puntuación basada en el tiempo restante
+    const maxPuntuacio = 800; // Puntuación máxima posible
+    const minPuntuacio = 100; // Puntuación mínima posible
+    const tempsMaxim = tempsPregunta; // Tiempo máximo permitido para obtener la puntuación máxima (en segundos)
+    const tempsMinim = 1; // Tiempo mínimo permitido para obtener la puntuación mínima (en segundos)
+    const tempsRestantNormalitzat = tempsResposta / tempsMaxim; // Normalizar el tiempo restante
+
+    // Calcular la puntuación basada en el tiempo restante y la precisión
+    puntuacio = Math.round(minPuntuacio + (maxPuntuacio - minPuntuacio) * tempsRestantNormalitzat * 0.5); // Ajustar el factor de tiempo
+
+    // Actualizar la puntuación y las respuestas correctas
     userScores[nicknameUser].correctes++;
-    userScores[nicknameUser].puntuacio++;
-    console.log("+1 punt");
+
+    // Actualizar la puntuación acumulada del usuario
+    userScores[nicknameUser].puntuacio += puntuacio;
+  } else {
+    // Respuesta incorrecta: no sumar puntos, solo actualizar las respuestas incorrectas
+    userScores[nicknameUser].incorrectes++;
   }
-  else{
-     // Resposta incorrecta
-     userScores[nicknameUser].incorrectes++;
-     console.log("MAAL!");
-  }
-  //enviar al client l'objecte "userScores" actualitzat
+
+  // Enviar al cliente el objeto "userScores" actualizado
   io.to(salaPartida).emit("noves puntuacions", { userScores: userScores[nicknameUser], username });
 });
+
 
 
 socket.on('disconnect', function() {
