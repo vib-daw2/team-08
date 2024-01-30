@@ -115,8 +115,10 @@ io.on("connection", (socket) => {
           const salaPartida = `partida-${idPartida}`;
           //unir a l'usuari que ha creat la partida a la sala
           socket.join(salaPartida);
-          //console.log(nicknameAdmin);
-          socket.emit("preguntes partida", { idPartida, preguntesPartida, nicknameAdmin, time });
+          const codigoPartida = generarCodigo();
+         //socket.emit("preguntes partida", { idPartida, preguntesPartida, nicknameAdmin, time });
+         socket.emit("preguntes partida", { idPartida, preguntesPartida, nicknameAdmin, time, codigoPartida });
+         
       } catch (error) {
           console.error("Error al procesar la sol·licitud de creació de la partida:", error);
       }
@@ -319,6 +321,20 @@ setInterval(() => {
   comptador++;
 }, 5000);
 */
+// Crear una función para generar un código alfanumérico corto
+function generarCodigo() {
+  const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let codigo = '';
+
+  // Generar un código de longitud deseada (por ejemplo, 6 caracteres)
+  for (let i = 0; i < 6; i++) {
+    const indice = Math.floor(Math.random() * caracteres.length);
+    codigo += caracteres.charAt(indice);
+  }
+
+  return codigo;
+}
+
 
 httpServer.listen(3000, ()=>
   console.log(`Server listening at http://localhost:3000`)

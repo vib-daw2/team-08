@@ -174,10 +174,10 @@ if (idPartida && nicknameUrl) {
 
 // Rep la partida configurada
 socket.on("preguntes partida", function(dataPartida) {
-   const { idPartida, preguntesPartida, nicknameAdmin, time } = dataPartida;
+   const { idPartida, preguntesPartida, nicknameAdmin, time, codigoPartida } = dataPartida;
    console.log(dataPartida);
    sessionStorage.setItem('idPartida', idPartida);
-   
+   console.log(codigoPartida)
    sessionStorage.setItem('dataGame', JSON.stringify(dataPartida));
    // Redirigir a la página lobby.html con el identificador único en la URL
    const lobbyUrl = `/lobby.html?partida=${dataPartida.idPartida}&nickname=${dataPartida.nicknameAdmin}`;
