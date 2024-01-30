@@ -7,6 +7,6 @@ podi de guanyadors
 tornar a jugar
 boto de admin ✅ 
 guardar els clicks de cada resposta(actualitzar l'array de servidor)
-URL sala
+URL sala (posar el codi en lobby en gran ...) ✅
 indexPregunta = 0;
-
+Potser fer funcio que comprovi si un usuari ha abandonat la sala

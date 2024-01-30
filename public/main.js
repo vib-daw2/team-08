@@ -141,21 +141,38 @@ document.addEventListener("DOMContentLoaded", function () {
   // Verificar si estas en home.html
   if (window.location.href.endsWith("home.html")) {
    
-      const linkInput = document.getElementById("linkInput");
+      const codiInput = document.getElementById("codiInput");
+      
       const entrarButton = document.getElementById("entrarButton");
 
       // Redirigir a l'usuari quan cliqui "enviar" a la url proporcionada
       entrarButton.addEventListener("click", function () {
-          // Url proporcionada per l'usuari
-          const lobbyUrl = linkInput.value;
-          // Redirigir a la lobby
-          window.location.href = lobbyUrl;
+        const codiInputValue = codiInput.value;
+        //comprovar si el codi existeix
+        console.log("CODI INTRODUIT: ", codiInputValue)
+        socket.emit("codi partida", codiInputValue);
       });
   } else {
       //console.log("No estás en home.html");
   }
+
+  // Event "unir partida" enviat pel servidor
+socket.on("unir partida", function(data) {
+  //redirigir a l'usuari a la lobby de la partida
+  const { sala, nicknameCreador, codiInputValue } = data;
+  const lobbyUrl = `/lobby.html?partida=${sala}&nickname=${nicknameCreador}&codiPartida=${codiInputValue}`;
+   //console.log(lobbyUrl);
+   window.location.href = lobbyUrl;
 });
 
+// Manejar el evento "no existeix" enviado por el servidor
+socket.on("no existeix", () => {
+  console.log("La partida no existe.");
+  const message = document.getElementById("error");
+  message.textContent = "No existeix cap partida amb aquest codi";
+});
+
+});
 // Extreure paràmetres de la URL (per comprovar que l'usuari ha entrat en una partida)
 const urlParams = new URLSearchParams(window.location.search);
 const idPartida = urlParams.get('partida');
@@ -174,13 +191,13 @@ if (idPartida && nicknameUrl) {
 
 // Rep la partida configurada
 socket.on("preguntes partida", function(dataPartida) {
-   const { idPartida, preguntesPartida, nicknameAdmin, time, codigoPartida } = dataPartida;
+   const { idPartida, preguntesPartida, nicknameAdmin, time, codiPartida } = dataPartida;
    console.log(dataPartida);
    sessionStorage.setItem('idPartida', idPartida);
-   console.log(codigoPartida)
+   console.log("Codi 6 digits: ", codiPartida)
    sessionStorage.setItem('dataGame', JSON.stringify(dataPartida));
    // Redirigir a la página lobby.html con el identificador único en la URL
-   const lobbyUrl = `/lobby.html?partida=${dataPartida.idPartida}&nickname=${dataPartida.nicknameAdmin}`;
+   const lobbyUrl = `/lobby.html?partida=${dataPartida.idPartida}&nickname=${dataPartida.nicknameAdmin}&codiPartida=${codiPartida}`;
    //console.log(lobbyUrl);
    window.location.href = lobbyUrl;
    

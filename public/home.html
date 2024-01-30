@@ -42,7 +42,7 @@ p {
     margin-bottom: 10px;
 }
 
-#linkInput {
+#codiInput {
     width: 300px;
     padding: 10px;
     font-size: 16px;
@@ -88,6 +88,10 @@ p {
     background-color: #333;
 }
 
+#error {
+color: red;
+font-size: 20px;
+}
     </style>
     </head>
     <body>
@@ -97,9 +101,11 @@ p {
         </div>
     
         <div id="container">
-            <p>Entra el Link</p>
-            <input id="linkInput" type="text" placeholder="URL de la partida">
+            <p>Entra el Codi</p>
+            <input id="codiInput" type="text" placeholder="Codi de la partida">
             <button id="entrarButton">Entrar</button>
+            <br>
+            <p id = "error"></p>
     
             <div id="createSection">
                 <p>Crea una partida</p>

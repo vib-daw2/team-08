@@ -98,7 +98,7 @@
    <div id="lobby-container">
        <h1 id="titleLobby"></h1>
        <div id="url-container" class="input-group">
-           <label for="url" class="input-group-prepend">URL de la Partida:</label>
+           <label for="url" class="input-group-prepend">Codi de la Partida:</label>
            <input type="text" id="url" value="" readonly class="form-control">
            <div class="input-group-append">
                <button id="copy-button" class="btn btn-success"><svg xmlns="http://www.w3.org/2000/svg" width="16"
@@ -145,9 +145,9 @@
 
        // Assigna la URL de la partida al input
        const params = new URLSearchParams(window.location.search);
-       const partidaId = params.get("partida");
+       const partidaId = params.get("codiPartida");
        const urlInput = document.getElementById("url");
-       urlInput.value = window.location.href;
+       urlInput.value = partidaId;
    </script>
            <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.0/socket.io.min.js"></script>
            <script src="main.js"></script>

@@ -21,6 +21,8 @@ const preguntesPerSala = {};
 let currentQuestionIndex = 0;
 const clickCounts = [0, 0, 0, 0];
 
+const partides = {};
+
 
 io.on("connection", (socket) => {
    console.log('Connectat un client...')
@@ -113,17 +115,47 @@ io.on("connection", (socket) => {
           //generar identificador únic per la partida
           const idPartida = uuidv4();
           const salaPartida = `partida-${idPartida}`;
+          const codiPartida = idPartida.slice(0, 6);
           //unir a l'usuari que ha creat la partida a la sala
           socket.join(salaPartida);
-          const codigoPartida = generarCodigo();
+          
+          //afegir aquesta partida al objecte de partides
+          partides[salaPartida] = { 
+            codiPartida: codiPartida,
+            nicknameAdmin: nicknameAdmin,
+            salaGame: idPartida,
+          };
+          console.log(partides)
+
          //socket.emit("preguntes partida", { idPartida, preguntesPartida, nicknameAdmin, time });
-         socket.emit("preguntes partida", { idPartida, preguntesPartida, nicknameAdmin, time, codigoPartida });
+         socket.emit("preguntes partida", { idPartida, preguntesPartida, nicknameAdmin, time, codiPartida });
          
       } catch (error) {
           console.error("Error al procesar la sol·licitud de creació de la partida:", error);
       }
   });
  
+//Gestionar el codi de partida enviat per l'usuari
+socket.on("codi partida", (codiInputValue) => {
+  //console.log("Codi rebut:", codiInputValue);
+  
+ // Verificar si existeix una partida amb el codi proporcionat
+ const salaPartidaEncontrada = Object.values(partides).find(partida => partida.codiPartida === codiInputValue);
+
+ if (salaPartidaEncontrada) {
+  //si existeix es redirigira l'usuari a la lobby de la partida
+  const sala = salaPartidaEncontrada.salaGame;
+  const nicknameCreador = salaPartidaEncontrada.nicknameAdmin;
+  console.log("La partida existeix.");
+  socket.emit("unir partida", { sala, nicknameCreador, codiInputValue });
+    
+ } else {
+     // Si el codi no existeix li faré saber
+     console.log("La partida no existeix.");
+     socket.emit("no existeix");
+ }
+});
+
 
 // gestionar quan un usuari s'uneix a traves de la URL
 socket.on("join game", function(data) {
@@ -199,7 +231,7 @@ socket.on("users started", function(data) {
         const connectionsInRoom = roomsInfo.get(salaPartida).size;
 
         // Mostrar la cantidad de conexiones por consola
-        console.log("Cantidad de conexiones en la sala " + salaPartida + ":", connectionsInRoom);
+        console.log("Quantitat de conexions en la sala " + salaPartida + ":", connectionsInRoom);
     }
 
   //obtenir les preguntes de l'objecte global
@@ -322,7 +354,7 @@ setInterval(() => {
 }, 5000);
 */
 // Crear una función para generar un código alfanumérico corto
-function generarCodigo() {
+function generarCodi() {
   const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   let codigo = '';
 
