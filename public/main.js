@@ -249,6 +249,7 @@ socket.on("users in room", function(data) {
 
 if (window.location.pathname.endsWith("game.html")) {
 
+  var tempsResposta;
   //fer que si l'usuari fa refresh l'envï a home
   document.addEventListener("DOMContentLoaded", function () {
     //verificar si es una recàrrega
@@ -368,7 +369,7 @@ function handleButtonClick(buttonIndex) {
 
     // Emite la respuesta y la pregunta al servidor
     console.log('Opció seleccionada:',buttonIndex);
-    socket.emit('resposta', { buttonIndex, pregunta: JSON.stringify(pregunta), idPartida, nicknameUser });
+    socket.emit('resposta', { buttonIndex, pregunta: JSON.stringify(pregunta), idPartida, nicknameUser, tempsResposta });
 
   }
     
@@ -533,7 +534,7 @@ function handleButtonClick(buttonIndex) {
   // Funció que actualitza el compte enrere i modifica la visibilitat dels elements HTML segons el comptador
     function updateCountdown() {
       document.getElementById('countdown').innerText = remainingTime;
- 
+      tempsResposta = remainingTime;
  
       if (remainingTime === 0) {
         updateChart();

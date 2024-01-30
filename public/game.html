@@ -472,13 +472,14 @@ button:hover {
 
  // Funció que executa totes les modificacions d'estils dels elements HTML en acabar el temps per respondre una pregunta
  function showAndHideAfterFirstCountDown(){
+  toggleElementBlurless(document.getElementById('image'), false); // Treu el blur a la imarge
  toggleButtonsVisibility(document.getElementById('buttons-container'), false); // Ocultar botones al llegar a cero
  //toggleElementVisibility(document.getElementById('new-container'), true); // Mostrar el nuevo contenedor
  toggleElementVisibility(document.getElementById('right-answer'), true); // Mostrar el nuevo contenedor
  toggleElementVisibility(document.getElementById('addComment-container'), true); // Mostrar el nuevo contenedor
  toggleElementVisibility(document.getElementById('chart-container'), true); // Mostrar el nuevo contenedor
  toggleElementVisibility(document.getElementById('countdown-container'), false); // Mostrar el nuevo contenedor
- toggleElementBlurless(document.getElementById('image'), false); // Treu el blur a la imarge
+ 
  }
 
 

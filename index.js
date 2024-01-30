@@ -227,9 +227,10 @@ socket.on("users started", function(data) {
 
 // Rebre les respostes, comprovar el resultat i actualitzar objecte "userScores"
 socket.on("resposta", function(data) {
-  const { buttonIndex, pregunta, idPartida, nicknameUser } = data;
+  const { buttonIndex, pregunta, idPartida, nicknameUser, tempsResposta } = data;
   const preguntaObj = JSON.parse(pregunta);
   
+  console.log("temps de la resposta: ", tempsResposta)
   const username = nicknameUser;
   const salaPartida = `partida-${idPartida}`;
   console.log("resposta clicada", preguntaObj.respostes[buttonIndex]);
