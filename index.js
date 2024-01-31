@@ -16,11 +16,15 @@ const { v4: uuidv4 } = require('uuid');
 const users = [];
 const socketUsernames = {};
 let temps;
+//objecte que guarda les estadistiques de cada jugador
 const userScores = {};
+//objecte que guarda les preguntes de la partida
 const preguntesPerSala = {};
-let currentQuestionIndex = 0;
-const clickCounts = [0, 0, 0, 0];
-
+//objecte per guardar el index de les preguntes per cada partida (pregunta[0]...)
+let currentQuestionIndex = {};
+//array que guarda quants clics s'han fet a cada resposta
+var clickCounts = [0, 0, 0, 0];
+//guardar registre de les partides creades
 const partides = {};
 
 
@@ -33,7 +37,7 @@ io.on("connection", (socket) => {
    const nicknameUser = data.nicknameUser;
 
 
-   // verificar si usuario ha proporcionat username
+   // verificar si usuari ha proporcionat username
    if (nicknameUser) {
        // el usuari té nickname
        //console.log("nicknameUser:", nicknameUser);
@@ -210,7 +214,9 @@ socket.on("users started", function(data) {
  
   //guardar les preguntes en l'objecte global
   preguntesPerSala[salaPartida] = preguntes;
-  currentQuestionIndex = 0;
+
+  //cada sala té un index independent per evitar errors amb múltiples partides simultanies
+  currentQuestionIndex[salaPartida] = 0;
  
   //console.log(userScores[salaPartida][users[0]], preguntesPerSala[salaPartida]);
  });
@@ -236,6 +242,8 @@ socket.on("users started", function(data) {
 
   //obtenir les preguntes de l'objecte global
   const preguntes = preguntesPerSala[salaPartida];
+  //obtenir l'index d'aquella partida
+  const currentIndex = currentQuestionIndex[salaPartida];
   const timeNumeric = parseInt(time) * 1000;
 
   //console.log(preguntes)
@@ -246,11 +254,11 @@ socket.on("users started", function(data) {
   }, timeNumeric);
   
   //comprovar que hi han més preguntes
-  if (currentQuestionIndex < preguntes.length) {
+  if (currentIndex < preguntes.length) {
     //hi ha més preguntes, enviar-la
-    io.to(salaPartida).emit("new question", { question: preguntes[currentQuestionIndex], time: time });
+    io.to(salaPartida).emit("new question", { question: preguntes[currentIndex], time: time });
     console.log(currentQuestionIndex)
-    currentQuestionIndex++;
+    currentQuestionIndex[salaPartida]++;
   } else {
     // no hi ha més preguntes, enviar "game over"
     io.to(salaPartida).emit("game over");
@@ -333,6 +341,8 @@ clickCounts[numericIndex]++;
 
   // Enviar al cliente el objeto "userScores" actualizado
   io.to(salaPartida).emit("noves puntuacions", { userScores: userScores[nicknameUser], username, isCorrecta, clickCounts });
+
+  clickCounts = [0, 0, 0, 0];
 });
 
 
@@ -342,6 +352,14 @@ socket.on('disconnect', function() {
 //modificar el objecte d'users
 });
 
+//tornar a jugar (reiniciar puntuacions...)
+socket.on("play again", function(data) {
+const { nicknameAdmin, idRoom } = data;
+console.log("data de back to lobyy:: ", data)
+const salaPartida = `partida-${idRoom}`;
+
+io.to(salaPartida).emit("back to lobby", { nicknameAdmin, idRoom });
+});
 
 });
 

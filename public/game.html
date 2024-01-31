@@ -104,10 +104,18 @@
          transition: filter 1s ease;
          }
 
-         #countdown-container, #second-countdown-container {
+         #countdown-container {
          position: absolute;
          top: 50%;
          left: 50%;
+         transform: translate(-50%, -50%);
+         text-align: center;
+         }
+         #second-countdown-container {
+        
+         position: absolute;
+         top: 50%;
+         left: 44.5%;
          transform: translate(-50%, -50%);
          text-align: center;
          }
@@ -207,7 +215,9 @@ button:hover {
 #miMusica {
     display: none;
 }
-
+#tornarJugar {
+  display: none;
+}
 
      </style>
  </head>
@@ -311,7 +321,7 @@ button:hover {
      <div id="podi" style="display: none">PODIO DE RESULTADOS</div>
 
 
-     <button id="one-more-time" style="display: none;"> Torna a jugar</button>
+     <button id="tornarJugar" style="display: none;"> Torna a jugar</button>
 
 
      <div id="second-countdown-container" style="display: none">
@@ -420,7 +430,6 @@ button:hover {
  // Funció que executa totes les modificacions d'estils dels elements HTML en acabar la partida
  function showAndHideAtTheEnd(){
  toggleElementVisibility(document.getElementById('podi'), true);
- toggleElementVisibility(document.getElementById('one-more-time'), true);  
  toggleElementVisibility(document.getElementById('image'), false); // Mostrar el nuevo contenedor
  //toggleElementVisibility(document.getElementById('new-container'), false); // Mostrar el nuevo contenedor
  toggleElementVisibility(document.getElementById('right-answer'), false); // Mostrar el nuevo contenedor

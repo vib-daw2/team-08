@@ -194,8 +194,9 @@ socket.on("preguntes partida", function(dataPartida) {
    const { idPartida, preguntesPartida, nicknameAdmin, time, codiPartida } = dataPartida;
    console.log(dataPartida);
    sessionStorage.setItem('idPartida', idPartida);
-   console.log("Codi 6 digits: ", codiPartida)
+   //console.log("Codi 6 digits: ", codiPartida)
    sessionStorage.setItem('dataGame', JSON.stringify(dataPartida));
+   sessionStorage.setItem('codiPartida', codiPartida);
    // Redirigir a la página lobby.html con el identificador único en la URL
    const lobbyUrl = `/lobby.html?partida=${dataPartida.idPartida}&nickname=${dataPartida.nicknameAdmin}&codiPartida=${codiPartida}`;
    //console.log(lobbyUrl);
@@ -266,8 +267,14 @@ socket.on("users in room", function(data) {
 
 if (window.location.pathname.endsWith("game.html")) {
 
+
+  //botó tornar a jugar
+  const tornarJugar = document.getElementById("tornarJugar");
+
   let clicksChart = [0, 0, 0, 0];
+  //temps per cada pregunta
   var tempsPregunta;
+  //temps que tarda l'usuari en respondre
   var tempsResposta;
   //fer que si l'usuari fa refresh l'envï a home
   document.addEventListener("DOMContentLoaded", function () {
@@ -280,20 +287,6 @@ if (window.location.pathname.endsWith("game.html")) {
     }
   });
 
-  // Extreure paràmetres de la URL (per comprovar que l'usuari ha entrat en una partida)
-const urlParams = new URLSearchParams(window.location.search);
-const idPartida = urlParams.get('partida');
-const nicknameUrl = urlParams.get('nickname');
-
-console.log(nicknameUser)
-console.log(socketID)
-
-
-// Enviar missatge al servidor per unir-se a la sala
-if (idPartida && nicknameUrl) {
-
-   socket.emit("join game", { idPartida, nicknameUser, socketID });
-}
 
   //obtenir dades de la partida(dataGameGlobal) i els usuaris de la partida(usersData)
   const jsonGlobal = sessionStorage.getItem('dataGlobal');
@@ -379,7 +372,13 @@ socket.on("noves puntuacions", function(data) {
 
 socket.on("game over", function() {
 console.log("Game over!")
-//window.location.href = 'podio.html';
+//mostrar botó tornar a jugar
+if(nicknameAdmin == nicknameJugador)
+  {
+    tornarJugar.style.display = 'block';
+
+  }
+
 
 });
 
@@ -668,7 +667,7 @@ function updateChart(clickCounts) {
   myChart = new Chart(ctx, {
       type: "bar",
       data: {
-          labels: [document.getElementById("resposta-a").textContent, document.getElementById("resposta-c").textContent, document.getElementById("resposta-b").textContent, document.getElementById("resposta-d").textContent],
+          labels: [document.getElementById("resposta-a").textContent, document.getElementById("resposta-b").textContent, document.getElementById("resposta-c").textContent, document.getElementById("resposta-d").textContent],
           datasets: [{
               label: "",
               data: clickCounts,
@@ -687,9 +686,22 @@ function updateChart(clickCounts) {
   });
 }
 
+// Redirigir a l'usuari quan cliqui "enviar" a la url proporcionada
+tornarJugar.addEventListener("click", function () {
+  //tornar als usuaris a la lobby i reiniciar els objectes
+  const idRoom = dataGameGlobal.idPartida;
+socket.emit("play again", { nicknameAdmin, idRoom });
+  //window.location.href = 'lobby.html';
+});
 
+socket.on("back to lobby", function(data) {
+const { nicknameAdmin, idRoom } = data;
+const codiPartida = sessionStorage.getItem('codiPartida');
+
+   const lobbyUrl = `/lobby.html?partida=${idRoom}&nickname=${nicknameAdmin}&codiPartida=${codiPartida}`;
+   window.location.href = lobbyUrl;
+});
 
 }
 
 
- 
