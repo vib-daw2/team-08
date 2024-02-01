@@ -311,7 +311,7 @@
         },
         {
           "modalitat": "geografia",
-          "pregunta": "En quin ocean es troba l'illa de Java?",
+          "pregunta": "En quin oceà es troba l'illa de Java?",
           "respostes": {
             "a": "Oceà Pacífic",
             "b": "Oceà Atlàntic",
@@ -367,7 +367,7 @@
         },
         {
           "modalitat": "geografia",
-          "pregunta": "En quin ocean es troba l'illa de Madagascar?",
+          "pregunta": "A quin oceà es troba l'illa de Madagascar?",
           "respostes": {
             "a": "Oceà Pacífic",
             "b": "Oceà Índic",
