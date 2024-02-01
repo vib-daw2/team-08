@@ -423,6 +423,7 @@ usersData.usernamesArray.forEach((username, index) => {
 
         // Columna de punts (inicialment en 0)
         const tdPunts = document.createElement("td");
+        tdPunts.classList.add("puntuation");
         tdPunts.textContent = "0";
         trElement.appendChild(tdPunts);
         
@@ -430,14 +431,14 @@ usersData.usernamesArray.forEach((username, index) => {
         const tdUsername = document.createElement("td");
         tdUsername.textContent = username;
 
-        //Resaltar el usuari connectat
+        // Resaltar el usuari connectat
         if (username === nicknameUser) {
             tdUsername.classList.add("user-highlight"); 
             console.log("usuario connectat: ", nicknameUser)
         }
         trElement.appendChild(tdUsername);
 
-        // Columna d'encerts' (inicialmente en 0)
+        // Columna d'encerts' (inicialment en 0)
         const tdAciertos = document.createElement("td");
         tdAciertos.textContent = "0";
         trElement.appendChild(tdAciertos);
