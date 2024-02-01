@@ -7,7 +7,7 @@ const messageElement = document.getElementById('message');
 const startButton = document.getElementById('start-button');
 
 
-//Gestionar el nickname de l'usuari
+// Gestionar el nickname de l'usuari
 if (sendButton) {
   sendButton.addEventListener("click", send);
 }
@@ -16,28 +16,28 @@ function send() {
   const nickname = nicknameInput.value;
   socket.emit("nickname", { nickname });
 }
-//guardar els valors en sessionStorage per no perdre'ls al redireccionar
+// Guardar els valors en sessionStorage per no perdre'ls al redireccionar
 socket.on('nickname rebut', function(data) {
 
   console.log(data)
   if (data.redirectUrl) {
        sessionStorage.setItem('socketId', data.socketID);
        sessionStorage.setItem('nicknameUser', data.nicknameUser);
-       //console.log(data.socketID)
+       
        const socketID = sessionStorage.getItem('socketId');
        const nicknameUser = sessionStorage.getItem('nicknameUser');
        console.log("Valor de socketId en sessionStorage:", socketID);
        console.log("Valor de nicknameUser en sessionStorage:", nicknameUser);
-      //redirigir a la pàgina que indica el servidor(home)
+      // Redirigir a la pàgina que indica el servidor(home)
       window.location.href = data.redirectUrl;
   }
  })
 
- //declarar el id i username de l'usuari de forma global
+ // Declarar l'id i username de l'usuari de forma global
 const nicknameUser = sessionStorage.getItem('nicknameUser');
 const socketID = sessionStorage.getItem('socketId');
 
-//Enviar la informació al servidor
+// Enviar la informació al servidor
 socket.emit("nicknameUser", { nicknameUser });
 
 
@@ -54,7 +54,6 @@ if (!redirected) {
        sessionStorage.setItem('redirected', 'true');
 
        // Realitzar la redirecció a index.html
-       //messageElement.innerText = "Escriu un username!";
        console.log(messageElement);
        window.location.href = redirectUrl;
       
@@ -64,7 +63,7 @@ if (!redirected) {
    sessionStorage.removeItem('redirected');
 }
 
-//cridar "get users"
+// Cridar "get users"
 socket.emit("get users");
 
 // Gestionar la resposta amb tots els usuaris
@@ -87,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
      // Obtenir el nickname del sessionStorage
      const nicknameLocal = sessionStorage.getItem("nicknameUser");
 
-     // CCompletar automàticament el camp títol amb el nom de l'usuari
+     // Completar automàticament el camp títol amb el nom de l'usuari
      const titleInput = document.getElementById("title");
      if (titleInput) {
          titleInput.value = "Partida de " + nicknameLocal;
@@ -109,17 +108,17 @@ document.addEventListener("DOMContentLoaded", function () {
           socket.emit("crear partida", formData);
       });
   } else {
-      //console.log("No estas en createGame.html");
+      
   }
  });
 
 
-//assignar un títol a la partida
+// Assignar un títol a la partida
 document.addEventListener("DOMContentLoaded", function () {
   const params = new URLSearchParams(window.location.search);
   const nickname = params.get("nickname");
   const storedNickname = sessionStorage.getItem("nicknameUser");
-  //console.log(storedNickname);
+  
   // Modificar el títol en lobby.html
   const titleLobby = document.getElementById("titleLobby");
   if (titleLobby && nickname) {
@@ -134,7 +133,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-//entrar a una sala a traves de la URL
+// Entrar a una sala a través de la URL
 document.addEventListener("DOMContentLoaded", function () {
   // Verificar si estas en home.html
   if (window.location.href.endsWith("home.html")) {
@@ -146,20 +145,20 @@ document.addEventListener("DOMContentLoaded", function () {
       // Redirigir a l'usuari quan cliqui "enviar" a la url proporcionada
       entrarButton.addEventListener("click", function () {
         const codiInputValue = codiInput.value;
-        //comprovar si el codi existeix
+        // Comprovar si el codi existeix
         console.log("CODI INTRODUIT: ", codiInputValue)
         socket.emit("codi partida", codiInputValue);
       });
   } else {
-      //console.log("No estás en home.html");
+      
   }
 
   // Event "unir partida" enviat pel servidor
 socket.on("unir partida", function(data) {
-  //redirigir a l'usuari a la lobby de la partida
+  // Redirigir a l'usuari a la lobby de la partida
   const { sala, nicknameCreador, codiInputValue } = data;
   const lobbyUrl = `/lobby.html?partida=${sala}&nickname=${nicknameCreador}&codiPartida=${codiInputValue}`;
-   //console.log(lobbyUrl);
+   
    window.location.href = lobbyUrl;
 });
 
@@ -192,41 +191,41 @@ socket.on("preguntes partida", function(dataPartida) {
    const { idPartida, preguntesPartida, nicknameAdmin, time, codiPartida } = dataPartida;
    console.log(dataPartida);
    sessionStorage.setItem('idPartida', idPartida);
-   //console.log("Codi 6 digits: ", codiPartida)
+   
    sessionStorage.setItem('dataGame', JSON.stringify(dataPartida));
    sessionStorage.setItem('codiPartida', codiPartida);
    // Redirigir a la página lobby.html con el identificador único en la URL
    const lobbyUrl = `/lobby.html?partida=${dataPartida.idPartida}&nickname=${dataPartida.nicknameAdmin}&codiPartida=${codiPartida}`;
-   //console.log(lobbyUrl);
+  
    window.location.href = lobbyUrl;
    
 });
 
-//botó per començar partida
+// Botó per començar partida
 if (startButton) {
    startButton.addEventListener("click", start);
 }
 
 function start() {
-  //demanar preguntes i proporcionar-les als usuaris de la sala
+  // Demanar preguntes i proporcionar-les als usuaris de la sala
    const json = sessionStorage.getItem('dataGame');
    const dataGame = JSON.parse(json);
    socket.emit("preguntes configurades", dataGame);
-   //console.log(dataGame);
+   
 
 }
 
-//partida començada
+// Partida començada
 socket.on("start game", function(data) {
   const { idPartida, preguntesPartida, nicknameAdmin, time } = data;
-  //console.log("Informació sobre preguntes:", data);
+
 
  const jsonString = JSON.stringify(data);
  sessionStorage.setItem('dataGlobal', jsonString);
 
  const jsonGlobal = sessionStorage.getItem('dataGlobal');
  const dataGameGlobal = JSON.parse(jsonGlobal);
- //console.log(dataGameGlobal);
+ 
  const lobbyUrl = `/game.html?partida=${dataGameGlobal.idPartida}&nickname=${dataGameGlobal.nicknameAdmin}`;
  window.location.href = lobbyUrl;
 
@@ -237,7 +236,7 @@ socket.on("start game", function(data) {
 // Obtenir llista d'usuaris que formen part de la sala a la que s'ha unit
 socket.on("users in room", function(data) {
   const usernamesArray = data.usernamesArray;
-  //passar els usernamesArray al servidor, i cridar-ho desde game.js
+  // Passar els usernamesArray al servidor, i cridar-ho desde game.js
   console.log("Usuaris en la sala:", usernamesArray);
 
 
@@ -269,13 +268,13 @@ if (window.location.pathname.endsWith("game.html")) {
   const tornarJugar = document.getElementById("tornarJugar");
 
   let clicksChart = [0, 0, 0, 0];
-  //temps per cada pregunta
+  // Temps per cada pregunta
   var tempsPregunta;
-  //temps que tarda l'usuari en respondre
+  // Temps que tarda l'usuari en respondre
   var tempsResposta;
-  //fer que si l'usuari fa refresh l'envï a home
+  // Fer que si l'usuari fa refresh l'envï a home
   document.addEventListener("DOMContentLoaded", function () {
-    //verificar si es una recàrrega
+    // Verificar si es una recàrrega
     if (performance.navigation.type === 1) {
       //Redirigir a home.html
       window.onload = function (e) {
@@ -285,7 +284,7 @@ if (window.location.pathname.endsWith("game.html")) {
   });
 
 
-  //obtenir dades de la partida(dataGameGlobal) i els usuaris de la partida(usersData)
+  // Obtenir dades de la partida(dataGameGlobal) i els usuaris de la partida(usersData)
   const jsonGlobal = sessionStorage.getItem('dataGlobal');
   const dataGameGlobal = JSON.parse(jsonGlobal);
   console.log(dataGameGlobal);
@@ -298,7 +297,7 @@ if (window.location.pathname.endsWith("game.html")) {
  // Canviar el format de users a array
 const usersArray = Array.isArray(usersData) ? usersData : [usersData];
 
-//definir l'admin de la partida
+// Definir l'admin de la partida
 let userAdmin = dataGameGlobal.nicknameAdmin;
 
 // Obtenir l'usuari administrador i el del jugador connectat
@@ -326,20 +325,20 @@ if (nicknameAdmin === nicknameJugador) {
   }, tiempoEspera);
 }
 
-//rep nova pregunta cada vegada que torna a començar el contadro
+// Rep una nova pregunta cada vegada que torna a començar el contadro
 socket.on("new question", function(pregunta) {
  const { question, time } = pregunta;
- //guardar l'objecte per passar-lo amb la resposta de l'usuari
+ // Guardar l'objecte per passar-lo amb la resposta de l'usuari
  sessionStorage.setItem("currentQuestion", JSON.stringify(question));
- //mostrar la pregunta per pantalla
+ // Mostrar la pregunta per pantalla
 console.log("primera pregunta per a tots ", question)
 mostrarPregunta(question);
 startCountdown(time);
-//console.log("temps de cont: ", time)
+
 
 });
 
-//rep missatge quan s'acaba el temps de la pregunta (inicia el temps de espera)
+// Rep missatge quan s'acaba el temps de la pregunta (inicia el temps de espera)
 socket.on("time's up", function(data) {
   const { time, roomId } = data;
 
@@ -347,14 +346,14 @@ socket.on("time's up", function(data) {
   socket.emit("extra time", { time, roomId });
 });
 
-//Rep un missatge quan s'acaba el segon temps (inicia la següent pregunta)
+// Rep un missatge quan s'acaba el segon temps (inicia la següent pregunta)
 socket.on("time finished", function(data) {
   const { time, roomId } = data;
   console.log("segon temps acabat!")
   socket.emit("game started", { time, roomId });
 });
 
-//Rep les puntuacions actualitzades despres de que l'usuari respongui
+// Rep les puntuacions actualitzades despres de que l'usuari respongui
 socket.on("noves puntuacions", function(data) {
   const { userScores, username, isCorrecta, clickCounts } = data;
   
@@ -365,15 +364,16 @@ socket.on("noves puntuacions", function(data) {
     console.log("array actualitzat: ", clicksChart)
 
   const nicknameP = username;
-  //console.log("Puntuaciones actualizadas:", userScores , "per a ", nicknameP);
   
-  //actualitzar la taula...
+  
+  // Actualitzem la taula
   actualitzarPuntuacions(userScores, nicknameP, isCorrecta);
 });
 
 socket.on("game over", function() {
 console.log("Game over!")
-//mostrar botó tornar a jugar
+
+// Mostrar botó tornar a jugar
 if(nicknameAdmin == nicknameJugador)
   {
     tornarJugar.style.display = 'block';
@@ -389,16 +389,16 @@ function handleButtonClick(buttonIndex) {
   const storedQuestion = sessionStorage.getItem("currentQuestion");
 
   if (storedQuestion) {
-    // Convierte la pregunta de cadena a objeto
+    // Transforma la pregunta de cadena a objecte
     const pregunta = JSON.parse(storedQuestion);
 
-    //emiteix la pregunta i la resposta al servdiro
+    // Emiteix la pregunta i la resposta al servidor
     console.log('Opció seleccionada:',buttonIndex);
     socket.emit('resposta', { buttonIndex, pregunta: JSON.stringify(pregunta), idPartida, nicknameUser, tempsResposta, tempsPregunta });
 
   }
     
-  //Obtenir el botó clicat, i deshabilitar els botons
+  // Obtenir el botó clicat, i deshabilitar els botons
     const buttons = document.querySelectorAll('.answer-btn');
     buttons.forEach((button, index) => {
         if (index === buttonIndex) {
@@ -411,7 +411,7 @@ function handleButtonClick(buttonIndex) {
     });  
   }
 
-// Plenar taula dinàmicament
+// Emplenar taula dinàmicament
 const tbodyElement = document.querySelector("#user-table tbody");
 
 tbodyElement.innerHTML = "";
@@ -429,7 +429,8 @@ usersData.usernamesArray.forEach((username, index) => {
         // Columna nom d'usuari
         const tdUsername = document.createElement("td");
         tdUsername.textContent = username;
-        //resaltar el usuari connectat
+
+        //Resaltar el usuari connectat
         if (username === nicknameUser) {
             tdUsername.classList.add("user-highlight"); 
             console.log("usuario connectat: ", nicknameUser)
@@ -446,7 +447,7 @@ usersData.usernamesArray.forEach((username, index) => {
         tdFallos.textContent = "0";
         trElement.appendChild(tdFallos);
 
-        // Columna de percentatge correctes/incorrectes (inicialment en 0)
+        // Columna de percentatge correctes/incorrectes (inicialment a 0)
         const tdPorcentaje = document.createElement("td");
         tdPorcentaje.textContent = "0%";
         trElement.appendChild(tdPorcentaje);
@@ -470,22 +471,22 @@ usersData.usernamesArray.forEach((username, index) => {
             const fallosCell = rows[i].cells[3];
             const porcentajeCell = rows[i].cells[4];
 
-            // Calcular el porcentaje de aciertos
+            // Calcular el porcentatge d'encerts
             const totalRespuestas = userScores.correctes + userScores.incorrectes;
             const porcentajeAciertos = totalRespuestas === 0 ? 0 : (userScores.correctes / totalRespuestas) * 100;
 
-            // Actualizar la información del usuario específico
+            // Actualitzar la informació de l'usuari específic
             puntosCell.textContent = userScores.puntuacio;
             aciertosCell.textContent = userScores.correctes;
             fallosCell.textContent = userScores.incorrectes;
             porcentajeCell.textContent = porcentajeAciertos.toFixed(2) + "%";
 
-            // Mostrar mensaje de acuerdo a la respuesta
+            // Mostrar missatge segons la respuesta
             const mensajeCell = document.createElement("td");
             mensajeCell.textContent = isCorrecta ? "¡Correcte! ✅ " : "¡Incorrecte! ❌";
             rows[i].appendChild(mensajeCell);
 
-            // Eliminar el mensaje después de 3 segundos
+            // Eliminar el missatge després de 3 segons
             setTimeout(() => {
                 mensajeCell.remove();
             }, 3000);
@@ -496,17 +497,9 @@ usersData.usernamesArray.forEach((username, index) => {
 }
 
 
-
   
-  //var index = 0;
-  //var sP= 1;
-
-  
-  //funció que mostra la pregunta per pantalla
+  // Funció que mostra la pregunta per pantalla
    function mostrarPregunta(pregunta) {
-    // Introdueix el número de countdown 
-    //const countD = document.getElementById("countdown");
-    //countD.textContent = 10; // Asumiendo que la pregunta tiene un campo 'time'
 
     // Introdueix la imatge corresponent a l'element img id=image
     const imaG = document.getElementById("image");
@@ -547,7 +540,7 @@ usersData.usernamesArray.forEach((username, index) => {
   if(nicknameAdmin == nicknameJugador)
   {
  
-  //deshabilitar botons per l'admin
+  // Deshabilitar botons per l'admin
   const buttons = document.querySelectorAll('.answer-btn');
   buttons.forEach((button, index) => {
   
@@ -574,7 +567,6 @@ usersData.usernamesArray.forEach((username, index) => {
     // Modificació estils dels botons de les respostes
      enableAllButtons();
      removeClickedStyles();
-    // AQUÍ HAY QUE EVALUAR CUÁNTAS PREGUNTAS QUEDAN Y EJECUTAR UNA FUNCIÓN U OTRA SEGÚN SI QUEDAN O NO PREGUNTAS
  
  
     getReadyCountDown(waitTime);
@@ -623,7 +615,7 @@ usersData.usernamesArray.forEach((username, index) => {
   
 
 }else{
-  // Muestra el podio y esconde el resto de elementos
+  // Mostra el podi i amaga la resta d'elements
   showAndHideAtTheEnd();
 }
     }
@@ -653,8 +645,7 @@ const secondCountdown = startSecondCountdown(waitTime);
 };
 
 
-//gàfic de barres
-
+// Gràfic de barres
 let myChart;
 function updateChart(clickCounts) {
   //Destruir el gràfic anterior si existeix
@@ -688,7 +679,7 @@ function updateChart(clickCounts) {
 
 // Enviar missatge al servidor quan es clica "tornar a jugar"
 tornarJugar.addEventListener("click", function () {
-  //tornar als usuaris a la lobby i reiniciar els objectes
+  // Tornar els usuaris al lobby i reiniciar els objectes
   const idRoom = dataGameGlobal.idPartida;
 socket.emit("play again", { nicknameAdmin, idRoom });
 });

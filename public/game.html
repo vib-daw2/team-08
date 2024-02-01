@@ -74,18 +74,18 @@
    #resposta-b.clicked,
    #resposta-c.clicked,
    #resposta-d.clicked {
-   background-color: blue; /* Cambia el fondo a azul cuando se hace clic */
-         color: white; /* Cambia el color del texto a blanco */
-         cursor: not-allowed;
-}
+      background-color: blue; /* Cambia el fondo a azul cuando se hace clic */
+      color: white; /* Cambia el color del texto a blanco */
+      cursor: not-allowed;
+   }
 
-#resposta-a.disabled,
-#resposta-b.disabled,
-#resposta-c.disabled,
-#resposta-d.disabled {
- background-color: gray; /* Cambia el fondo a gris para botones desactivados */
- cursor: not-allowed; /* Cambia el cursor a "no permitido" para botones desactivados */
-}
+  #resposta-a.disabled,
+  #resposta-b.disabled,
+  #resposta-c.disabled,
+  #resposta-d.disabled {
+    background-color: gray; /* Cambia el fondo a gris para botones desactivados */
+    cursor: not-allowed; /* Cambia el cursor a "no permitido" para botones desactivados */
+  }
 
          #buttons-container {
          display: flex;
@@ -138,8 +138,6 @@
          font-size: 24px;
          color: white;
          }
-
- /* ... Otros estilos existentes ... */
 
  .user-highlight {
   background-color: #ffffcc; /* Cambia el color de fondo según tu preferencia */
@@ -284,7 +282,7 @@ button:hover {
    <canvas id="myChart"></canvas>
 </div>
      </div>
-    <!-- Nuevo div para la tabla de usuarios -->
+    
 <!-- Nuevo div para la tabla de usuarios -->
 <div id="user-table-container">
   <table id="user-table">
@@ -337,9 +335,6 @@ button:hover {
  <script src="main.js" ></script>
  <script>     
    /*
-     document.addEventListener("DOMContentLoaded", function () {
-
-
        var musica = document.getElementById("miMusica");
 
 
@@ -348,23 +343,9 @@ button:hover {
                    musica.pause();
                }
            }
-
-
-           musica.play(); // Comienza a reproducir automáticamente
+           musica.play(); // Comença a reproduïr automàticament
     */
-           
-
-     /*
-
-
-     // Función que le quita el blur a la imagen annexa a la pregunta, se ejecuta al acabar el tiempo para responder la pregunta
-     function unblurImage() {
-         var image = document.getElementById("image");
-         image.style.filter = "none";
-     }
-
-
-     */
+        
 
 
      // Funció que canvia la visibilitat d'un element, els paràmetres són l'element i un boleà, amb true mostrem l'element i amb false l'amaguem
@@ -376,7 +357,7 @@ button:hover {
      }
  }
 
-
+ // Funció que canvia la visibilitat d'un botó, els paràmetres són l'element i un boleà, amb true mostrem el botó i amb false l'amaguem
  function toggleButtonsVisibility(element, show) {
      if (show) {
     element.style.display = 'flex';
@@ -388,99 +369,95 @@ button:hover {
 
  // Funció que canvia el blur d'un element, els paràmetres són l'element i un boleà, amb true mostrem l'element amb el blur i amb false el mostrem sense blur
  function toggleElementBlurless(element, show) {
- if (show) {
+  if (show) {
    element.style.filter = 'blur(10px)';
- } else {
+  } else {
    element.style.filter = 'none';
- }
+  }
  }
 
 
  // Funció que executa totes les modificacions d'estils dels elements HTML durant el compte enrere de cada pregunta
  function showAndHideDuringFirstCountDown(){
- toggleButtonsVisibility(document.getElementById('buttons-container'), true);
- toggleElementVisibility(document.getElementById('countdown-container'), true); // Ocultar botones al llegar a cero
+  toggleButtonsVisibility(document.getElementById('buttons-container'), true); // Mostra el container dels botons de les respostes
+  toggleElementVisibility(document.getElementById('countdown-container'), true); // Mostra el container del CD
  }
 
 
  // Funció que executa totes les modificacions d'estils dels elements HTML en acabar el temps per respondre una pregunta
  function showAndHideAfterFirstCountDown(){
-  toggleElementBlurless(document.getElementById('image'), false); // Treu el blur a la imarge
- toggleButtonsVisibility(document.getElementById('buttons-container'), false); // Ocultar botones al llegar a cero
- //toggleElementVisibility(document.getElementById('new-container'), true); // Mostrar el nuevo contenedor
- toggleElementVisibility(document.getElementById('right-answer'), true); // Mostrar el nuevo contenedor
- toggleElementVisibility(document.getElementById('addComment-container'), true); // Mostrar el nuevo contenedor
- toggleElementVisibility(document.getElementById('chart-container'), true); // Mostrar el nuevo contenedor
- toggleElementVisibility(document.getElementById('countdown-container'), false); // Mostrar el nuevo contenedor
- 
+  toggleElementBlurless(document.getElementById('image'), false); // Treu el blur a la imatge
+  toggleButtonsVisibility(document.getElementById('buttons-container'), false); // Oculta el container dels botons de les respostes
+  toggleElementVisibility(document.getElementById('right-answer'), true); // Mostra la resposta correcta
+  toggleElementVisibility(document.getElementById('addComment-container'), true); // Mostra el container amb el comentari
+  toggleElementVisibility(document.getElementById('chart-container'), true); // Mostrar el chart amb les respostes escollides
+  toggleElementVisibility(document.getElementById('countdown-container'), false); // Oculta el container del CD
  }
 
 
  // Funció que executa totes les modificacions d'estils dels elements HTML en acabar el temps d'espera per la següent pregunta
  function showAndHideAfterSecondCountDown(){
- toggleElementBlurless(document.getElementById('image'), true); // Dona blur a la imatge
- //toggleElementVisibility(document.getElementById('new-container'), false); // Mostrar el nuevo contenedor
- toggleElementVisibility(document.getElementById('right-answer'), false); // Mostrar el nuevo contenedor
- toggleElementVisibility(document.getElementById('addComment-container'), false); // Mostrar el nuevo contenedor
- toggleElementVisibility(document.getElementById('chart-container'), false); // Mostrar el nuevo contenedor
- toggleElementVisibility(document.getElementById('second-countdown-container'), false); // Mostrar el nuevo contenedor
+  toggleElementBlurless(document.getElementById('image'), true); // Dona blur a la imatge
+  toggleElementVisibility(document.getElementById('right-answer'), false); // Oculta la resposta correcta
+  toggleElementVisibility(document.getElementById('addComment-container'), false); // Oculta el container amb el comentari
+  toggleElementVisibility(document.getElementById('chart-container'), false); // Mostra el container amb el chart amb les respostes escollides
+  toggleElementVisibility(document.getElementById('second-countdown-container'), false); // Oculta el container del segon CD
  }
 
 
  // Funció que executa totes les modificacions d'estils dels elements HTML en acabar la partida
  function showAndHideAtTheEnd(){
- toggleElementVisibility(document.getElementById('podi'), true);
- toggleElementVisibility(document.getElementById('image'), false); // Mostrar el nuevo contenedor
- //toggleElementVisibility(document.getElementById('new-container'), false); // Mostrar el nuevo contenedor
- toggleElementVisibility(document.getElementById('right-answer'), false); // Mostrar el nuevo contenedor
- toggleElementVisibility(document.getElementById('addComment-container'), false); // Mostrar el nuevo contenedor
- toggleElementVisibility(document.getElementById('chart-container'), false); // Mostrar el nuevo contenedor
- toggleElementVisibility(document.getElementById('second-countdown-container'), false); // Mostrar el nuevo contenedor
- toggleElementVisibility(document.getElementById('next-question'), false); // Mostrar el nuevo contenedor
- toggleElementVisibility(document.getElementById('question'), false); // Mostrar el nuevo contenedor
- toggleElementVisibility(document.getElementById('pregunta'), false); // Mostrar el nuevo contenedor
+  toggleElementVisibility(document.getElementById('podi'), true); // Mostra el podi
+  toggleElementVisibility(document.getElementById('image'), false); // Oculta la imatge
+  toggleElementVisibility(document.getElementById('right-answer'), false); // Oculta la resposta correcta
+  toggleElementVisibility(document.getElementById('addComment-container'), false); // Oculta el comentari
+  toggleElementVisibility(document.getElementById('chart-container'), false); // Oculta el chart de les respostes escollides
+  toggleElementVisibility(document.getElementById('second-countdown-container'), false); // Oculta el segon CD
+  toggleElementVisibility(document.getElementById('next-question'), false); // Oculta el botó per saltar a la següent pregunta
+  toggleElementVisibility(document.getElementById('question'), false); // Oculta la pregunta
+  toggleElementVisibility(document.getElementById('pregunta'), false); // Oculta la pregunta
  }
 
      
-   // Función que habilita todos los botones
+   // Funció que habilita tots els botons
    function enableAllButtons() {
        const buttons = document.querySelectorAll('.answer-btn');
        buttons.forEach(button => {
-       button.disabled = false;
+        button.disabled = false;
        });
    }
 
    
-     // Función que deshabilita los botones
+     // Funció que deshabilita els botons
    function disableAllButtons() {
        const buttons = document.querySelectorAll('.answer-btn');
        buttons.forEach(button => {
-       button.disabled = true;
+        button.disabled = true;
        });
    }
 
 
-   // Función para quitar estilos de clicado
+   // Funció per a treure estils dels botons clicats
 function removeClickedStyles() {
    const buttons = document.querySelectorAll('.answer-btn');
    buttons.forEach(button => {
        button.classList.remove('clicked');
        button.classList.remove('disabled');
-       button.style.backgroundColor = ''; // Restablece el color de fondo
-       button.style.color = ''; // Restablece el color del texto
-       button.style.cursor = ''; // Restablece el cursor
+       button.style.backgroundColor = ''; // Restableix el color del fons
+       button.style.color = ''; // Restableix el color del text
+       button.style.cursor = ''; // Restableix el cursor
    });
 }
 
-     // Variables que obtienen las referencias de los elementos del DOM
+     // Variables que obtenen les referències dels elements del DOM
      var textoPrincipal = document.getElementById("texto-principal");
      var comentari = document.getElementById("comentari");
 
 
 
-     // Agrega el evento de ratón para mostrar/ocultar el texto adicional
+     // Afegeix l'event del ratolí per mostrar/ocultar el text adicional
      textoPrincipal.addEventListener("mouseover", function () {
-         // Muestra el comentari
+         // Mostra el comentari
          comentari.style.display = "block";
      });
 
@@ -490,7 +467,7 @@ function removeClickedStyles() {
      });
 
      textoPrincipal.addEventListener("mousemove", function (event) {
-         // Posiciona el comentari cerca del puntero del ratón
+         // Posiciona el comentari a prop del punter del ratolí
          comentari.style.left = event.pageX + 10 + "px";
          comentari.style.top = event.pageY + 10 + "px";
      });
