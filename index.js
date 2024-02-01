@@ -75,9 +75,9 @@ io.on("connection", (socket) => {
   socket.on("crear partida", function(configuracioPartida) {
     try {
         const { title, quantity, topics, nicknameAdmin, time } = configuracioPartida;
-        // Array de preguntas por tema
+        //Array de preguntes per tema
         const preguntasPorTema = {};
-        // Agrupar las preguntas según el tema elegido
+        //Agrupar les preguntes segons el tema seleccionat
         preguntes.forEach((pregunta) => {
           const tema = pregunta.modalitat.toLowerCase();
           if (topics.includes(tema)) {
@@ -85,18 +85,18 @@ io.on("connection", (socket) => {
               preguntasPorTema[tema].push(pregunta);
           }
         });
-        // Array de las preguntas finales
+        // Array de les preguntes finals
         const preguntesPartida = [];
   
-        // Seleccionar preguntas aleatorias de cada tema según la cantidad seleccionada
+        // Seleccionar preguntes aleatòrues segons el tema seleccionat
         topics.forEach((tema) => {
             const preguntasDelTema = preguntasPorTema[tema] || [];
-            // Obtener una selección aleatoria de preguntas de este tema
+            // Obtenir selecció de preguntes aleatòria d'aquest tema
             const preguntasAleatorias = shuffleArray(preguntasDelTema).slice(0, Math.floor(quantity / topics.length));
             preguntesPartida.push(...preguntasAleatorias);
         });
   
-        // Función para mezclar aleatoriamente un array
+        // Funció per barrejar aleatòriament l'array de preguntes
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -105,7 +105,7 @@ io.on("connection", (socket) => {
             return array;
         }
   
-        // Si queda un número impar de preguntas, elegir aleatoriamente una pregunta de cualquier tema
+        // Si queda un número impar de preguntes, elegir aleatoriament una pregunta de qualsevol tema
         const preguntasRestantes = quantity - preguntesPartida.length;
         if (preguntasRestantes > 0) {
             const temasDisponibles = topics.filter((tema) => preguntasPorTema[tema]?.length > Math.floor(quantity / topics.length));
@@ -284,13 +284,13 @@ socket.on("resposta", function(data) {
   const { buttonIndex, pregunta, idPartida, nicknameUser, tempsResposta, tempsPregunta } = data;
   const preguntaObj = JSON.parse(pregunta);
   
- // Mapear letras a índices numéricos
+ // Mapejar les lletres per obtenir-les en format números
 const indexMap = { 'a': 0, 'b': 1, 'c': 2, 'd': 3 };
 
-// Obtener el índice numérico correspondiente a la letra
+// Obtindre l'índex numèric
 const numericIndex = indexMap[buttonIndex];
 
-// Incrementar el contador en el array clickCounts usando el índice numérico
+// Incrementar el contador en l'array clickCounts utilitzant index
 clickCounts[numericIndex]++;
 
   console.log("array: ", clickCounts)
@@ -299,7 +299,7 @@ clickCounts[numericIndex]++;
   const salaPartida = `partida-${idPartida}`;
   //console.log("resposta clicada", preguntaObj.respostes[buttonIndex], "amb temps: ", tempsPregunta);
 
-  // Verificar si el usuario ya tiene una puntuación asociada
+  // Crear puntuació per l'usuari si encara no la té
   if (!userScores[nicknameUser]) {
     userScores[nicknameUser] = {
       puntuacio: 0,
@@ -308,25 +308,25 @@ clickCounts[numericIndex]++;
     };
   }
 
-  // Respuesta del usuario y respuesta correcta
+  //Resposta de l'usuari i resposta correcta
   const respostaUsuari = preguntaObj.respostes[buttonIndex];
   const respostaCorrecta = preguntaObj.correcta;
 
-  // Calcular la puntuación basada en el tiempo restante y la precisión
+  // Calcular la puntuació basada en el temps restant 
   let puntuacio = 0;
   let isCorrecta = false;
   if (respostaUsuari === respostaCorrecta) {
-    // Respuesta correcta: calcular la puntuación basada en el tiempo restante
-    const maxPuntuacio = 750; // Puntuación máxima posible
-    const minPuntuacio = 100; // Puntuación mínima posible
-    const tempsMaxim = tempsPregunta; // Tiempo máximo permitido para obtener la puntuación máxima (en segundos)
-    const tempsMinim = 1; // Tiempo mínimo permitido para obtener la puntuación mínima (en segundos)
-    const tempsRestantNormalitzat = tempsResposta / tempsMaxim; // Normalizar el tiempo restante
+   //Resposta correcta:
+    const maxPuntuacio = 750; // Puntuació màxima possible
+    const minPuntuacio = 100; //Puntuació mínima possible
+    const tempsMaxim = tempsPregunta; 
+    const tempsMinim = 1; 
+    const tempsRestantNormalitzat = tempsResposta / tempsMaxim; //normalitzar el temps restant
 
-    // Calcular la puntuación basada en el tiempo restante y la precisión
+    // Calcular la puntuació basant-se en el temps restant
     puntuacio = Math.round(minPuntuacio + (maxPuntuacio - minPuntuacio) * tempsRestantNormalitzat * 0.5); // Ajustar el factor de tiempo
 
-    // Actualizar la puntuación y las respuestas correctas
+    // Actualitzar la puntuació de l'usuari
     userScores[nicknameUser].correctes++;
 
     // Actualizar la puntuación acumulada del usuario
@@ -335,11 +335,11 @@ clickCounts[numericIndex]++;
     // Definir que la resposta es correcta
     isCorrecta = true;
   } else {
-    // Respuesta incorrecta: no sumar puntos, solo actualizar las respuestas incorrectas
+    // Resposta incorrecta: (no suma ni resta punts, només augmenta el número d'incorrectes)
     userScores[nicknameUser].incorrectes++;
   }
 
-  // Enviar al cliente el objeto "userScores" actualizado
+  // Enviar els Scores actualitzats, el número de clics i si ha sigut correcta o no
   io.to(salaPartida).emit("noves puntuacions", { userScores: userScores[nicknameUser], username, isCorrecta, clickCounts });
 
   clickCounts = [0, 0, 0, 0];
@@ -349,7 +349,6 @@ clickCounts[numericIndex]++;
 
 socket.on('disconnect', function() {
   console.log("desconnectat!")
-//modificar el objecte d'users
 });
 
 //tornar a jugar (reiniciar puntuacions...)
@@ -358,6 +357,7 @@ const { nicknameAdmin, idRoom } = data;
 console.log("data de back to lobyy:: ", data)
 const salaPartida = `partida-${idRoom}`;
 
+//enviar a tots els de la sala un missatge
 io.to(salaPartida).emit("back to lobby", { nicknameAdmin, idRoom });
 });
 

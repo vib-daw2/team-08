@@ -7,8 +7,6 @@ const messageElement = document.getElementById('message');
 const startButton = document.getElementById('start-button');
 
 
-
-
 //Gestionar el nickname de l'usuari
 if (sendButton) {
   sendButton.addEventListener("click", send);
@@ -264,7 +262,6 @@ socket.on("users in room", function(data) {
 
 
 // JOC INICIAT (quan entren a game.html)
-
 if (window.location.pathname.endsWith("game.html")) {
 
 
@@ -308,8 +305,9 @@ let userAdmin = dataGameGlobal.nicknameAdmin;
 const nicknameJugador = sessionStorage.getItem('nicknameUser');
 const nicknameAdmin = userAdmin;
 temps =  dataGameGlobal.time;
+
 if (nicknameAdmin === nicknameJugador) {
-  // Inicializar objeto de usuarios
+  // Inicialitzar objecte usuaris i preguntes en servidor
   socket.emit("users started", {
       users: usersArray,
       roomId: dataGameGlobal.idPartida,
@@ -318,9 +316,9 @@ if (nicknameAdmin === nicknameJugador) {
 
   const tiempoEspera = 300;
 
-  // Inicializar contador antes de enviar el evento "game started"
+  // Inicialitzar contador per evitar que algun usuari es quedi fora de la partida
   setTimeout(() => {
-      // Emitir el evento "game started" después del tiempo de espera
+      // Emitir game started
       socket.emit("game started", {
           time: dataGameGlobal.time,
           roomId: dataGameGlobal.idPartida,
@@ -328,7 +326,7 @@ if (nicknameAdmin === nicknameJugador) {
   }, tiempoEspera);
 }
 
-
+//rep nova pregunta cada vegada que torna a començar el contadro
 socket.on("new question", function(pregunta) {
  const { question, time } = pregunta;
  //guardar l'objecte per passar-lo amb la resposta de l'usuari
@@ -341,6 +339,7 @@ startCountdown(time);
 
 });
 
+//rep missatge quan s'acaba el temps de la pregunta (inicia el temps de espera)
 socket.on("time's up", function(data) {
   const { time, roomId } = data;
 
@@ -348,12 +347,14 @@ socket.on("time's up", function(data) {
   socket.emit("extra time", { time, roomId });
 });
 
+//Rep un missatge quan s'acaba el segon temps (inicia la següent pregunta)
 socket.on("time finished", function(data) {
   const { time, roomId } = data;
   console.log("segon temps acabat!")
   socket.emit("game started", { time, roomId });
 });
 
+//Rep les puntuacions actualitzades despres de que l'usuari respongui
 socket.on("noves puntuacions", function(data) {
   const { userScores, username, isCorrecta, clickCounts } = data;
   
@@ -383,7 +384,7 @@ if(nicknameAdmin == nicknameJugador)
 });
 
   
-// Función que almacena la cantidad de clics que se ha hecho a cada botón y ejecuta la función que deshabilita el resto de los botones
+// Gestiona quan l'usuari clica una resposta
 function handleButtonClick(buttonIndex) {
   const storedQuestion = sessionStorage.getItem("currentQuestion");
 
@@ -391,7 +392,7 @@ function handleButtonClick(buttonIndex) {
     // Convierte la pregunta de cadena a objeto
     const pregunta = JSON.parse(storedQuestion);
 
-    // Emite la respuesta y la pregunta al servidor
+    //emiteix la pregunta i la resposta al servdiro
     console.log('Opció seleccionada:',buttonIndex);
     socket.emit('resposta', { buttonIndex, pregunta: JSON.stringify(pregunta), idPartida, nicknameUser, tempsResposta, tempsPregunta });
 
@@ -420,32 +421,32 @@ usersData.usernamesArray.forEach((username, index) => {
     if (username !== nicknameAdmin) {
         const trElement = document.createElement("tr");
 
-        // Columna de aciertos (inicialmente en 0)
+        // Columna de punts (inicialment en 0)
         const tdPunts = document.createElement("td");
         tdPunts.textContent = "0";
         trElement.appendChild(tdPunts);
         
-        // Columna de nombre de usuario
+        // Columna nom d'usuari
         const tdUsername = document.createElement("td");
         tdUsername.textContent = username;
-        // Agregar una clase especial para resaltar el nombre de usuario del usuario conectado
+        //resaltar el usuari connectat
         if (username === nicknameUser) {
-            tdUsername.classList.add("user-highlight"); // Agregar clase CSS para resaltar
+            tdUsername.classList.add("user-highlight"); 
             console.log("usuario connectat: ", nicknameUser)
         }
         trElement.appendChild(tdUsername);
 
-        // Columna de aciertos (inicialmente en 0)
+        // Columna d'encerts' (inicialmente en 0)
         const tdAciertos = document.createElement("td");
         tdAciertos.textContent = "0";
         trElement.appendChild(tdAciertos);
 
-        // Columna de fallos (inicialmente en 0)
+        // Columna de fallos (inicialment en 0)
         const tdFallos = document.createElement("td");
         tdFallos.textContent = "0";
         trElement.appendChild(tdFallos);
 
-        // Columna de porcentaje de respuestas correctas/incorrectas (inicialmente en 0%)
+        // Columna de percentatge correctes/incorrectes (inicialment en 0)
         const tdPorcentaje = document.createElement("td");
         tdPorcentaje.textContent = "0%";
         trElement.appendChild(tdPorcentaje);
@@ -500,8 +501,8 @@ usersData.usernamesArray.forEach((username, index) => {
   //var index = 0;
   //var sP= 1;
 
-   // Aquí s'hauria de fer una funció que rebés l'id de la pregunta per servidor i omplís de forma dinàmica la posició del array
-
+  
+  //funció que mostra la pregunta per pantalla
    function mostrarPregunta(pregunta) {
     // Introdueix el número de countdown 
     //const countD = document.getElementById("countdown");
@@ -638,7 +639,6 @@ usersData.usernamesArray.forEach((username, index) => {
   updateCountdown();
 }
 
-//VARIABLES GLOBALS //
 // Constant que emmagatzema el temps d'espera entre una pregunta i una altra
 const waitTime= 5;
 
@@ -657,7 +657,7 @@ const secondCountdown = startSecondCountdown(waitTime);
 
 let myChart;
 function updateChart(clickCounts) {
-  // Destruir el gráfico anterior si existe
+  //Destruir el gràfic anterior si existeix
   if (myChart) {
       myChart.destroy();
   }
@@ -686,14 +686,15 @@ function updateChart(clickCounts) {
   });
 }
 
-// Redirigir a l'usuari quan cliqui "enviar" a la url proporcionada
+// Enviar missatge al servidor quan es clica "tornar a jugar"
 tornarJugar.addEventListener("click", function () {
   //tornar als usuaris a la lobby i reiniciar els objectes
   const idRoom = dataGameGlobal.idPartida;
 socket.emit("play again", { nicknameAdmin, idRoom });
-  //window.location.href = 'lobby.html';
 });
 
+
+// Redirigir a l'usuari a la lobby
 socket.on("back to lobby", function(data) {
 const { nicknameAdmin, idRoom } = data;
 const codiPartida = sessionStorage.getItem('codiPartida');
