@@ -458,6 +458,38 @@ usersData.usernamesArray.forEach((username, index) => {
     }
 });
 
+/////////////////
+
+// Función para obtener las puntuaciones de los jugadores y crear el array jugadores
+function obtenerPuntuaciones() {
+  const jugadores = [];
+ 
+  // Obtener el elemento de la tabla
+  const tabla = document.getElementById("user-table");
+ 
+  // Obtener todas las filas de la tabla, excluyendo la fila de encabezado
+  const filas = tabla.querySelectorAll("tbody tr");
+ 
+  // Iterar sobre las filas y obtener la información
+  filas.forEach((fila) => {
+    const puntuation = parseInt(fila.querySelector(".puntuation").textContent);
+
+    // Verificar la existencia del elemento con la clase user-highlight
+    const userHighlightElement = fila.querySelector(".user-highlight");
+    const username = userHighlightElement ? userHighlightElement.textContent : '';
+
+    // Agregar la información al array jugadores
+    jugadores.push({ username, puntuation });
+  });
+ 
+  // Devolver el array de jugadores
+  return jugadores;
+}
+
+ 
+
+////////////////
+
 
   function actualitzarPuntuacions(userScores, username, isCorrecta) {
     const table = document.getElementById("user-table");
@@ -616,6 +648,55 @@ usersData.usernamesArray.forEach((username, index) => {
   
 
 }else{
+  ///////////////////
+
+  // Obtener las puntuaciones y generar el gráfico
+ const jugadores = obtenerPuntuaciones();
+
+
+ // Ordenar los jugadores por puntuación de mayor a menor
+ const jugadoresOrdenados = jugadores.sort((a, b) => b.puntuation - a.puntuation);
+
+
+ // Tomar los tres primeros jugadores (o menos si hay menos de tres)
+ const top3Jugadores = jugadoresOrdenados.slice(0, 3);
+
+
+ // Crear arrays separados para las etiquetas y datos
+ const labels = top3Jugadores.map((jugador) => jugador.username);
+ const data = top3Jugadores.map((jugador) => jugador.puntuation);
+
+
+ // Crear el gráfico de barras
+ const ctx = document.getElementById("podio-chart").getContext("2d");
+ const myChart = new Chart(ctx, {
+   type: "bar",
+   data: {
+     labels: labels,
+     datasets: [
+       {
+         label: "Puntuació",
+         data: data,
+         backgroundColor: ["gold", "silver", "bronze"],
+       },
+     ],
+   },
+   options: {
+     responsive: true,
+     maintainAspectRatio: false,
+     scales: {
+       y: {
+         beginAtZero: true,
+       },
+     },
+   },
+ });
+
+
+  //////////////////
+
+
+
   // Mostra el podi i amaga la resta d'elements
   showAndHideAtTheEnd();
 }
