@@ -431,7 +431,11 @@ usersData.usernamesArray.forEach((username, index) => {
         const tdUsername = document.createElement("td");
         tdUsername.textContent = username;
 
+        // Afegit la classe user-italic a tots els elements de td username
+        tdUsername.classList.add("user-italic");
+
         // Resaltar el usuari connectat
+
         if (username === nicknameUser) {
             tdUsername.classList.add("user-highlight"); 
             console.log("usuario connectat: ", nicknameUser)
@@ -463,27 +467,31 @@ usersData.usernamesArray.forEach((username, index) => {
 // Función para obtener las puntuaciones de los jugadores y crear el array jugadores
 function obtenerPuntuaciones() {
   const jugadores = [];
- 
+  const labels = [];
+  const data = [];
+
   // Obtener el elemento de la tabla
   const tabla = document.getElementById("user-table");
- 
+
   // Obtener todas las filas de la tabla, excluyendo la fila de encabezado
   const filas = tabla.querySelectorAll("tbody tr");
- 
+
   // Iterar sobre las filas y obtener la información
   filas.forEach((fila) => {
     const puntuation = parseInt(fila.querySelector(".puntuation").textContent);
+    
+    // Verificar la existencia del elemento con la clase user-italic
+    const userItalicElement = fila.querySelector(".user-italic");
+    const username = userItalicElement ? userItalicElement.textContent : '';
 
-    // Verificar la existencia del elemento con la clase user-highlight
-    const userHighlightElement = fila.querySelector(".user-highlight");
-    const username = userHighlightElement ? userHighlightElement.textContent : '';
 
-    // Agregar la información al array jugadores
-    jugadores.push({ username, puntuation });
+    // Agregar la información a los arrays
+    labels.push(username);
+    data.push(puntuation);
   });
- 
-  // Devolver el array de jugadores
-  return jugadores;
+
+  // Devolver el objeto con las propiedades necesarias para el gráfico
+  return { labels, data };
 }
 
  
@@ -650,47 +658,52 @@ function obtenerPuntuaciones() {
 }else{
   ///////////////////
 
-  // Obtener las puntuaciones y generar el gráfico
- const jugadores = obtenerPuntuaciones();
-
-
- // Ordenar los jugadores por puntuación de mayor a menor
- const jugadoresOrdenados = jugadores.sort((a, b) => b.puntuation - a.puntuation);
-
-
- // Tomar los tres primeros jugadores (o menos si hay menos de tres)
- const top3Jugadores = jugadoresOrdenados.slice(0, 3);
-
-
- // Crear arrays separados para las etiquetas y datos
- const labels = top3Jugadores.map((jugador) => jugador.username);
- const data = top3Jugadores.map((jugador) => jugador.puntuation);
-
-
- // Crear el gráfico de barras
- const ctx = document.getElementById("podio-chart").getContext("2d");
- const myChart = new Chart(ctx, {
-   type: "bar",
-   data: {
-     labels: labels,
-     datasets: [
-       {
-         label: "Puntuació",
-         data: data,
-         backgroundColor: ["gold", "silver", "bronze"],
-       },
-     ],
-   },
-   options: {
-     responsive: true,
-     maintainAspectRatio: false,
-     scales: {
-       y: {
-         beginAtZero: true,
-       },
-     },
-   },
- });
+  // Obtener las puntuaciones y generar el gráfico cuando sea necesario
+  function generarPodio() {
+    const { labels, data } = obtenerPuntuaciones();
+  
+    // Crear el gráfico de barras solo si el contenedor es visible
+    const chartContainer = document.getElementById("podi");
+    if (chartContainer.style.display !== "none") {
+      const ctx = document.getElementById("podio-chart").getContext("2d");
+      const myChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: "",
+              data: data,
+              backgroundColor: ["gold", "silver", "bronze"],
+            },
+          ],
+        },
+        options: {
+          responsive: false,
+          maintainAspectRatio: true,
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+          plugins: {
+            datalabels: {
+              align: 'end',
+              anchor: 'end',
+              display: function (context) {
+                return context.dataset.data[context.dataIndex] > 0; // Mostrar etiquetas solo para barras con puntuación positiva
+              },
+              formatter: function (value, context) {
+                return context.chart.data.labels[context.dataIndex]; // Mostrar el nombre del jugador como etiqueta
+              },
+            },
+          },
+        },
+      });
+    }
+  }
+  
+   
 
 
   //////////////////
@@ -699,6 +712,8 @@ function obtenerPuntuaciones() {
 
   // Mostra el podi i amaga la resta d'elements
   showAndHideAtTheEnd();
+   // Llamar a la función para generar el gráfico
+   generarPodio();
 }
     }
     if (remainingTime < 0) {
