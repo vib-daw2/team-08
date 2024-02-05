@@ -213,7 +213,7 @@ button:hover {
              background-color: #45a049;
 }
 
-#miMusica {
+.music {
     display: none;
 }
 #tornarJugar {
@@ -313,9 +313,14 @@ button:hover {
   </table>
 </div>
 
-     <audio id="miMusica" controls loop>
+     <audio id="miMusica" class="music" controls loop>
        <source src="../musica/Koopa Trace-Walking - Super Mario Odyssey.mp3" type="audio/mp3">
        Tu navegador no soporta el elemento de audio.
+     </audio>
+
+     <audio id="soundEffectTimesUp" class="music">
+      <source src="../musica/Gong Sound Effect.mp3" type="audio/mp3">
+      Tu navegador no soporta el elemento de audio.
      </audio>
 
 
@@ -340,18 +345,24 @@ button:hover {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.0/socket.io.min.js"></script>
  <script src="main.js" ></script>
  <script>     
-   /*
-       var musica = document.getElementById("miMusica");
+   
+       var musicaPregunta = document.getElementById("miMusica");
+       var efecteTU = document.getElementById("soundEffectTimesUp");
+        
 
-
-           function pausarMusica() {
+           function pausarMusica(musica) {
                if (!musica.paused) {
                    musica.pause();
                }
            }
-           musica.play(); // Comença a reproduïr automàticament
-    */
-        
+          
+    
+        function reproduirMusica(musica){
+          if (musica.paused) {
+            musica.currentTime =  0;
+            musica.play();
+          }
+        }
 
 
      // Funció que canvia la visibilitat d'un element, els paràmetres són l'element i un boleà, amb true mostrem l'element i amb false l'amaguem
@@ -385,6 +396,7 @@ button:hover {
 
  // Funció que executa totes les modificacions d'estils dels elements HTML durant el compte enrere de cada pregunta
  function showAndHideDuringFirstCountDown(){
+  reproduirMusica(musicaPregunta);
   toggleButtonsVisibility(document.getElementById('buttons-container'), true); // Mostra el container dels botons de les respostes
   toggleElementVisibility(document.getElementById('countdown-container'), true); // Mostra el container del CD
  }
@@ -392,6 +404,8 @@ button:hover {
 
  // Funció que executa totes les modificacions d'estils dels elements HTML en acabar el temps per respondre una pregunta
  function showAndHideAfterFirstCountDown(){
+  pausarMusica(musicaPregunta);
+  reproduirMusica(efecteTU);
   toggleElementBlurless(document.getElementById('image'), false); // Treu el blur a la imatge
   toggleButtonsVisibility(document.getElementById('buttons-container'), false); // Oculta el container dels botons de les respostes
   toggleElementVisibility(document.getElementById('right-answer'), true); // Mostra la resposta correcta
