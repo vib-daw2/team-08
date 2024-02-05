@@ -353,14 +353,31 @@ socket.on('disconnect', function() {
 
 //tornar a jugar (reiniciar puntuacions...)
 socket.on("play again", function(data) {
-const { nicknameAdmin, idRoom } = data;
-console.log("data de back to lobyy:: ", data)
-const salaPartida = `partida-${idRoom}`;
+  const { nicknameAdmin, idRoom, nicknameUser, usersArray } = data;
+  console.log("data de back to lobyy:: ", data)
 
-//enviar a tots els de la sala un missatge
-io.to(salaPartida).emit("back to lobby", { nicknameAdmin, idRoom });
+  const userList = usersArray[0].usersArray;
+console.log("Llista de id:", userList);
+
+const usernameList = usersArray[0].usernamesArray;
+console.log("Llista de noms:", usernameList);
+  const salaPartida = `partida-${idRoom}`;
+  
+
+  // Suponiendo que usernamesArray contiene los nombres de usuario
+usersArray[0].usernamesArray.forEach((username) => {
+  // Vaciar el objeto de puntuaciones para cada usuario
+  userScores[username] = {
+      puntuacio: 0,
+      correctes: 0,
+      incorrectes: 0,
+  };
 });
 
+  //enviar a tots els de la sala un missatge
+  io.to(salaPartida).emit("back to lobby", { nicknameAdmin, idRoom });
+  });
+  
 });
 
 /*

@@ -193,7 +193,6 @@ socket.on("preguntes partida", function(dataPartida) {
    sessionStorage.setItem('idPartida', idPartida);
    
    sessionStorage.setItem('dataGame', JSON.stringify(dataPartida));
-   sessionStorage.setItem('codiPartida', codiPartida);
    // Redirigir a la página lobby.html con el identificador único en la URL
    const lobbyUrl = `/lobby.html?partida=${dataPartida.idPartida}&nickname=${dataPartida.nicknameAdmin}&codiPartida=${codiPartida}`;
   
@@ -225,7 +224,8 @@ socket.on("start game", function(data) {
 
  const jsonGlobal = sessionStorage.getItem('dataGlobal');
  const dataGameGlobal = JSON.parse(jsonGlobal);
- 
+ sessionStorage.setItem('codiPartida', dataGameGlobal.codiPartida);
+ console.log("codi de la partida: ", dataGameGlobal.codiPartida)
  const lobbyUrl = `/game.html?partida=${dataGameGlobal.idPartida}&nickname=${dataGameGlobal.nicknameAdmin}`;
  window.location.href = lobbyUrl;
 
@@ -763,7 +763,7 @@ function updateChart(clickCounts) {
 tornarJugar.addEventListener("click", function () {
   // Tornar els usuaris al lobby i reiniciar els objectes
   const idRoom = dataGameGlobal.idPartida;
-socket.emit("play again", { nicknameAdmin, idRoom });
+socket.emit("play again", { nicknameAdmin, idRoom, usersArray });
 });
 
 
