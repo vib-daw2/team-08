@@ -378,6 +378,33 @@ usersArray[0].usernamesArray.forEach((username) => {
   io.to(salaPartida).emit("back to lobby", { nicknameAdmin, idRoom });
   });
   
+//reiniciar puntuacions
+socket.on("restart scores", function(data) {
+  const { nicknameAdmin, idRoom, usersArray } = data;
+ // console.log("data de restart scores: ", data)
+ 
+ 
+  const userList = usersArray[0].usersArray;
+  console.log("Llista de id:", userList);
+ 
+ 
+  const usernameList = usersArray[0].usernamesArray;
+  console.log("Llista de noms:", usernameList);
+ 
+ 
+  // Suponiendo que usernamesArray contiene los nombres de usuario
+ usersArray[0].usernamesArray.forEach((username) => {
+  // Vaciar el objeto de puntuaciones para cada usuario
+  userScores[username] = {
+      puntuacio: 0,
+      correctes: 0,
+      incorrectes: 0,
+  };
+ });
+ console.log("scores: ", userScores)
+  });
+ 
+
 });
 
 /*

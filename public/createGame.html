@@ -57,6 +57,12 @@
         #gameForm button:hover {
             background-color: #333;
         }
+
+        /* Estilos para el botón deshabilitado */
+        #gameForm button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
         
     </style>
 </head>
@@ -89,7 +95,7 @@
         <label><input type="checkbox" name="topic" value="ciències"> Ciències</label>
         <label><input type="checkbox" name="topic" value="esports"> Esports</label>
 
-        <button type="submit">Crear Partida</button>
+        <button type="submit" id="submitButton">Crear Partida</button>
     </form>
 </div>
 
@@ -98,9 +104,24 @@
 <script>
     var timeInput = document.getElementById('time');
     var selectedTimeSpan = document.getElementById('selectedTime');
+    var submitButton = document.getElementById('submitButton');
 
     timeInput.addEventListener('input', function() {
         selectedTimeSpan.textContent = timeInput.value;
+    });
+
+    // Deshabilitar el botón de envío al cargar la página
+    submitButton.disabled = true;
+
+    // Verificar si al menos un checkbox está marcado
+    var checkboxes = document.querySelectorAll('input[type="checkbox"][name="topic"]');
+    checkboxes.forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+            var atLeastOneChecked = Array.from(checkboxes).some(function(checkbox) {
+                return checkbox.checked;
+            });
+            submitButton.disabled = !atLeastOneChecked;
+        });
     });
 </script>
 </body>

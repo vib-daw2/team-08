@@ -371,17 +371,23 @@ socket.on("noves puntuacions", function(data) {
 });
 
 socket.on("game over", function() {
-console.log("Game over!")
-
-// Mostrar botó tornar a jugar
-if(nicknameAdmin == nicknameJugador)
-  {
-    tornarJugar.style.display = 'block';
-
-  }
-
-
-});
+  console.log("Game over!")
+  
+  
+  // Mostrar botó tornar a jugar
+  if(nicknameAdmin == nicknameJugador)
+   {
+     tornarJugar.style.display = 'block';
+  
+  
+   }
+  
+  
+  //reiniciar puntuacions
+   const idRoom = dataGameGlobal.idPartida;
+   socket.emit("restart scores", { nicknameAdmin, idRoom, usersArray });
+  });
+  
 
   
 // Gestiona quan l'usuari clica una resposta

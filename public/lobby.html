@@ -86,6 +86,15 @@
    #user-list li:last-child {
        border-bottom: none; /* Elimina la línea divisoria del último elemento */
    }
+
+   .form-control{
+    font-size: 24px;
+   }
+
+   .input-group-prepend{
+    padding-top: 10px;
+    padding-right: 10px;
+   }
    </style>
   
 </head>
@@ -98,7 +107,7 @@
    <div id="lobby-container">
        <h1 id="titleLobby"></h1>
        <div id="url-container" class="input-group">
-           <label for="url" class="input-group-prepend">Codi de la Partida:</label>
+           <label for="url" class="input-group-prepend">Codi de la Partida: </label>
            <input type="text" id="url" value="" readonly class="form-control">
            <div class="input-group-append">
                <button id="copy-button" class="btn btn-success"><svg xmlns="http://www.w3.org/2000/svg" width="16"
