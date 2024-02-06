@@ -245,7 +245,9 @@ socket.on("users started", function(data) {
   //obtenir l'index d'aquella partida
   const currentIndex = currentQuestionIndex[salaPartida];
   const timeNumeric = parseInt(time) * 1000;
-
+  
+ //comprovar que hi han més preguntes
+ if (currentIndex < preguntes.length) {
   //console.log(preguntes)
   // Iniciar el temporitzador per la pregunta actual
   let timer = setTimeout(() => {
@@ -253,8 +255,7 @@ socket.on("users started", function(data) {
     socket.emit("time's up", { time, roomId });
   }, timeNumeric);
   
-  //comprovar que hi han més preguntes
-  if (currentIndex < preguntes.length) {
+ 
     //hi ha més preguntes, enviar-la
     io.to(salaPartida).emit("new question", { question: preguntes[currentIndex], time: time });
     console.log(currentQuestionIndex)

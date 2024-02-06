@@ -287,11 +287,11 @@ if (window.location.pathname.endsWith("game.html")) {
   // Obtenir dades de la partida(dataGameGlobal) i els usuaris de la partida(usersData)
   const jsonGlobal = sessionStorage.getItem('dataGlobal');
   const dataGameGlobal = JSON.parse(jsonGlobal);
-  console.log(dataGameGlobal);
+  //console.log(dataGameGlobal);
 
   const usersGame = sessionStorage.getItem('usersGame');
   const usersData = JSON.parse(usersGame);
-  console.log(usersData)
+  //console.log(usersData)
   tempsPregunta = dataGameGlobal.time;
  
  // Canviar el format de users a array
@@ -331,7 +331,7 @@ socket.on("new question", function(pregunta) {
  // Guardar l'objecte per passar-lo amb la resposta de l'usuari
  sessionStorage.setItem("currentQuestion", JSON.stringify(question));
  // Mostrar la pregunta per pantalla
-console.log("primera pregunta per a tots ", question)
+//console.log("primera pregunta per a tots ", question)
 mostrarPregunta(question);
 startCountdown(time);
 
@@ -444,7 +444,7 @@ usersData.usernamesArray.forEach((username, index) => {
 
         if (username === nicknameUser) {
             tdUsername.classList.add("user-highlight"); 
-            console.log("usuario connectat: ", nicknameUser)
+            //console.log("usuari connectat: ", nicknameUser)
         }
         trElement.appendChild(tdUsername);
 
@@ -652,7 +652,7 @@ function obtenerPuntuaciones() {
 
     if (remainingTime === 0) {
   numPregRestants--;
-  console.log("Número de preguntes restants"+ " " + numPregRestants);
+  //console.log("Número de preguntes restants"+ " " + numPregRestants);
 
 
   if(numPregRestants != 0){
@@ -755,7 +755,7 @@ function updateChart(clickCounts) {
   if (myChart) {
       myChart.destroy();
   }
-  console.log("Valor de clickCounts en chart:", clickCounts);
+  //console.log("Valor de clickCounts en chart:", clickCounts);
 
   var ctx = document.getElementById("myChart").getContext("2d");
   myChart = new Chart(ctx, {
