@@ -171,7 +171,7 @@
   margin-right: 0px;
   height: 1000px;
   max-height: 1000px;
-  margin-top: 6%;
+  margin-top: 2%;
   margin-left: 3%;
 }
 
@@ -227,9 +227,28 @@ button:hover {
 .music {
     display: none;
 }
+
 #tornarJugar {
-  display: none;
+ display: none;
+ position: absolute;
+ left: 42%;
 }
+
+.icon-svg{
+  position: relative;
+ left: 50%;
+}
+
+@keyframes parpadeo {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+#parpadeo {
+  animation: parpadeo 1s infinite;
+}
+
 
      </style>
  </head>
@@ -241,16 +260,12 @@ button:hover {
       </div>
      <div id="container">
          <h1>PiR-8 | Preguntes i Respostes</h1>
-         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-raised-hand" viewBox="0 0 16 16">
-             <path d="M6 6.207v9.043a.75.75 0 0 0 1.5 0V10.5a.5.5 0 0 1 1 0v4.75a.75.75 0 0 0 1.5 0v-8.5a.25.25 0 1 1 .5 0v2.5a.75.75 0 0 0 1.5 0V6.5a3 3 0 0 0-3-3H6.236a1 1 0 0 1-.447-.106l-.33-.165A.83.83 0 0 1 5 2.488V.75a.75.75 0 0 0-1.5 0v2.083c0 .715.404 1.37 1.044 1.689L5.5 5c.32.32.5.754.5 1.207"/>
-             <path d="M8 3a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/>
-           </svg>
         
-           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
+           <svg id="parpadeo" style="display: none;" class="icon-svg" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle" viewBox="0 0 16 16">
              <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
              <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286m1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94"/>
            </svg>
-           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
+           <svg id="icon-answered" style="display: none;" class="icon-svg" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247m2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z"/>
            </svg>
         
@@ -357,7 +372,8 @@ button:hover {
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.0/socket.io.min.js"></script>
  <script src="main.js" ></script>
- <script>    
+ <script>
+      // Funció que mostra un popover per sobre del "Sabies que..." amb el contingut del comentari que arriba per servidor amb websocket des de JSON   
      $(document).ready(function(){
         $('#addComment-container').popover({
             content: function() {
@@ -367,24 +383,35 @@ button:hover {
             placement: 'top'
         });
     });
-   
+      
+      // Variable global que emmagatzema la música que es reprodueix durant el temps de resposta de cada pregunta
        var musicaPregunta = document.getElementById("miMusica");
+       // Varible global que emmagatzema la música que es reprodueix en acabar el temps per respondre una pregunta
        var efecteTU = document.getElementById("soundEffectTimesUp");
         
-
+          // Funció que avalua si la música  no s'està reproduint i l'atura si és així
            function pausarMusica(musica) {
                if (!musica.paused) {
                    musica.pause();
                }
            }
           
-    
+        // Funció que avalua si la música no s'està reproduint i la reprodueix si és així
         function reproduirMusica(musica){
           if (musica.paused) {
             musica.currentTime =  0;
             musica.play();
           }
         }
+
+        // Funció que atura l'animació específica de parpadeig d'una de les icones svg
+        function aturarParpadeig() {
+          var parpadeo = document.getElementById('parpadeo');
+          parpadeo.style.animation = 'none';
+        }
+
+        
+
 
 
      // Funció que canvia la visibilitat d'un element, els paràmetres són l'element i un boleà, amb true mostrem l'element i amb false l'amaguem
@@ -419,6 +446,7 @@ button:hover {
  // Funció que executa totes les modificacions d'estils dels elements HTML durant el compte enrere de cada pregunta
  function showAndHideDuringFirstCountDown(){
   reproduirMusica(musicaPregunta);
+  toggleElementVisibility(document.getElementById('parpadeo'), true); // Mostra una icona svg de Bootstrap amb una animació 
   toggleButtonsVisibility(document.getElementById('buttons-container'), true); // Mostra el container dels botons de les respostes
   toggleElementVisibility(document.getElementById('countdown-container'), true); // Mostra el container del CD
  }
@@ -428,6 +456,8 @@ button:hover {
  function showAndHideAfterFirstCountDown(){
   pausarMusica(musicaPregunta);
   reproduirMusica(efecteTU);
+  toggleElementVisibility(document.getElementById('parpadeo'), false); // Oculta una icona svg de Bootstrap amb una animació
+  toggleElementVisibility(document.getElementById('icon-answered'), true); // Mostra una altra icona svg de Bootstrap durant el temps que es mostra la resposta
   toggleElementBlurless(document.getElementById('image'), false); // Treu el blur a la imatge
   toggleButtonsVisibility(document.getElementById('buttons-container'), false); // Oculta el container dels botons de les respostes
   toggleElementVisibility(document.getElementById('right-answer'), true); // Mostra la resposta correcta
@@ -444,11 +474,13 @@ button:hover {
   toggleElementVisibility(document.getElementById('addComment-container'), false); // Oculta el container amb el comentari
   toggleElementVisibility(document.getElementById('chart-container'), false); // Mostra el container amb el chart amb les respostes escollides
   toggleElementVisibility(document.getElementById('second-countdown-container'), false); // Oculta el container del segon CD
+  toggleElementVisibility(document.getElementById('icon-answered'), false); // Oculta una altra icona svg de Bootstrap durant el temps que es mostra la resposta
  }
 
 
  // Funció que executa totes les modificacions d'estils dels elements HTML en acabar la partida
  function showAndHideAtTheEnd(){
+  toggleElementVisibility(document.getElementById('icon-answered'), false); // Oculta una altra icona svg de Bootstrap durant el temps que es mostra la resposta
   toggleElementVisibility(document.getElementById('podi'), true); // Mostra el podi
   toggleElementVisibility(document.getElementById('image'), false); // Oculta la imatge
   toggleElementVisibility(document.getElementById('right-answer'), false); // Oculta la resposta correcta
@@ -488,30 +520,6 @@ function removeClickedStyles() {
        button.style.cursor = ''; // Restableix el cursor
    });
 }
-      /*
-     // Variables que obtenen les referències dels elements del DOM
-     var textoPrincipal = document.getElementById("texto-principal");
-     var comentari = document.getElementById("comentari");
-
-
-
-     // Afegeix l'event del ratolí per mostrar/ocultar el text adicional
-     textoPrincipal.addEventListener("mouseover", function () {
-         // Mostra el comentari
-         comentari.style.display = "block";
-     });
-
-     textoPrincipal.addEventListener("mouseout", function () {
-         // Oculta el comentari
-         comentari.style.display = "none";
-     });
-
-     textoPrincipal.addEventListener("mousemove", function (event) {
-         // Posiciona el comentari a prop del punter del ratolí
-         comentari.style.left = event.pageX + 10 + "px";
-         comentari.style.top = event.pageY + 10 + "px";
-     });
-*/
  </script>
  </body>
 </html>

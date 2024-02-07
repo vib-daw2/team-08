@@ -472,33 +472,53 @@ usersData.usernamesArray.forEach((username, index) => {
 
 // Función para obtener las puntuaciones de los jugadores y crear el array jugadores
 function obtenerPuntuaciones() {
-  const jugadores = [];
   const labels = [];
   const data = [];
-
+ 
+ 
   // Obtener el elemento de la tabla
   const tabla = document.getElementById("user-table");
-
+ 
+ 
   // Obtener todas las filas de la tabla, excluyendo la fila de encabezado
   const filas = tabla.querySelectorAll("tbody tr");
-
+ 
+ 
+  // Crear un array para almacenar los datos temporales de los usuarios
+  const usuariosTemporales = [];
+ 
+ 
   // Iterar sobre las filas y obtener la información
   filas.forEach((fila) => {
     const puntuation = parseInt(fila.querySelector(".puntuation").textContent);
-    
-    // Verificar la existencia del elemento con la clase user-italic
     const userItalicElement = fila.querySelector(".user-italic");
     const username = userItalicElement ? userItalicElement.textContent : '';
-
-
-    // Agregar la información a los arrays
-    labels.push(username);
-    data.push(puntuation);
+ 
+ 
+    // Agregar los datos temporales al array
+    usuariosTemporales.push({ username, puntuation });
   });
-
+ 
+ 
+  // Ordenar los datos por puntuación en orden descendente
+  usuariosTemporales.sort((a, b) => b.puntuation - a.puntuation);
+ 
+ 
+  // Limitar a los tres primeros usuarios con la puntuación más alta
+  const usuariosTop3 = usuariosTemporales.slice(0, 3);
+ 
+ 
+  // Obtener las etiquetas y los datos de los usuarios Top 3
+  usuariosTop3.forEach((usuario) => {
+    labels.push(usuario.username);
+    data.push(usuario.puntuation);
+  });
+ 
+ 
   // Devolver el objeto con las propiedades necesarias para el gráfico
   return { labels, data };
-}
+ }
+ 
 
  
 
