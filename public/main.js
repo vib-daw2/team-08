@@ -313,7 +313,7 @@ if (nicknameAdmin === nicknameJugador) {
       preguntes: dataGameGlobal.preguntesPartida,
   });
 
-  const tiempoEspera = 300;
+  const tiempoEspera = 5000;
 
   // Inicialitzar contador per evitar que algun usuari es quedi fora de la partida
   setTimeout(() => {

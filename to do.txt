@@ -1,12 +1,12 @@
                            1
-Crear un podium        2       3
-                    4              5
+Crear un podium          2   3
+                   
 
 canviar calcul de puntuacio ✅ 
-podi de guanyadors
-tornar a jugar (revisar puntuacions...)
+podi de guanyadors ✅
+tornar a jugar (revisar puntuacions...) ✅
 boto de admin ✅ 
 guardar els clicks de cada resposta ✅
 URL sala a codi ✅
 indexPregunta = 0; ✅
-Potser fer funcio que comprovi si un usuari ha abandonat la sala
+

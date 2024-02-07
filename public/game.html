@@ -170,7 +170,7 @@
   text-align: center;
   margin-right: 0px;
   height: 1000px;
-  max-height: 1000px;
+  max-height: 1200px;
   margin-top: 2%;
   margin-left: 3%;
 }
@@ -248,6 +248,23 @@ button:hover {
 #parpadeo {
   animation: parpadeo 1s infinite;
 }
+.loader {
+  border: 5px solid #f3f3f3; /* Gris claro */
+  border-top: 5px solid #3498db; /* Azul */
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  animation: spin 1s linear infinite; /* Animación */
+  display: none; /* Ocultar por defecto */
+  left: 43%;
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 
 
      </style>
@@ -270,24 +287,25 @@ button:hover {
            </svg>
         
          <div id="question">
-             <h2 id="pregunta" >Pregunta: ¿Cuál es la capital de Francia?</h2> <!--IMPORTANTE!! AQUÍ TIENE QUE VENIR LA PREGUNTA DESDE SERVER! -->
+             <h2 id="pregunta" ></h2> <!--IMPORTANTE!! AQUÍ TIENE QUE VENIR LA PREGUNTA DESDE SERVER! -->
          </div>
-          <img id="image" src="../images/altres/gratis-png-signo-de-interrogacion-ilustracion-digital-signo-de-interrogacion-preguntas-frecuentes-pregunta-thumbnail.png" alt="Pregunta">
-          <div id="buttons-container"> <!-- IMPORTANTE!! AQUÍ TIENEN QUE VENIR LAS POSIBLES RESPUESTAS DESDE SERVER!-->
+         <img id="image" src="../images/altres/gratis-png-signo-de-interrogacion-ilustracion-digital-signo-de-interrogacion-preguntas-frecuentes-pregunta-thumbnail.png" alt="Pregunta" >
+         <div id="buttons-container" style="display: none;"> <!-- Ocultar por defecto -->
              <div class="column">
-                 <button id="resposta-a" class="answer-btn" onclick="handleButtonClick('a')">París</button>
-                 <button id="resposta-c" class="answer-btn" onclick="handleButtonClick('c')">Londres</button>
+                 <button id="resposta-a" class="answer-btn" onclick="handleButtonClick('a')"></button>
+                 <button id="resposta-c" class="answer-btn" onclick="handleButtonClick('c')"></button>
              </div>
              <div class="column">
-                 <button id="resposta-b" class="answer-btn" onclick="handleButtonClick('b')">Madrid</button>
-                 <button id="resposta-d" class="answer-btn" onclick="handleButtonClick('d')">Berlín</button>
+                 <button id="resposta-b" class="answer-btn" onclick="handleButtonClick('b')"></button>
+                 <button id="resposta-d" class="answer-btn" onclick="handleButtonClick('d')"></button>
              </div>
          </div>
-          <div id="countdown-container">
+         <div id="countdown-container" style="display: none;"> <!-- Ocultar por defecto -->
              <div id="countdown-circle">
                  <div id="countdown"></div> 
              </div>
          </div>
+         
 
          <div id="right-answer" style="display: none">La resposta correcta era: <h3 id="right-answer-text">París</h3></div> <!--IMPORTANTE!! AQUÍ TIENE QUE VENIR LA RESPUESTA DESDE SERVER -->
          <!-- Contenedor del comentario-->
@@ -360,6 +378,7 @@ button:hover {
 
      <button id="tornarJugar" class="btn btn-primary btn-lg" style="display: none;"> Torna a jugar</button>
 
+     <div id="loader" class="loader"></div>
 
      <div id="second-countdown-container" style="display: none">
        <div id="second-countdown-circle">
@@ -373,6 +392,21 @@ button:hover {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.0/socket.io.min.js"></script>
  <script src="main.js" ></script>
  <script>
+
+// Obtener referencia al elemento de carga
+const loader = document.getElementById("loader");
+
+// Mostrar la animación de carga
+loader.style.display = "block";
+
+// Contador de 5 segundos
+setTimeout(function() {
+    // Ocultar la animación de carga después de 5 segundos
+    loader.style.display = "none";
+    // Aquí puedes continuar con tu lógica para iniciar la partida o cualquier otra acción
+}, 5000);
+
+
       // Funció que mostra un popover per sobre del "Sabies que..." amb el contingut del comentari que arriba per servidor amb websocket des de JSON   
      $(document).ready(function(){
         $('#addComment-container').popover({
