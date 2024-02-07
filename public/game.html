@@ -3,7 +3,14 @@
  <head>
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- SCRIPT DE LES GRÀFIQUES-->
+     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
      <title>PiR-8</title>
      <style>
          body {
@@ -248,7 +255,7 @@ button:hover {
            </svg>
         
          <div id="question">
-             <p id="pregunta">Pregunta: ¿Cuál es la capital de Francia?</p> <!--IMPORTANTE!! AQUÍ TIENE QUE VENIR LA PREGUNTA DESDE SERVER! -->
+             <h2 id="pregunta" >Pregunta: ¿Cuál es la capital de Francia?</h2> <!--IMPORTANTE!! AQUÍ TIENE QUE VENIR LA PREGUNTA DESDE SERVER! -->
          </div>
           <img id="image" src="../images/altres/gratis-png-signo-de-interrogacion-ilustracion-digital-signo-de-interrogacion-preguntas-frecuentes-pregunta-thumbnail.png" alt="Pregunta">
           <div id="buttons-container"> <!-- IMPORTANTE!! AQUÍ TIENEN QUE VENIR LAS POSIBLES RESPUESTAS DESDE SERVER!-->
@@ -267,16 +274,16 @@ button:hover {
              </div>
          </div>
 
-         <div id="right-answer" style="display: none">La resposta correcta era: <div id="right-answer-text">París</div></div> <!--IMPORTANTE!! AQUÍ TIENE QUE VENIR LA RESPUESTA DESDE SERVER -->
+         <div id="right-answer" style="display: none">La resposta correcta era: <h3 id="right-answer-text">París</h3></div> <!--IMPORTANTE!! AQUÍ TIENE QUE VENIR LA RESPUESTA DESDE SERVER -->
          <!-- Contenedor del comentario-->
          <div id="addComment-container" style="display: none">
              <p id="texto-principal">Sabies que...<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-asterisk" viewBox="0 0 16 16">
                  <path d="M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1"/>
                </svg></p>
 
-
+               
              <!-- Etiqueta de texto que se mostrará al pasar el ratón -->
-             <div id="comentari"></div> <!--IMPORTANTE! ESTE COMENTARIO ADICIONAL TIENE QUE VENIR POR SERVER -->
+             <div id="comentari" style="display: none;"></div> <!--IMPORTANTE! ESTE COMENTARIO ADICIONAL TIENE QUE VENIR POR SERVER -->
              <!-- Icono de Wikipedia que envía a la referencia webgráfica -->
              <a id="referencia" href="" target="_blank"> <!--IMPORNTANTE! Introducir enlace de la referencia mediante servidor-->
                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-wikipedia" viewBox="0 0 16 16">
@@ -290,7 +297,7 @@ button:hover {
 </div>
 
 <div id="podi" style="display: none; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-top: 10px;">
-  PODIO DE RESULTADOS
+  <h3>PODI DE RESULTATS</h3>
   <canvas id="podio-chart"></canvas>
 </div>
      </div>
@@ -336,7 +343,7 @@ button:hover {
      
 
 
-     <button id="tornarJugar" style="display: none;"> Torna a jugar</button>
+     <button id="tornarJugar" class="btn btn-primary btn-lg" style="display: none;"> Torna a jugar</button>
 
 
      <div id="second-countdown-container" style="display: none">
@@ -350,7 +357,16 @@ button:hover {
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.0/socket.io.min.js"></script>
  <script src="main.js" ></script>
- <script>     
+ <script>    
+     $(document).ready(function(){
+        $('#addComment-container').popover({
+            content: function() {
+                return $('#comentari').html();
+            },
+            trigger: 'hover',
+            placement: 'top'
+        });
+    });
    
        var musicaPregunta = document.getElementById("miMusica");
        var efecteTU = document.getElementById("soundEffectTimesUp");
@@ -472,7 +488,7 @@ function removeClickedStyles() {
        button.style.cursor = ''; // Restableix el cursor
    });
 }
-
+      /*
      // Variables que obtenen les referències dels elements del DOM
      var textoPrincipal = document.getElementById("texto-principal");
      var comentari = document.getElementById("comentari");
@@ -495,7 +511,7 @@ function removeClickedStyles() {
          comentari.style.left = event.pageX + 10 + "px";
          comentari.style.top = event.pageY + 10 + "px";
      });
-
+*/
  </script>
  </body>
 </html>
