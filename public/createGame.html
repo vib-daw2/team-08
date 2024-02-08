@@ -78,12 +78,9 @@
         <label for="title">Títol:</label>
         <input type="text" id="title" name="title" required>
 
-        <label for="quantity">Quantitat de preguntes:</label>
-        <select id="quantity" name="quantity">
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="15">15</option>
-        </select>
+        <label for="quantity">Preguntes:</label>
+        <input type="range" id="quantity" name="quantity" min="5" max="20" value="10">
+        <span id="selectedQuantity">10</span> segons
 
         <label for="time">Temps per cada pregunta:</label>
 <input type="range" id="time" name="time" min="5" max="20" value="10">
@@ -104,10 +101,18 @@
 <script>
     var timeInput = document.getElementById('time');
     var selectedTimeSpan = document.getElementById('selectedTime');
+
+    var quantityInput = document.getElementById('quantity');
+    var selectedQuantitySpan = document.getElementById('selectedQuantity');
+
     var submitButton = document.getElementById('submitButton');
 
     timeInput.addEventListener('input', function() {
         selectedTimeSpan.textContent = timeInput.value;
+    });
+
+    quantityInput.addEventListener('input', function() {
+        selectedQuantitySpan.textContent = quantityInput.value;
     });
 
     // Deshabilitar el botón de envío al cargar la página

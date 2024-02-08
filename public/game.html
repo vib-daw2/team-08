@@ -113,7 +113,7 @@
 
          #countdown-container {
          position: absolute;
-         top: 50%;
+         top: 47%;
          left: 50%;
          transform: translate(-50%, -50%);
          text-align: center;
@@ -121,8 +121,8 @@
          #second-countdown-container {
         
          position: absolute;
-         top: 50%;
-         left: 44.5%;
+         top: 45%;
+         left: 46%;
          transform: translate(-50%, -50%);
          text-align: center;
          }
@@ -249,7 +249,7 @@ button:hover {
   animation: parpadeo 1s infinite;
 }
 .loader {
-  border: 5px solid #f3f3f3; /* Gris claro */
+  border: 5px solid #fff; /* Gris claro */
   border-top: 5px solid #3498db; /* Azul */
   border-radius: 50%;
   width: 100px;
@@ -258,7 +258,7 @@ button:hover {
   display: none; /* Ocultar por defecto */
   left: 43%;
   position: absolute;
-  background-color: rgba(255, 255, 255, 0.7);
+ 
 }
 
 @keyframes spin {
@@ -289,7 +289,7 @@ button:hover {
          <div id="question">
              <h2 id="pregunta" ></h2> <!--IMPORTANTE!! AQUÍ TIENE QUE VENIR LA PREGUNTA DESDE SERVER! -->
          </div>
-         <img id="image" src="../images/altres/gratis-png-signo-de-interrogacion-ilustracion-digital-signo-de-interrogacion-preguntas-frecuentes-pregunta-thumbnail.png" alt="Pregunta" >
+         <img id="image" src="../images/altres/gratis-png-signo-de-interrogacion-ilustracion-digital-signo-de-interrogacion-preguntas-frecuentes-pregunta-thumbnail.png" alt="Pregunta" style="display: none;">
          <div id="buttons-container" style="display: none;"> <!-- Ocultar por defecto -->
              <div class="column">
                  <button id="resposta-a" class="answer-btn" onclick="handleButtonClick('a')"></button>
@@ -483,6 +483,7 @@ setTimeout(function() {
   toggleElementVisibility(document.getElementById('parpadeo'), true); // Mostra una icona svg de Bootstrap amb una animació 
   toggleButtonsVisibility(document.getElementById('buttons-container'), true); // Mostra el container dels botons de les respostes
   toggleElementVisibility(document.getElementById('countdown-container'), true); // Mostra el container del CD
+  document.getElementById('image').style.display = 'block';
  }
 
 
